@@ -57,7 +57,7 @@ Portfolio project – Team Formation and Idea Development .
 |------|--------|------------|-----------|------|
 | Reem Abdullah | [@Reemabdu213](https://github.com/Reemabdu213) | Business & Fintech | Flexibility and fast learning | Project Coordinator |
 | Nouf Al-Mutairi | [@Nouf2027](https://github.com/Nouf2027) | UI UX Designer, Data Analyst | Frontend development (HTML, CSS, JavaScript) | Brainstorming Lead |
-| Hadeel Al-Mutairi | [@had271](https://github.com/had271) | TBD | TBD | Research Lead |
+| Hadeel Al-Mutairi | [@had271](https://github.com/had271) | Mathematics & Artificial Intelligence | Backend development | Research Lead |
 | Dalal Al-Shamrani | [@q400400200-pixel](https://github.com/q400400200-pixel) | TBD | TBD | Documentation Lead |
 
 ---
@@ -128,9 +128,9 @@ A platform where small businesses post their problems and users submit solutions
 | Task | Responsible |
 |------|-------------|
 | Frontend - User Interface | Reem Abdullah |
-| Frontend - Career Quiz & Roadmap | TBD (had271) |
+| Frontend - Career Quiz & Roadmap | TBD (Nouf2027)|
 | Backend - API & Business Logic | TBD (q400400200-pixel) |
-| Backend - Database & Integration | TBD (Nouf2027) |
+| Backend - Database & Integration | Hadeel Almutairi |
 
 ---
 
