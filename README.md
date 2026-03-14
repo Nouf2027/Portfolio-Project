@@ -1,4 +1,4 @@
-## Project Overview
+# Project Overview
 
 This project is the result of our learning journey at Holberton.  
 We applied everything we learned to build a functional system step by step.
