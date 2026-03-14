@@ -126,9 +126,9 @@ A platform where small businesses post their problems and users submit solutions
 | Task | Responsible |
 |------|-------------|
 | Frontend - User Interface | Reem Abdullah |
-| Frontend - Career Quiz & Roadmap | TBD (had271) |
-| Backend - API & Business Logic | TBD (q400400200-pixel) |
-| Backend - Database & Integration | TBD (Nouf2027) |
+| Frontend - Career Quiz & Roadmap | Hadeel Al-Mutairi |
+| Backend - API & Business Logic | Dalal Al-Shamrani |
+| Backend - Database & Integration | Nouf Al-Mutairi |
 
 ---
 
