@@ -102,7 +102,20 @@ masar/
 
 
 ---
+## ⚡ Challenges & Opportunities
 
+### Potential Challenges
+- Takes time to gain user trust and adoption
+- Data requires continuous updates to stay relevant
+- Needs customization to reflect the Saudi job market accurately
+
+### Opportunities Identified During Brainstorming
+- No direct Arabic competitor focused on Saudi tech newcomers
+- Growing Saudi tech market under Vision 2030
+- High demand for tech talent in Saudi Arabia
+- Previous software engineering cohorts faced career shock after specializing — Masar addresses this gap
+
+---
 ## ❌ Rejected Ideas
 
 ### 1. RequestFlow - Internal Request Management System
