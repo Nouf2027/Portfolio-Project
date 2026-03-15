@@ -11,7 +11,7 @@ Portfolio project – Team Formation and Idea Development .
 **Masar** is a web platform designed to help fresh graduates and anyone interested in entering the tech field for the first time find their ideal technical career path. Through a simple questionnaire, the platform recommends the most suitable path and provides a detailed roadmap including required skills, tools, job titles, and professional certifications — all tailored for the Saudi market.
 
 ### The Problem We Solve
-- Anyone entering tech doesn't know where to start: Frontend? Backend? DevOps? Data Science?
+- Anyone entering tech doesn't know where to start: Frontend? Backend? DevOps? Data Science? 
 - Most existing resources are in English and not tailored to the Saudi market
 - No Arabic community platform specialized for Saudi tech enthusiasts
 - Previous software engineering graduates faced career shock after specializing
@@ -58,7 +58,7 @@ Portfolio project – Team Formation and Idea Development .
 | Reem Abdullah | [@Reemabdu213](https://github.com/Reemabdu213) | Business & Fintech | Flexibility and fast learning | Project Coordinator |
 | Nouf Al-Mutairi | [@Nouf2027](https://github.com/Nouf2027) | UI UX Designer, Data Analyst | Frontend development (HTML, CSS, JavaScript) | Brainstorming Lead |
 | Hadeel Al-Mutairi | [@had271](https://github.com/had271) | Mathematics & Artificial Intelligence | Backend development (API Design, Database Integration) | Research Lead |
-| Dalal Al-Shamrani | [@q400400200-pixel](https://github.com/q400400200-pixel) | TBD | TBD | Documentation Lead |
+| Dalal Al-Shamrani | [@q400400200-pixel](https://github.com/q400400200-pixel) | Project Management &Data Analysis | Data analysis and projectorganization | Documentation Lead |
 
 ---
 
