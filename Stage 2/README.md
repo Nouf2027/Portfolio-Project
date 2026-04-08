@@ -12,9 +12,9 @@ Masar (مسار) is a web platform designed to guide Saudi fresh graduates and t
 
 | # | Objective |
 |---|-----------|
-| 1 | Launch a functional career-path quiz that recommends **at least 3 tech tracks** to Saudi users by the end of Week 7 (MVP milestone), with the ability to expand tracks in future releases |
-| 2 | Deliver fully detailed **Arabic-language roadmaps** (skills, tools, job titles, certifications) for each recommended career track before the Stage 4 MVP deadline (end of Week 7) |
-| 3 | Achieve a **75% user satisfaction score** ("found the recommendation helpful") in post-demo testing conducted during Stage 5 closure (Week 8) |
+| 1 | Launch a functional career-path quiz that recommends **at least 3 tech tracks** to Saudi users by the end of Week 10 (MVP milestone), with the ability to expand tracks in future releases |
+| 2 | Deliver fully detailed **Arabic-language roadmaps** (skills, tools, job titles, certifications) for each recommended career track before the Stage 4 MVP deadline (end of Week 10) |
+| 3 | Achieve a **75% user satisfaction score** ("found the recommendation helpful") in post-demo testing conducted during Stage 5 closure (Week 12) |
 
 ---
 
@@ -91,9 +91,9 @@ Masar (مسار) is a web platform designed to guide Saudi fresh graduates and t
 ### Key Milestones
 - **End of Week 2** → Project Charter approved by instructors
 - **End of Week 4** → Technical documentation finalized
-- **End of Week 5** → Core quiz + roadmap working *(mid-sprint demo)*
-- **End of Week 7** → Full MVP deployed and tested
-- **End of Week 8** → Final presentation and project closure
+- **End of Week 6** → Core quiz + roadmap working *(mid-sprint demo)*
+- **End of Week 10** → Full MVP deployed and tested
+- **End of Week 12** → Final presentation and project closure
 
 ---
 
