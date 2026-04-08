@@ -83,15 +83,10 @@ Masar (مسار) is a web platform designed to guide Saudi fresh graduates and t
 
 ## 4. High-Level Plan | الخطة الزمنية
 
-### Timeline (8 Weeks)
+### Timeline (12 Weeks)
 
-| # | Stage | Timeline | Status | Key Deliverables |
-|---|-------|----------|--------|-----------------|
-| 1 | Team Formation & Idea Development | Week 1 | ✅ Completed | Team formed, idea selected, README |
-| 2 | Project Charter Development | Week 2 | 🔄 In Progress | This document |
-| 3 | Technical Documentation | Weeks 3–4 | ⬜ Upcoming | Architecture, DB schema, API docs, wireframes |
-| 4 | MVP Development | Weeks 4–7 | ⬜ Upcoming | Working web app: quiz, roadmaps, auth |
-| 5 | Project Closure & Presentation | Week 8 | ⬜ Upcoming | Final demo, user testing results, retrospective |
+
+<img width="1920" height="1080" alt="Gantt Chart Whiteboard (1)" src="https://github.com/user-attachments/assets/5d497948-bac5-4c4e-84e7-3e667f112c3c" />
 
 ### Key Milestones
 - **End of Week 2** → Project Charter approved by instructors
