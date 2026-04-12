@@ -5,7 +5,7 @@ A platform that connects families with children's skill development centers
 
 ---
 
-## 📌 About The Project
+## 📌 About The Project 
 
 In an era of rapid digital transformation and evolving educational needs, finding the right growth opportunities for children has become a significant challenge for families. Information is often scattered across various platforms, and verifying the quality and suitability of programs requires extensive time and effort.
 
