@@ -34,36 +34,9 @@ Families struggle to find quality educational programs due to three primary chal
 
 ---
 
-## 🗂️ Scope
 
-### In-Scope ✅
-- Platform to search and discover educational centers for children based on location, age group, and type of service
-- Detailed educational center profiles (services, age groups, pricing, schedule, contact information)
-- Search & filtering system (location, price, ratings, type: tutoring, daycare, activities)
-- User authentication (registration / login via JWT)
-- Responsive web interface (React.js / Next.js)
-- REST API backend (Node.js / Express + PostgreSQL)
 
-### Out-of-Scope ❌
-- Mobile native apps (iOS / Android)
-- Community forum / peer discussion (planned for future work)
-- Direct payment system (can be added in future work)
-- Job application or recruitment services
-- AI-based recommendations or smart matching
-- Real-time chat between parents and centers
 
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| Frontend | React.js / Next.js |
-| Backend | Node.js / Express |
-| Database | PostgreSQL |
-| Authentication | JWT |
-| Maps Integration | Google Maps API |
-| Version Control | Git / GitHub |
 
 ---
 
@@ -189,32 +162,9 @@ A web-based internal system for startup employees to submit requests electronica
 
 ---
 
-## 🎯 Target Audience
 
-| Audience | Description |
-|----------|-------------|
-| 👨‍👩‍👧 Parents | Families looking for skill development centers for their children aged 3–15 |
-| 🏫 Skill Centers | Centers wanting to list and promote their programs online |
-| 👶 Children (3–15) | The ultimate beneficiaries of the platform |
 
----
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js
-- PostgreSQL
-- npm or yarn
-
-### Installation
-
-```bash
-git clone https://github.com/your-repo/jeel.git
-cd jeel
-npm install
-cp .env.example .env
-npm run dev
-```
 
 ---
 
