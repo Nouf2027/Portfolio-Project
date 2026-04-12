@@ -75,9 +75,11 @@ Masar (مسار) is a web platform designed to help parents discover, compare, a
 | # | Risk | Likelihood | Impact | Mitigation |
 |---|------|------------|--------|------------|
 | 1 | Low user adoption / trust in a new platform | Medium | High | Beta test with Holberton cohort; collect feedback early |
+| 2 | Team members lack experience with some tools | Medium | Medium | Dedicated learning sprints in Weeks 1–2; pair programming |
+| 3 | Timeline delays due to team availability | Low | Medium | Weekly stand-ups; buffer days built into each stage |
+| 4 | Incomplete or inaccurate educational centers data | Medium | High | Verify data sources, allow centers to update their information, and implement admin review system |
 
-| 3 | Team members lack experience with some tools | Medium | Medium | Dedicated learning sprints in Weeks 1–2; pair programming |
-| 6 | Timeline delays due to team availability | Low | Medium | Weekly stand-ups; buffer days built into each stage |
+
 
 ---
 
