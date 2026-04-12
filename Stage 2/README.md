@@ -1,4 +1,4 @@
-# Masar - مسار | Project Charter 📋
+## Jeel - جيل 🌱 | Project Charter 📋
 > Stage 2: Project Charter Development — Holberton School SAU-0825 · 2026
 
 ---
@@ -6,7 +6,7 @@
 ##  Project Objectives | أهداف المشروع
 
 ### Purpose
-Masar (مسار) is a web platform designed to help parents discover, compare, and enroll their children in skill development centers across the Kingdom. Through a smart search and filtering system, parents can find the most suitable centers based on location, age group, skill category, and budget — all in one place.
+jeel (جيل) is a web platform designed to help parents discover, compare, and enroll their children in skill development centers across the Kingdom. Through a smart search and filtering system, parents can find the most suitable centers based on location, age group, skill category, and budget — all in one place.
 
 ### SMART Objectives
 
