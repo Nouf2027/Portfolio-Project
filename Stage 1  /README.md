@@ -3,7 +3,6 @@
 A platform that connects families with children's skill development centers
 
 
-
 ---
 
 ## 📌 About The Project
@@ -22,29 +21,16 @@ Families struggle to find quality educational programs due to three primary chal
 
 ---
 
-## ✨ Features
+## 👥 Team Formation Overview
 
-| Feature | Description |
-|---------|-------------|
-| 🔍 Smart Search | Allows users to search for courses based on age, location, and activity type easily and quickly. |
-| 📋 Course Listings | Displays all courses in an organized way with full details (time, price, age group). |
-| 📝 Direct Booking | Enables users to register and book courses directly within the app without complications. |
-| 🏫 Center Profile | A dedicated page for each training center including its information, services, and available courses. |
-| ⭐ Star Rating System | Ratings for courses and centers using a 1 to 5 star system to help users choose the best option. |
+| Name | GitHub | Background | Strengths | Role |
+|------|--------|------------|-----------|------|
+| Reem Abdullah | @Reemabdu213 | Business & Fintech | Flexibility and fast learning | Project Coordinator |
+| Nouf Al-Mutairi | @Nouf2027 | UI/UX Designer, Data Analyst | Frontend development (HTML, CSS, JS) | Brainstorming Lead |
+| Hadeel Al-Mutairi | @had271 | Mathematics & AI | Backend (API Design, Database) | Research Lead |
+| Dalal Al-Shamrani | @q400400200-pixel | Project Management & Data Analysis | Data analysis and project organization | Documentation Lead |
 
----
-
-
-
-
-
----
-
-## 💬 Collaboration Strategy
-
-The team established clear communication and collaboration norms from day one to ensure smooth workflow throughout the project.
-
-### Communication Tools
+### Collaboration Strategy
 
 | Tool | Purpose |
 |------|---------|
@@ -61,17 +47,12 @@ The team established clear communication and collaboration norms from day one to
 
 ---
 
-## 🎯 Problem Statement
-
-Parents today face a fragmented and inefficient process when trying to find suitable skill development centers for their children. There is no centralized platform where parents can search, compare, and enroll in children's skill centers based on real criteria like location, age group, price, and verified reviews. Centers, on the other hand, lack a dedicated digital presence to reach their target audience effectively. Jeel bridges this gap by providing a unified, easy-to-use platform for both parents and centers.
-
----
-
 ## 🧠 Research & Brainstorming Process
 
 The team followed a structured brainstorming approach to generate and evaluate ideas:
 
 ### Methods Used
+
 - **Mind Mapping:** Each team member mapped out the daily challenges that parents face when searching for activities and programs for their children. This revealed a common gap — the absence of a centralized, reliable platform that brings all these centers together in one place.
 
 - **SCAMPER Framework:** The team asked questions such as — Can we **combine** search, comparison, and booking into a single platform? Can we **adapt** the concept of existing booking platforms to specifically serve the children's skill development market? — This directly shaped the core idea of Jeel.
@@ -95,31 +76,6 @@ The team followed a structured brainstorming approach to generate and evaluate i
 
 ---
 
-## ✅ Reasons for Selecting Jeel
-
-- **Feasibility:** The core features are technically achievable within the project timeline using the team's existing skills in React, Node.js, and PostgreSQL.
-- **Innovation:** No direct Arabic competitor exists that aggregates children's skill centers in one platform with filtering, reviews, and direct booking.
-- **Alignment with Goals:** The idea aligns with Vision 2030's emphasis on youth development and skill building, and addresses a real gap felt by parents in the community.
-- **Clear Target Audience:** Parents, children aged 3–15, and skill centers form a well-defined and reachable user base.
-- **Monetization Potential:** Clear paths for revenue through center subscriptions, featured listings, and premium placements.
-
----
-
-## ⚡ Challenges & Opportunities
-
-### Potential Challenges
-- Building trust with parents requires verified center data and real reviews
-- Center data requires continuous updates and moderation
-- Encouraging centers to onboard and maintain their profiles on the platform
-
-### Opportunities Identified During Brainstorming
-- No direct Arabic competitor focused on aggregating children's skill centers
-- Growing family market with high demand for extracurricular activities
-- Vision 2030 emphasis on youth development and skill building
-- High parent engagement — parents actively seek the best centers for their children
-
----
-
 ## ❌ Rejected Ideas
 
 ### 1. Masar - Tech Career Path Platform
@@ -140,44 +96,56 @@ A web-based internal system for startup employees to submit requests electronica
 
 ---
 
-## 👥 Team - Jeel
+## ✅ Selected MVP — Jeel
 
-| Name | GitHub | Background | Strengths | Role |
-|------|--------|------------|-----------|------|
-| Reem Abdullah | @Reemabdu213 | Business & Fintech | Flexibility and fast learning | Project Coordinator |
-| Nouf Al-Mutairi | @Nouf2027 | UI/UX Designer, Data Analyst | Frontend development (HTML, CSS, JS) | Brainstorming Lead |
-| Hadeel Al-Mutairi | @had271 | Mathematics & AI | Backend (API Design, Database) | Research Lead |
-| Dalal Al-Shamrani | @q400400200-pixel | Project Management & Data Analysis | Data analysis and project organization | Documentation Lead |
+### Summary
+Jeel is a centralized web platform that connects parents with verified skill development centers for children. Parents can search, compare, and enroll in programs based on location, age group, and activity type — all in one place.
+
+### Key Features
+
+| Feature | Description |
+|---------|-------------|
+| 🔍 Smart Search | Allows users to search for courses based on age, location, and activity type easily and quickly. |
+| 📋 Course Listings | Displays all courses in an organized way with full details (time, price, age group). |
+| 📝 Direct Booking | Enables users to register and book courses directly within the app without complications. |
+| 🏫 Center Profile | A dedicated page for each training center including its information, services, and available courses. |
+| ⭐ Star Rating System | Ratings for courses and centers using a 1 to 5 star system to help users choose the best option. |
+
+### Reasons for Selection
+- **Feasibility:** The core features are technically achievable within the project timeline using the team's existing skills.
+- **Innovation:** No direct competitor exists that aggregates children's skill centers in one platform with filtering, reviews, and direct booking.
+- **Alignment with Goals:** The idea aligns with Vision 2030's emphasis on youth development and skill building, and addresses a real gap felt by parents in the community.
+- **Clear Target Audience:** Parents, children aged 3–15, and skill centers form a well-defined and reachable user base.
+- **Monetization Potential:** Clear paths for revenue through center subscriptions, featured listings, and premium placements.
+
+### Target Audience
+
+| Audience | Description |
+|----------|-------------|
+| 👨‍👩‍👧 Parents | Families looking for skill development centers for their children aged 3–15 |
+| 🏫 Skill Centers | Centers wanting to list and promote their programs online |
+| 👶 Children (3–15) | The ultimate beneficiaries of the platform |
 
 ---
 
-## 👥 Task Distribution
+## ⚡ Challenges & Opportunities
 
-| Task | Responsible |
-|------|-------------|
-| Frontend - User Interface & Design | Reem Abdullah (@Reemabdu213) |
-| Frontend - Search, Map & Filters | Nouf Al-Mutairi (@Nouf2027) |
-| Backend - API & Business Logic | Dalal Al-Shamrani (@q400400200-pixel) |
-| Backend - Database & Integration | Hadeel Al-Mutairi (@had271) |
+### Potential Challenges
+- Building trust with parents requires verified center data and real reviews
+- Center data requires continuous updates and moderation
+- Encouraging centers to onboard and maintain their profiles on the platform
 
----
-
-
-
-
+### Opportunities Identified During Brainstorming
+- No direct competitor focused on aggregating children's skill centers in one platform
+- Growing family market with high demand for extracurricular activities
+- Vision 2030 emphasis on youth development and skill building
+- High parent engagement — parents actively seek the best centers for their children
 
 ---
 
-## 📁 Project Structure
+## 📄 License
 
-```
-jeel/
-├── frontend/         # React / Next.js
-├── backend/          # Node.js / Express API
-├── database/         # PostgreSQL schemas
-└── README.md
-```
-
+This project is part of Holberton School SAU-0825 portfolio project — 2026
 ---
 
 ## 📄 License
