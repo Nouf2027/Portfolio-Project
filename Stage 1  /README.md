@@ -99,10 +99,13 @@ Parents today face a fragmented and inefficient process when trying to find suit
 The team followed a structured brainstorming approach to generate and evaluate ideas:
 
 ### Methods Used
-- **Mind Mapping:** Each member mapped out problems they personally experienced or observed in their community, which led to identifying the gap in children's skill center discovery.
-- **SCAMPER Framework:** Applied to explore how existing platforms (like Booking.com or Noon) could be adapted and modified to serve the children's education market.
-- **"How Might We" Questions:** Framed as — How might we help parents easily find the right skill center for their child? — which directly shaped Jeel's core features.
-- **Group Discussion Sessions:** Held via Google Meet to debate the feasibility and impact of each idea before narrowing down to the final MVP.
+- **Mind Mapping:** Each team member mapped out the daily challenges that parents face when searching for activities and programs for their children. This revealed a common gap — the absence of a centralized, reliable platform that brings all these centers together in one place.
+
+- **SCAMPER Framework:** The team asked questions such as — Can we **combine** search, comparison, and booking into a single platform? Can we **adapt** the concept of existing booking platforms to specifically serve the children's skill development market? — This directly shaped the core idea of Jeel.
+
+- **"How Might We" Questions:** The team framed the central question: *"How might we help parents find the right center for their child quickly and with confidence?"* — This guided the discussion toward defining Jeel's key features: smart search, verified ratings, and direct booking.
+
+- **Group Discussion Sessions:** Regular sessions were held via Google Meet to discuss, debate, and evaluate all proposed ideas based on feasibility and potential impact, until the team collectively agreed on Jeel as the final MVP.
 
 ---
 
