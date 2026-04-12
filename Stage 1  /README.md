@@ -143,7 +143,7 @@ Jeel is a centralized web platform that connects parents with verified skill dev
 
 ---
 
-## 📄 License
+## 📄 License 
 
 This project is part of Holberton School SAU-0825 portfolio project — 2026
 ---
