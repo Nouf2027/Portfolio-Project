@@ -8,7 +8,7 @@
 ### Purpose
 jeel (جيل) is a web platform designed to help parents discover, compare, and enroll their children in skill development centers across the Kingdom. Through a smart search and filtering system, parents can find the most suitable centers based on location, age group, skill category, and budget — all in one place.
 
-### SMART Objectives
+### SMART Objectives 
 
 | # | Objective |
 |---|-----------|
