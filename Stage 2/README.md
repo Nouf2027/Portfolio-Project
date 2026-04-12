@@ -3,7 +3,7 @@
 
 ---
 
-## 0. Project Objectives | أهداف المشروع
+##  Project Objectives | أهداف المشروع
 
 ### Purpose
 Masar (مسار) is a web platform designed to help parents discover, compare, and enroll their children in skill development centers across the Kingdom. Through a smart search and filtering system, parents can find the most suitable centers based on location, age group, skill category, and budget — all in one place.
@@ -18,7 +18,7 @@ Masar (مسار) is a web platform designed to help parents discover, compare, a
 
 ---
 
-## 1. Stakeholders & Team Roles | أصحاب المصلحة وأدوار الفريق
+## Stakeholders & Team Roles | أصحاب المصلحة وأدوار الفريق
 
 ### Stakeholders
 
@@ -50,7 +50,7 @@ Masar (مسار) is a web platform designed to help parents discover, compare, a
 
 ---
 
-## 2. Scope | نطاق المشروع
+## Scope | نطاق المشروع
 
 ### In-Scope ✅
 - Platform to search and discover educational centers for children based on location, age group, and type of service
@@ -70,7 +70,7 @@ Masar (مسار) is a web platform designed to help parents discover, compare, a
 
 ---
 
-## 3. Risks | المخاطر
+## Risks | المخاطر
 
 | # | Risk | Likelihood | Impact | Mitigation |
 |---|------|------------|--------|------------|
@@ -81,7 +81,7 @@ Masar (مسار) is a web platform designed to help parents discover, compare, a
 
 ---
 
-## 4. High-Level Plan | الخطة الزمنية
+## High-Level Plan | الخطة الزمنية
 
 ### Timeline (12 Weeks)
 <img width="965" height="1010" alt="image" src="https://github.com/user-attachments/assets/cb171cdf-042b-475f-a235-ce630add2a13" />
