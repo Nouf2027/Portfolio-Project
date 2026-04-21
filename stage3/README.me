@@ -116,3 +116,83 @@ Jeel - جيل 🌱 | Project Charter 📋
 3. The Backend (Node.js / Express) processes the request and queries the Database.
 4. PostgreSQL returns data to the Backend, which sends it as JSON to the Frontend.
 5. The Frontend renders the response to the user.
+
+---
+
+## Task 4: Document External and Internal APIs
+
+## 🔹 External APIs
+
+| API | Usage | Reason |
+|-----|------|--------|
+| Google Maps API | Display training center locations | Provides accurate maps and easy integration |
+| Smart Image Repository (Cloud Storage) | Store and manage images for courses and centers | Enables fast, scalable, and organized image handling |
+
+---
+
+## 🔹 Internal API Endpoints
+
+| Endpoint | Method | Input | Output |
+|----------|--------|-------|--------|
+| `/courses` | GET | Query (age, category) | List of courses (JSON) |
+| `/courses/:id` | GET | Course ID | Course details |
+| `/centers` | GET | - | List of centers |
+| `/centers/:id` | GET | Center ID | Center details |
+| `/book` | POST | JSON (user_id, course_id) | Booking confirmation |
+| `/auth/register` | POST | JSON (name, email, password) | User account created |
+| `/auth/login` | POST | JSON (email, password) | Authentication token (JWT) |
+
+---
+
+## 🔹 Example Request (Booking)
+
+```json
+{
+  "user_id": 1,
+  "course_id": 5
+}
+
+## 🔹 API Notes
+
+- All requests and responses use JSON format.
+- Authentication is handled using JWT (custom backend system).
+- The API follows RESTful design principles.
+
+---
+
+## Task 5 : SCM and QA Strategies
+
+##  SCM Strategy
+
+The project uses Git for version control to manage code changes and collaboration.
+
+### 🔹 Branching Strategy
+- **main**: Production-ready code  
+- **develop**: Development branch  
+- **feature/***: Individual feature branches  
+
+### 🔹 Workflow
+- Each feature is developed in a separate branch  
+- Regular commits with clear messages are required  
+- Pull Requests (PRs) are created for review  
+- Code reviews are performed before merging into `develop`  
+- Stable code is merged into `main` for production  
+
+---
+
+##  QA Strategy
+
+The project follows multiple testing strategies to ensure quality and reliability.
+
+### 🔹 Testing Types
+- **Unit Testing**: Tests individual functions and components  
+- **Integration Testing**: Tests API endpoints and system interactions  
+- **Manual Testing**: Tests user flows such as search, booking, and login  
+
+### 🔹 Testing Tools
+- **Jest**: Used for unit testing JavaScript/TypeScript code  
+- **Postman**: Used for API testing  
+
+### 🔹 Deployment Pipeline
+- **Staging Environment**: Used to test new features before release  
+- **Production Environment**: Final stable version available to users  
