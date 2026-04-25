@@ -119,7 +119,23 @@ Jeel - جيل 🌱 | Project Charter 📋
 
 ---
 ## Task 2:Define Components, Classes, and Database Design
+### Back-end Classes
 <img width="1042" height="656" alt="UML_class" src="https://github.com/user-attachments/assets/d18c9208-1b3c-4600-9cfe-84c351b66f15" />
+
+### Front-end Components
+<img width="582" height="391" alt="Define Components" src="https://github.com/user-attachments/assets/348d3945-fa2d-4ff3-b481-7d169b2a9de8" />
+
+### Relational Database Schema
+- users table: id (PK), name, email, password, and role (parent/admin).
+- centers table: id (PK), name, location, description, approved, and owner_id (FK → users).
+- courses table: id (PK), name, age_range, price, and center_id (FK → centers).
+- bookings table: id (PK), user_id (FK → users), course_id (FK → courses), date, and status (pending/confirmed/cancelled).
+- reviews table: id (PK), user_id (FK → users), centre_id (FK → centers), rating (1–5), and comment.
+### Relationships
+- A user can own one or more centers via owner_id. 
+- A center can have one or more courses via center_id. 
+- A user can make one or more bookings via user_id, and each booking is linked to a specific course via course_id. 
+- A user can write one or more reviews via user_id, and each review is linked to a specific center via centre_id.
 
 ---
 
