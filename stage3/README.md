@@ -147,7 +147,7 @@ Jeel - جيل 🌱 | Project Charter 📋
 
 
 ---
-## Task 4: Document External and Internal APIs
+## Task 4: Document External and Internal APIs 
 
 ## 🔹 External APIs
 
