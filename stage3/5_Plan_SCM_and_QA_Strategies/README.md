@@ -4,7 +4,7 @@
 ## SCM Strategy 
 
 ### Version Control
-We use **Git** and **GitHub** for version control and collaboration.
+We use **Git** and **GitHub** for version control and collaboration. 
 
 This helps us:
 - Track code changes
