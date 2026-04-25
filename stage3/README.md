@@ -121,7 +121,16 @@ Jeel - جيل 🌱 | Project Charter 📋
 ## Task 2:Define Components, Classes, and Database Design
 <img width="1042" height="656" alt="UML_class" src="https://github.com/user-attachments/assets/d18c9208-1b3c-4600-9cfe-84c351b66f15" />
 
+---
 
+## Task 3 :  Create High-Level Sequence Diagrams
+
+## Use Case: User Login / Search / Booking
+
+<img width="801" height="1292" alt="IMG_2387" src="https://github.com/user-attachments/assets/52e9cfcd-d72a-440a-b315-c19f74f488b0" />
+
+
+---
 ## Task 4: Document External and Internal APIs
 
 ## 🔹 External APIs
