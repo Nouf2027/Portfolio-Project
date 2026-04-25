@@ -1,7 +1,7 @@
 # SCM and QA Strategies for Jeel Platform
 
 
-## SCM Strategy
+## SCM Strategy 
 
 ### Version Control
 We use **Git** and **GitHub** for version control and collaboration.
