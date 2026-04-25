@@ -118,6 +118,9 @@ Jeel - جيل 🌱 | Project Charter 📋
 5. The Frontend renders the response to the user.
 
 ---
+## Task 2:Define Components, Classes, and Database Design
+<img width="1042" height="656" alt="UML_class" src="https://github.com/user-attachments/assets/d18c9208-1b3c-4600-9cfe-84c351b66f15" />
+
 
 ## Task 4: Document External and Internal APIs
 
