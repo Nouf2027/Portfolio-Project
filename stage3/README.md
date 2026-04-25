@@ -223,4 +223,4 @@ The project follows multiple testing strategies to ensure quality and reliabilit
 
 ### 🔹 Deployment Pipeline
 - **Staging Environment**: Used to test new features before release  
-- **Production Environment**: Final stable version available to users    
+- **Production Environment**: Final stable version available to users     
