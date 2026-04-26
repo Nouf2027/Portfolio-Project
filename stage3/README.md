@@ -123,7 +123,7 @@ Jeel - جيل 🌱 | Project Charter 📋
 <img width="1042" height="656" alt="UML_class" src="https://github.com/user-attachments/assets/d18c9208-1b3c-4600-9cfe-84c351b66f15" />
 
 ### Front-end Components
-<img width="582" height="391" alt="Define Components" src="https://github.com/user-attachments/assets/348d3945-fa2d-4ff3-b481-7d169b2a9de8" />
+<img width="1042" height="656" alt="Define Components" src="https://github.com/user-attachments/assets/348d3945-fa2d-4ff3-b481-7d169b2a9de8" />
 
 ### Relational Database Schema
 - users table: id (PK), name, email, password, and role (parent/admin).
@@ -143,7 +143,7 @@ Jeel - جيل 🌱 | Project Charter 📋
 
 ## Use Case: User Login / Search / Booking
 
-<img width="801" height="1292" alt="IMG_2387" src="https://github.com/user-attachments/assets/52e9cfcd-d72a-440a-b315-c19f74f488b0" />
+<img width="1042" height="1292" alt="IMG_2387" src="https://github.com/user-attachments/assets/52e9cfcd-d72a-440a-b315-c19f74f488b0" />
 
 
 ---
