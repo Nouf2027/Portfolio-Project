@@ -179,6 +179,7 @@ Jeel - جيل 🌱 | Project Charter 📋
   "user_id": 1,
   "course_id": 5
 }
+```
 
 ## 🔹 API Notes
 
