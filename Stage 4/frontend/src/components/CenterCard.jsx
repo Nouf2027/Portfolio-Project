@@ -1,12 +1,11 @@
-function CenterCard({ center }) {
+function CenterCard() {
   return (
-    <div className="center-card">
-      <img src={center.image} alt={center.name} />
-      <h3>{center.name}</h3>
-      <p>{center.location}</p>
-      <p>{center.category}</p>
-      <p> {center.rating}</p>
-      <button>View Details</button>
+    <div className="card">
+      <h2>Welcome Back</h2>
+
+      <p>This is the center card component.</p>
+
+      <button>Get Started</button>
     </div>
   );
 }
