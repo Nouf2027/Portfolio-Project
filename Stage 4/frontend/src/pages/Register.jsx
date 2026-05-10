@@ -4,10 +4,11 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Register:', name, email, password);
+    console.log('Register:', name, email, password, role);
   };
 
   return (
@@ -32,6 +33,12 @@ function Register() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="">Select Account Type</option>
+          <option value="center">Center</option>
+          <option value="parents">Parents</option>
+          <option value="admin">Admin</option>
+        </select>
         <button type="submit">Register</button>
       </form>
     </div>
