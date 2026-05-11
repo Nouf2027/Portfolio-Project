@@ -1,11 +1,20 @@
-function CenterCard() {
+import { Link } from "react-router-dom";
+function CenterCard({ center }) {
   return (
     <div className="card">
-      <h2>Welcome Back</h2>
 
-      <p>This is the center card component.</p>
+     <img src={center.image} alt={center.name} />
+     
+      <h2>{center.name}</h2>
 
-      <button>Get Started</button>
+      <p>{center.location}</p>
+
+      <p>{center.category}</p>
+
+<Link to={`/centers/${center.id}`}>
+  <button>View Details</button>
+</Link>
+
     </div>
   );
 }
