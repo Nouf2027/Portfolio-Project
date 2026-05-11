@@ -10,22 +10,15 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
+    <div className="login-page">
+      <form className="login-form">
+        <h2>Login</h2>
+
+        <input type="email" placeholder="Email" />
+
+        <input type="password" placeholder="Password" />
+
+        <button>Login</button>
       </form>
     </div>
   );

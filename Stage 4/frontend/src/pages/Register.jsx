@@ -10,36 +10,24 @@ function Register() {
     e.preventDefault();
     console.log('Register:', name, email, password, role);
   };
-
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="">Select Account Type</option>
-          <option value="center">Center</option>
-          <option value="parents">Parents</option>
-          <option value="admin">Admin</option>
+    <div className="register-page">
+      <form className="register-form">
+        <h2>Register</h2>
+
+        <input type="text" placeholder="Name" />
+
+        <input type="email" placeholder="Email" />
+
+        <input type="password" placeholder="Password" />
+
+        <select>
+          <option>Select Account Type</option>
+          <option>Parent</option>
+          <option>Center Owner</option>
         </select>
-        <button type="submit">Register</button>
+
+        <button>Register</button>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import centers from "../data/centers";
 
 function CenterDetails() {
@@ -12,10 +12,20 @@ function CenterDetails() {
 
   return (
     <div className="details-page">
-      <h1>{center.name}</h1>
-      <p>{center.city}</p>
-      <p>{center.category}</p>
-      <p>{center.description}</p>
+      <div className="details-card">
+        <img src={center.image} alt={center.name} />
+
+        <h1>{center.name}</h1>
+
+        <p>{center.city}</p>
+
+        <p>{center.category}</p>
+
+        <p>{center.description}</p>
+        <Link to="/booking">
+  <button>Book Now</button>
+</Link>
+      </div>
     </div>
   );
 }
