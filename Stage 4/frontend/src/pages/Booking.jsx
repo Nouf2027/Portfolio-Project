@@ -11,20 +11,11 @@ function Booking() {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    API.get('/courses')
-      .catch(() => {
-        setCourses([
-          { id: 2, name: 'دورة الإلقاء' },
-          { id: 3, name: 'دورة القيادة' },
-          { id: 4, name: 'دورة البرمجة' },
-          { id: 5, name: 'دورة الرياضيات' },
-        ]);
-      });
     setCourses([
-      { id: 2, name: 'دورة الإلقاء' },
-      { id: 3, name: 'دورة القيادة' },
-      { id: 4, name: 'دورة البرمجة' },
-      { id: 5, name: 'دورة الرياضيات' },
+      { id: 2, name: 'دورة الإلقاء', price: '500 ريال' },
+      { id: 3, name: 'دورة القيادة', price: '800 ريال' },
+      { id: 4, name: 'دورة البرمجة', price: '600 ريال' },
+      { id: 5, name: 'دورة الرياضيات', price: '450 ريال' },
     ]);
   }, []);
 
@@ -65,7 +56,9 @@ function Booking() {
         <select value={courseId} onChange={(e) => setCourseId(e.target.value)}>
           <option value="">اختاري الكورس</option>
           {courses.map(course => (
-            <option key={course.id} value={course.id}>{course.name}</option>
+            <option key={course.id} value={course.id}>
+              {course.name} - {course.price}
+            </option>
           ))}
         </select>
         <button type="submit">Book Now</button>
