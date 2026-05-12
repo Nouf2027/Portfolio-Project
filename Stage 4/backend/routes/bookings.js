@@ -1,44 +1,80 @@
+const express = require('express');
+const router = express.Router();
 const pool = require('../config/db');
+const authMiddleware = require('../middleware/auth');
 
-class Booking {
-  static async create({ user_id, course_id, date }) {
+// Create booking
+router.post('/', authMiddleware, async (req, res) => {
+  try {
+    const { course_id, date } = req.body;
+    const user_id = req.user.id;
     const result = await pool.query(
       `INSERT INTO bookings (user_id, course_id, date, status)
        VALUES ($1, $2, $3, 'pending')
        RETURNING *`,
       [user_id, course_id, date]
     );
-    return result.rows[0];
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
+});
 
-  static async findByUserId(user_id) {
+// Get my bookings
+router.get('/me', authMiddleware, async (req, res) => {
+  try {
+    const user_id = req.user.id;
     const result = await pool.query(
-      `SELECT b.*, c.name as course_name, cn.name as center_name
-       FROM bookings b
-       JOIN courses c ON b.course_id = c.id
-       JOIN centers cn ON c.center_id = cn.id
-       WHERE b.user_id = $1`,
+      'SELECT * FROM bookings WHERE user_id = $1',
       [user_id]
     );
-    return result.rows;
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
+});
 
-  static async updateStatus(id, status) {
-    const result = await pool.query(
-      `UPDATE bookings SET status = $1
-       WHERE id = $2 RETURNING *`,
-      [status, id]
-    );
-    return result.rows[0];
-  }
+module.exports = router;
 
-  static async findById(id) {
-    const result = await pool.query(
-      'SELECT * FROM bookings WHERE id = $1',
-      [id]
-    );
-    return result.rows[0];
-  }
-}
 
-module.exports = Booking;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
