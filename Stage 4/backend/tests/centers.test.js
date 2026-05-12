@@ -23,4 +23,19 @@ describe('Centers API', () => {
       });
     expect(res.statusCode).toBe(401);
   });
+
+  test('GET /api/centers/all - unauthorized', async () => {
+    const res = await request(app).get('/api/centers/all');
+    expect(res.statusCode).toBe(401);
+  });
+
+  test('DELETE /api/centers/1 - unauthorized', async () => {
+    const res = await request(app).delete('/api/centers/1');
+    expect(res.statusCode).toBe(401);
+  });
+
+  test('PATCH /api/centers/1/approve - unauthorized', async () => {
+    const res = await request(app).patch('/api/centers/1/approve');
+    expect(res.statusCode).toBe(401);
+  });
 });

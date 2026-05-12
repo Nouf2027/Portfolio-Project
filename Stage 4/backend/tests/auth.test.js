@@ -7,7 +7,7 @@ describe('Auth API', () => {
       .post('/api/auth/register')
       .send({
         name: 'Test User',
-        email: 'testauth@test.com',
+        email: 'testauth2@test.com',
         password: '123456',
         role: 'parent'
       });
