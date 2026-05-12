@@ -12,6 +12,9 @@ function CenterDetails() {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const role = user.role;
+
   useEffect(() => {
     API.get(`/centers/${id}`)
       .then(res => {
@@ -48,9 +51,11 @@ function CenterDetails() {
         <h1>{center.name}</h1>
         <p>{center.location}</p>
         <p>{center.description}</p>
-        <Link to="/booking">
-          <button>Book Now</button>
-        </Link>
+        {role !== 'admin' && role !== 'center' && (
+          <Link to="/booking">
+            <button>Book Now</button>
+          </Link>
+        )}
       </div>
 
       <div className="reviews-section">
@@ -59,31 +64,43 @@ function CenterDetails() {
           <p>No reviews yet.</p>
         ) : (
           reviews.map((review, index) => (
-            <div key={index}>
-              <p>Rating: {review.rating}/5</p>
+            <div key={index} style={{background: '#fff9c4', padding: '10px', borderRadius: '10px', marginBottom: '10px'}}>
+              <p>⭐ {review.rating}/5</p>
               <p>{review.comment}</p>
             </div>
           ))
         )}
 
-        <h3>Add a Review</h3>
-        {success && <p style={{color: 'green'}}>{success}</p>}
-        {error && <p style={{color: 'red'}}>{error}</p>}
-        <form onSubmit={handleReview}>
-          <select value={rating} onChange={(e) => setRating(e.target.value)}>
-            <option value="5">5 ⭐</option>
-            <option value="4">4 ⭐</option>
-            <option value="3">3 ⭐</option>
-            <option value="2">2 ⭐</option>
-            <option value="1">1 ⭐</option>
-          </select>
-          <textarea
-            placeholder="Write your review..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <button type="submit">Submit Review</button>
-        </form>
+        {role === 'parent' && (
+          <>
+            <h3>Add a Review</h3>
+            {success && <p style={{color: 'green'}}>{success}</p>}
+            {error && <p style={{color: 'red'}}>{error}</p>}
+            <form onSubmit={handleReview}>
+              <select value={rating} onChange={(e) => setRating(e.target.value)}>
+                <option value="5">5 ⭐</option>
+                <option value="4">4 ⭐</option>
+                <option value="3">3 ⭐</option>
+                <option value="2">2 ⭐</option>
+                <option value="1">1 ⭐</option>
+              </select>
+              <textarea
+                placeholder="Write your review..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <button type="submit">Submit Review</button>
+            </form>
+          </>
+        )}
+
+        {role === 'admin' && (
+          <p style={{color: '#ff6f00', fontWeight: 'bold'}}>⚠️ Admins cannot add reviews</p>
+        )}
+
+        {role === 'center' && (
+          <p style={{color: '#ff6f00', fontWeight: 'bold'}}>⚠️ Centers cannot add reviews</p>
+        )}
       </div>
     </div>
   );
