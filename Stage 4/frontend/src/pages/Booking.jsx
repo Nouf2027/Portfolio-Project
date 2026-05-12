@@ -1,13 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import API from '../api/axios';
 
 function Booking() {
   const [childName, setChildName] = useState('');
   const [parentName, setParentName] = useState('');
   const [date, setDate] = useState('');
-  const [courseId, setCourseId] = useState('1');
+  const [courseId, setCourseId] = useState('');
+  const [courses, setCourses] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    API.get('/courses')
+      .catch(() => {
+        setCourses([
+          { id: 2, name: 'دورة الإلقاء' },
+          { id: 3, name: 'دورة القيادة' },
+          { id: 4, name: 'دورة البرمجة' },
+          { id: 5, name: 'دورة الرياضيات' },
+        ]);
+      });
+    setCourses([
+      { id: 2, name: 'دورة الإلقاء' },
+      { id: 3, name: 'دورة القيادة' },
+      { id: 4, name: 'دورة البرمجة' },
+      { id: 5, name: 'دورة الرياضيات' },
+    ]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +62,12 @@ function Booking() {
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
+        <select value={courseId} onChange={(e) => setCourseId(e.target.value)}>
+          <option value="">اختاري الكورس</option>
+          {courses.map(course => (
+            <option key={course.id} value={course.id}>{course.name}</option>
+          ))}
+        </select>
         <button type="submit">Book Now</button>
       </form>
     </div>

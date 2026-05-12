@@ -11,11 +11,13 @@ const authRoutes = require('./routes/auth');
 const centerRoutes = require('./routes/centers');
 const reviewRoutes = require('./routes/reviews');
 const bookingRoutes = require('./routes/bookings');
+const uploadRoutes = require('./routes/upload');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/centers', centerRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/upload', uploadRoutes);
 
 const PORT = process.env.PORT || 5000;
 

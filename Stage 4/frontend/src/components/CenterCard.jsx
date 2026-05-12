@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 function CenterCard({ center }) {
   return (
     <div className="card">
+      {center.image && (
+        <img src={center.image} alt={center.name} style={{width: '100%', borderRadius: '8px'}} />
+      )}
       <h2>{center.name}</h2>
       <p>{center.location}</p>
       <p>{center.description}</p>
