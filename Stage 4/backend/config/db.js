@@ -35,7 +35,8 @@ const createTables = async () => {
         description TEXT,
         approved BOOLEAN DEFAULT FALSE,
         owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-        created_at TIMESTAMP DEFAULT NOW()
+        license VARCHAR(255),
+	created_at TIMESTAMP DEFAULT NOW()
       );
       CREATE TABLE IF NOT EXISTS courses (
         id SERIAL PRIMARY KEY,
