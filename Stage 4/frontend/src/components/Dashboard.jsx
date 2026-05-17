@@ -67,7 +67,7 @@ function Dashboard() {
   if (role === 'admin') {
     return (
       <div className="dashboard-page">
-        <h1>🛡️ Admin Dashboard</h1>
+        <h1>🛡️ Admin Panel</h1> 
         {success && <p style={{color: 'green', marginBottom: '15px'}}>{success}</p>}
 
         <button onClick={() => setShowForm(!showForm)} style={{marginBottom: '20px'}}>
@@ -98,7 +98,7 @@ function Dashboard() {
           </form>
         )}
 
-        {loading ? <p>Loading...</p> : (
+        {loading ? <div className="loader"></div> : (
           <div className="dashboard-cards">
             {centers.map((center, index) => (
               <div key={index} className="dashboard-box">
@@ -127,7 +127,7 @@ function Dashboard() {
   if (role === 'center') {
     return (
       <div className="dashboard-page">
-        <h1>🏫 Center Dashboard</h1>
+        <h1>🏫 Center Portal</h1>
         {success && <p style={{color: 'green', marginBottom: '15px'}}>{success}</p>}
 
         <button onClick={() => setShowForm(!showForm)} style={{marginBottom: '20px'}}>
@@ -167,8 +167,8 @@ function Dashboard() {
 
   return (
     <div className="dashboard-page">
-      <h1>📊 Dashboard</h1>
-      <p>Please login to view your dashboard.</p>
+      <h1>👤 My Account</h1> 
+      <p>Manage your account here.</p>
     </div>
   );
 }

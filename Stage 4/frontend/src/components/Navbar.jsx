@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import { Link } from "react-router-dom";
 
 function Navbar() {
@@ -18,19 +18,28 @@ function Navbar() {
         <h2 className="logo-text">Jeel</h2>
         <span className="logo-emoji">🌱</span>
       </div>
+
       <div className="nav-links">
         <Link to="/">🏠 Home</Link>
         <Link to="/search">🔍 Search</Link>
-        {(role === 'admin' || role === 'center') && (
-          <Link to="/dashboard">📊 Dashboard</Link>
+
+        {role && (
+          <Link to="/dashboard">
+            {role === 'admin'
+              ? '🛡️ Admin Panel'
+              : role === 'center'
+              ? '🏫 Center Portal'
+              : '👤 My Account'}
+          </Link>
         )}
+
         {!role ? (
           <>
             <Link to="/login">🔑 Login</Link>
             <Link to="/register">✨ Register</Link>
           </>
         ) : (
-          <button onClick={handleLogout} style={{marginTop: '0'}}>
+          <button onClick={handleLogout} style={{ marginTop: '0' }}>
             🚪 Logout
           </button>
         )}

@@ -48,7 +48,6 @@ function Register() {
           <option value="">Select Account Type</option>
           <option value="parent">Parent</option>
           <option value="center">Center</option>
-          <option value="admin">Admin</option>
         </select>
         <button type="submit">Register</button>
       </form>
