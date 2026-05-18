@@ -15,7 +15,7 @@ function Navbar() {
     <nav className="navbar">
    <Link to="/" className="logo">
   <span className="logo-leaf">☘️</span>
-  <h2 className="logo-text">Jool</h2>
+  <h2 className="logo-text">Jeel</h2>
   <span className="logo-leaf">☘️</span>
 </Link>
       <div className="nav-links">
