@@ -10,7 +10,7 @@
 | Register & Login API (JWT) | Must Have | Hadeel | May 3 |
 | Login / Register UI | Must Have | Reem | May 3 |
 | Centers Listing API | Must Have | Dalal | May 6 |
-| Home + Search UI | Must Have | Reem | May 8 |
+| Home + Search UI | Must Have | Reem | May 8 | 
 | Center Details Page | Must Have | Dalal | May 9 |
 | Unit Tests — Auth | Must Have | Nouf | May 11 |
 
