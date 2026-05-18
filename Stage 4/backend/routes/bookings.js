@@ -78,3 +78,18 @@ module.exports = router;
 
 
 
+
+// Get all bookings (admin only)
+router.get('/all', authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT b.*, u.email, c.name as course_name 
+       FROM bookings b 
+       JOIN users u ON b.user_id = u.id
+       JOIN courses c ON b.course_id = c.id`
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});

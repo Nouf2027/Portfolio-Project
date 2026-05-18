@@ -11,7 +11,7 @@ function Profile() {
 
 const fetchBookings = async () => {
   try {
-    const res = await API.get('/bookings');
+    const res = await API.get('/bookings/me');
     setBookings(res.data);
   } catch (err) {
     console.log(err);
