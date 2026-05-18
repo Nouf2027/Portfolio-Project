@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, NavLink } from 'react-router-dom';
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -13,14 +13,21 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="logo">
-        <span className="logo-emoji">🌱</span>
-        <h2 className="logo-text">Jeel</h2>
-        <span className="logo-emoji">🌱</span>
-      </div>
+   <Link to="/" className="logo">
+  <span className="logo-leaf">☘️</span>
+  <h2 className="logo-text">Jool</h2>
+  <span className="logo-leaf">☘️</span>
+</Link>
       <div className="nav-links">
-        <Link to="/">🏠 Home</Link>
         <Link to="/search">🔍 Search</Link>
+<NavLink 
+  to="/profile"
+  className={({ isActive }) => 
+    isActive ? "nav-link active-link" : "nav-link"
+  }
+>
+  🌼 Profile
+</NavLink>
         {(role === 'admin' || role === 'center') && (
           <Link to="/dashboard">📊 Dashboard</Link>
         )}

@@ -8,6 +8,7 @@ import Search from "./pages/Search";
 import CenterDetails from "./pages/CenterDetails";
 import Booking from "./pages/Booking";
 import Dashboard from "./components/Dashboard";
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/centers/:id" element={<CenterDetails />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
