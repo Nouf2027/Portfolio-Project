@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import API from "../api/axios";
 
@@ -20,36 +21,47 @@ function Dashboard() {
 
   useEffect(() => {
     if (role === "admin") {
-      API.get("/centers").then(res => setCenters(res.data)).catch(() => {});
+      API.get("/centers/all").then(res => setCenters(res.data)).catch(() => {});
       API.get("/courses").then(res => setCourses(res.data)).catch(() => {});
       API.get("/bookings/all").then(res => setBookings(res.data)).catch(() => {});
     }
   }, [role]);
 
-  const handleApprove = (id) => {
-    setCenters(centers.map(c => c.id === id ? { ...c, approved: true } : c));
+  const handleApprove = async (id) => {
+    try {
+      await API.patch(`/centers/${id}/approve`);
+      setCenters(centers.map(c => c.id === id ? { ...c, approved: true } : c));
+    } catch (err) {
+      alert("Failed to approve center");
+    }
   };
 
-  const handleSubmitCenter = (e) => {
+  const handleReject = async (id) => {
+    try {
+      await API.delete(`/centers/${id}`);
+      setCenters(centers.filter(c => c.id !== id));
+    } catch (err) {
+      alert("Failed to reject center");
+    }
+  };
+
+  const handleSubmitCenter = async (e) => {
     e.preventDefault();
     if (!centerName || !location || !description) {
       alert("Please fill all fields");
       return;
     }
-    const newCenter = {
-      id: Date.now(),
-      name: centerName,
-      location,
-      description,
-      license: license ? license.name : "No license uploaded",
-      approved: false,
-    };
-    setCenters([...centers, newCenter]);
-    setCenter(newCenter);
-    setCenterName("");
-    setLocation("");
-    setDescription("");
-    alert("Center submitted for admin approval");
+    try {
+      const res = await API.post('/centers', { name: centerName, location, description });
+      setCenters([...centers, res.data]);
+      setCenter(res.data);
+      setCenterName("");
+      setLocation("");
+      setDescription("");
+      alert("Center submitted for admin approval");
+    } catch (err) {
+      alert("Failed to submit center");
+    }
   };
 
   const handleAddCourse = (e) => {
@@ -89,7 +101,12 @@ function Dashboard() {
                     <p>Location: {c.location}</p>
                     <p>{c.description}</p>
                     <p>Status: {c.approved ? "Approved ✅" : "Pending ⏳"}</p>
-                    {!c.approved && <button onClick={() => handleApprove(c.id)}>Approve</button>}
+                    {!c.approved && (
+                      <div style={{display:'flex', gap:'10px', marginTop:'10px'}}>
+                        <button onClick={() => handleApprove(c.id)}>Approve ✅</button>
+                        <button onClick={() => handleReject(c.id)} style={{backgroundColor:'red', color:'white', border:'none', padding:'8px 16px', borderRadius:'8px', cursor:'pointer'}}>Reject ❌</button>
+                      </div>
+                    )}
                   </div>
                 ))
               )}
@@ -119,7 +136,8 @@ function Dashboard() {
               ) : (
                 bookings.map(b => (
                   <div key={b.id} className="dashboard-box">
-                    <p>الكورس: {b.course_id}</p>
+                    <p>الكورس: {b.course_name}</p>
+                    <p>المستخدم: {b.email}</p>
                     <p>التاريخ: {new Date(b.date).toLocaleDateString()}</p>
                     <p>الحالة: {b.status}</p>
                   </div>

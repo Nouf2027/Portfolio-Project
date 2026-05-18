@@ -91,3 +91,15 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
+
+router.delete('/:id/reject', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admins only' });
+    }
+    await pool.query('DELETE FROM centers WHERE id = $1', [req.params.id]);
+    res.json({ message: 'Center rejected and deleted' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
