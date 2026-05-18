@@ -103,3 +103,16 @@ router.delete('/:id/reject', auth, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// Get center by logged in user
+router.get('/mine', auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM centers WHERE owner_id = $1',
+      [req.user.id]
+    );
+    res.json(result.rows[0] || null);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});

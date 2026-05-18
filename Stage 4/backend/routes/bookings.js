@@ -20,13 +20,31 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Get my bookings
+// Get my bookings with course details
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     const user_id = req.user.id;
     const result = await pool.query(
-      'SELECT * FROM bookings WHERE user_id = $1',
+      `SELECT b.*, c.name as course_name, c.price, c.duration, c.days, c.times
+       FROM bookings b
+       JOIN courses c ON b.course_id = c.id
+       WHERE b.user_id = $1`,
       [user_id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get all bookings (admin only)
+router.get('/all', authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT b.*, u.email, c.name as course_name, c.price
+       FROM bookings b
+       JOIN users u ON b.user_id = u.id
+       JOIN courses c ON b.course_id = c.id`
     );
     res.json(result.rows);
   } catch (err) {
@@ -36,57 +54,16 @@ router.get('/me', authMiddleware, async (req, res) => {
 
 module.exports = router;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Get all bookings (admin only)
-router.get('/all', authMiddleware, async (req, res) => {
+// Get bookings for center
+router.get('/center', authMiddleware, async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT b.*, u.email, c.name as course_name 
-       FROM bookings b 
+      `SELECT b.*, u.email, c.name as course_name
+       FROM bookings b
        JOIN users u ON b.user_id = u.id
-       JOIN courses c ON b.course_id = c.id`
+       JOIN courses c ON b.course_id = c.id
+       WHERE c.center_id = (SELECT id FROM centers WHERE user_id = $1 LIMIT 1)`,
+      [req.user.id]
     );
     res.json(result.rows);
   } catch (err) {
