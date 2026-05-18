@@ -18,17 +18,23 @@ function Booking() {
       { id: 5, name: 'دورة الرياضيات', price: '450 ريال', duration: '5 weeks' },
     ]);
   }, []);
+  const handleSubmit= async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post('/bookings', { course_id: courseId, date });
-      setSuccess('Booking successful!');
-      setError('');
-    } catch (err) {
-      setError('Booking failed. Please try again.');
-    }
-  };
+  try {
+    await API.post('/bookings', {
+      course_id: courseId,
+      date: date
+    });
+
+    setSuccess('Booking successful!');
+    setError('');
+  } catch (err) {
+    setError('Booking failed. Please try again.');
+  }
+};
+
+
 
   return (
     <div className="booking-page">

@@ -11,3 +11,70 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.dashboard-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.pending-box{
+    width: 450px;
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.form-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-container input,
+.form-container textarea{
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.form-container button{
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.pending-text{
+    color: orange;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: center;
+}
+.status-box{
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.pending-status{
+    color: orange;
+    font-size: 20px;
+    font-weight: bold;
+}
+.edit-btn{
+    margin: 15px 0;
+    background: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.edit-box{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}

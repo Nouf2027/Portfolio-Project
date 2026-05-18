@@ -20,14 +20,16 @@ function Navbar() {
 </Link>
       <div className="nav-links">
         <Link to="/search">🔍 Search</Link>
-<NavLink 
-  to="/profile"
-  className={({ isActive }) => 
-    isActive ? "nav-link active-link" : "nav-link"
-  }
->
-  🌼 Profile
-</NavLink>
+      {role && (
+  <NavLink
+    to="/profile"
+    className={({ isActive }) =>
+      isActive ? "nav-link active-link" : "nav-link"
+    }
+  >
+    🌼 Profile
+  </NavLink>
+)}
         {(role === 'admin' || role === 'center') && (
           <Link to="/dashboard">📊 Dashboard</Link>
         )}

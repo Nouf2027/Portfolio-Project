@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import API from '../api/axios';
+
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user'));
   const [bookings, setBookings] = useState([]);
+
   useEffect(() => {
-    const fetchBookings = async () => {
+  fetchBookings();
+}, []);
+
+const fetchBookings = async () => {
   try {
     const res = await API.get('/bookings');
-
     setBookings(res.data);
-
   } catch (err) {
     console.log(err);
   }
 };
-  fetchBookings();
-}, []);
   return (
     <div className="profile-page">
       <div className="profile-card">
