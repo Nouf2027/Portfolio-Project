@@ -30,6 +30,7 @@ const newCenter = {
   name: centerName,
   location,
   description,
+  license: license ? license.name : "No license uploaded",
   approved: false
 };
   const handleApprove = (id) => {
