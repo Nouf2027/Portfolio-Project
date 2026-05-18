@@ -119,11 +119,22 @@ function Dashboard() {
           {activeTab === "courses" && (
             <div className="dashboard-cards">
               {courses.length === 0 ? <p>لا يوجد كورسات</p> : (
-                courses.map(c => (
-                  <div key={c.id} className="dashboard-box">
-                    <h2>{c.name}</h2>
-                    <p>السعر: {c.price} SAR</p>
-                    <p>المدة: {c.duration}</p>
+                centers.filter(c => c.approved).map(center => (
+                  <div key={center.id} style={{width:'100%', marginBottom:'20px'}}>
+                    <h2 style={{color:'#e65100', marginBottom:'10px'}}>🏫 {center.name}</h2>
+                    <div className="dashboard-cards">
+                      {courses.filter(co => co.center_id === center.id).length === 0 ? (
+                        <p>لا يوجد كورسات لهذا المركز</p>
+                      ) : (
+                        courses.filter(co => co.center_id === center.id).map(c => (
+                          <div key={c.id} className="dashboard-box">
+                            <h3>{c.name}</h3>
+                            <p>السعر: {c.price} SAR</p>
+                            <p>المدة: {c.duration}</p>
+                          </div>
+                        ))
+                      )}
+                    </div>
                   </div>
                 ))
               )}
@@ -135,10 +146,11 @@ function Dashboard() {
               {bookings.length === 0 ? <p>لا يوجد حجوزات</p> : (
                 bookings.map(b => (
                   <div key={b.id} className="dashboard-box">
-                    <p>الكورس: {b.course_name}</p>
-                    <p>المستخدم: {b.email}</p>
-                    <p>التاريخ: {new Date(b.date).toLocaleDateString()}</p>
-                    <p>الحالة: {b.status}</p>
+                    <p><strong>المركز:</strong> {b.center_name}</p>
+                    <p><strong>الكورس:</strong> {b.course_name}</p>
+                    <p><strong>المستخدم:</strong> {b.email}</p>
+                    <p><strong>التاريخ:</strong> {new Date(b.date).toLocaleDateString()}</p>
+                    <p><strong>الحالة:</strong> {b.status}</p>
                   </div>
                 ))
               )}

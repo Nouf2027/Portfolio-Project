@@ -29,7 +29,6 @@ function Profile() {
 
   return (
     <div className="profile-page">
-
       <div className="profile-card">
         <h1>My Profile</h1>
         <div className="profile-info">
@@ -63,16 +62,14 @@ function Profile() {
             bookings.map((booking) => (
               <div className="booking-card" key={booking.id}>
                 <h3>{booking.course_name}</h3>
+                <p><strong>Center:</strong> {booking.center_name}</p>
                 <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
                 <p><strong>Price:</strong> {booking.price} SAR</p>
                 <p><strong>Duration:</strong> {booking.duration}</p>
                 <p><strong>Days:</strong> {booking.days}</p>
                 <p><strong>Times:</strong> {booking.times}</p>
                 <p className="status">{booking.status}</p>
-                <button 
-                  onClick={() => handleCancelBooking(booking.id)}
-                  style={{backgroundColor:'red', color:'white', border:'none', padding:'8px 16px', borderRadius:'8px', cursor:'pointer', marginTop:'10px'}}
-                >
+                <button onClick={() => handleCancelBooking(booking.id)} style={{backgroundColor:'red', color:'white', border:'none', padding:'8px 16px', borderRadius:'8px', cursor:'pointer', marginTop:'10px'}}>
                   ❌ Cancel Booking
                 </button>
               </div>
@@ -94,7 +91,6 @@ function Profile() {
           ) : (
             <p>No center registered yet. <a href="/dashboard">Register your center</a></p>
           )}
-
           <h2 style={{marginTop:'20px'}}>📅 Center Bookings</h2>
           {centerBookings.length === 0 ? (
             <p>No bookings yet.</p>
@@ -102,6 +98,7 @@ function Profile() {
             centerBookings.map((booking) => (
               <div className="booking-card" key={booking.id}>
                 <h3>{booking.course_name}</h3>
+                <p><strong>Center:</strong> {booking.center_name}</p>
                 <p><strong>Student:</strong> {booking.email}</p>
                 <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
                 <p className="status">{booking.status}</p>
@@ -110,7 +107,6 @@ function Profile() {
           )}
         </div>
       )}
-
     </div>
   );
 }
