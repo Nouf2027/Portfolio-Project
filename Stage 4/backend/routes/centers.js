@@ -38,6 +38,18 @@ router.get('/search', async (req, res) => {
   }
 });
 
+router.get('/mine', auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM centers WHERE owner_id = $1',
+      [req.user.id]
+    );
+    res.json(result.rows[0] || null);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     const center = await Center.findById(req.params.id);
@@ -91,28 +103,3 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
-
-router.delete('/:id/reject', auth, async (req, res) => {
-  try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Admins only' });
-    }
-    await pool.query('DELETE FROM centers WHERE id = $1', [req.params.id]);
-    res.json({ message: 'Center rejected and deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Get center by logged in user
-router.get('/mine', auth, async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT * FROM centers WHERE owner_id = $1',
-      [req.user.id]
-    );
-    res.json(result.rows[0] || null);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
