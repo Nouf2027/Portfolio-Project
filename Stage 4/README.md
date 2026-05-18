@@ -15,7 +15,7 @@
 | Unit Tests — Auth | Must Have | Nouf | May 11 |
 
 ### Sprint 2 (May 12 – May 23)
-| Task | Priority | Assigned To | Deadline |
+| Task | Priority | Assigned To | Deadline | 
 |------|----------|-------------|----------|
 | Booking API | Must Have | Hadeel | May 14 |
 | Booking UI Page | Must Have | Reem | May 16 |
