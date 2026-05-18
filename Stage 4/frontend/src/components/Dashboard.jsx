@@ -3,7 +3,7 @@ import { useState } from "react";
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const role = user.role;
-const [license, setLicense] ;
+
 const [editing, setEditing] = useState(false);
   const [centers, setCenters] = useState([
     {
@@ -172,12 +172,6 @@ return (
                 }
               />
 
-              <input
-                type="file"
-                onChange={(e) =>
-                  setLicense(e.target.files[0])
-                }
-              />
 
               <button type="submit">
                 Submit For Approval
