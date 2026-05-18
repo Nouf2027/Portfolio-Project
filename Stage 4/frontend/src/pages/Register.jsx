@@ -14,7 +14,7 @@ function Register() {
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      alert('Registration successful');
+      window.location.href = '/';
       window.location.href = '/';
     } catch (err) {
       console.log(err);

@@ -23,7 +23,7 @@ function Profile() {
       await API.delete(`/bookings/${id}`);
       setBookings(bookings.filter(b => b.id !== id));
     } catch (err) {
-      alert('Failed to cancel booking');
+      console.log('Failed to cancel booking');
     }
   };
 

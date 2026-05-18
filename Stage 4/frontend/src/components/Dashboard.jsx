@@ -45,7 +45,7 @@ function Dashboard() {
       await API.patch(`/centers/${id}/approve`);
       setCenters(centers.map(c => c.id === id ? { ...c, approved: true } : c));
     } catch (err) {
-      alert("Failed to approve center");
+      console.log("Failed to approve center");
     }
   };
 
@@ -54,14 +54,14 @@ function Dashboard() {
       await API.delete(`/centers/${id}`);
       setCenters(centers.filter(c => c.id !== id));
     } catch (err) {
-      alert("Failed to reject center");
+      console.log("Failed to reject center");
     }
   };
 
   const handleSubmitCenter = async (e) => {
     e.preventDefault();
     if (!centerName || !ownerName || !location || !activities || !tradeNumber) {
-      alert("Please fill all required fields");
+      console.log("Please fill all required fields");
       return;
     }
     try {
@@ -73,7 +73,7 @@ function Dashboard() {
       setCenter(res.data);
       
     } catch (err) {
-      alert("Failed to submit center");
+      console.log("Failed to submit center");
     }
   };
 
