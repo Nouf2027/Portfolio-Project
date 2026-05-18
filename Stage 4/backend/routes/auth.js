@@ -41,9 +41,11 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
     res.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role }, token });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  } 
+  catch (err) {
+  console.log(err);
+  res.status(500).json({ message: err.message });
+}
 });
 
 module.exports = router;

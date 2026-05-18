@@ -1,176 +1,344 @@
-import { useState, useEffect } from 'react';
-import API from '../api/axios';
+import { useState } from "react";
 
 function Dashboard() {
-  const [centers, setCenters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [success, setSuccess] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
-
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const role = user.role;
+const [license, setLicense] = useState(null);
+const [editing, setEditing] = useState(false);
+  const [centers, setCenters] = useState([
+    {
+      id: 1,
+      name: "Almu Center",
+      location: "Riyadh",
+      description: "Programming Courses",
+      approved: false,
+    },
+  ]);
 
-  useEffect(() => {
-    const url = role === 'admin' ? '/centers/all' : '/centers';
-    API.get(url)
-      .then(res => {
-        setCenters(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, [role]);
+  const [center, setCenter] = useState(null);
 
-  const handleApprove = async (id) => {
-    try {
-      await API.patch(`/centers/${id}/approve`);
-      setSuccess('✅ Center approved!');
-      setCenters(centers.map(c => c.id === id ? {...c, approved: true} : c));
-    } catch (err) {
-      console.error(err);
-    }
+  const [centerName, setCenterName] = useState("");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [courses, setCourses] = useState([]);
+  const [courseName, setCourseName] = useState("");
+  const [coursePrice, setCoursePrice] = useState("");
+  const [courseDuration, setCourseDuration] = useState("");
+const newCenter = {
+  id: Date.now(),
+  name: centerName,
+  location,
+  description,
+  approved: false
+};
+  const handleApprove = (id) => {
+    const updatedCenters = centers.map((center) =>
+      center.id === id ? { ...center, approved: true } : center
+    );
+
+    setCenters(updatedCenters);
+
+    const approvedCenter = updatedCenters.find((center) => center.id === id);
+    setCenter(approvedCenter);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await API.delete(`/centers/${id}`);
-      setSuccess('🗑️ Center deleted!');
-      setCenters(centers.filter(c => c.id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleAddCenter = async (e) => {
+  const handleSubmitCenter = (e) => {
     e.preventDefault();
-    try {
-      await API.post('/centers', { name, location, description });
-      setSuccess('🎉 Center added successfully! Waiting for admin approval.');
-      setShowForm(false);
-      setName('');
-      setLocation('');
-      setDescription('');
-      if (role === 'admin') {
-        const res = await API.get('/centers/all');
-        setCenters(res.data);
-      }
-    } catch (err) {
-      console.error(err);
+    <p className="pending-text">
+⏳ Waiting for admin approval
+</p>
+const newCenter = {
+  id: Date.now(),
+  name: centerName,
+  location,
+  description,
+  license: license ? license.name : "No license uploaded",
+  approved: false,
+};
+    if (!centerName || !location || !description) {
+      alert("Please fill all fields");
+      return;
     }
+
+    setCenters([...centers, newCenter]);
+    setCenter(newCenter);
+
+    setCenterName("");
+    setLocation("");
+    setDescription("");
+
+    alert("Center submitted for admin approval");
   };
 
-  if (role === 'admin') {
-    return (
-      <div className="dashboard-page">
-        <h1>🛡️ Admin Dashboard</h1>
-        {success && <p style={{color: 'green', marginBottom: '15px'}}>{success}</p>}
+  const handleAddCourse = (e) => {
+    e.preventDefault();
 
-        <button onClick={() => setShowForm(!showForm)} style={{marginBottom: '20px'}}>
-          ➕ Add New Center
-        </button>
+    if (!courseName || !coursePrice || !courseDuration) {
+      alert("Please fill all course fields");
+      return;
+    }
 
-        {showForm && (
-          <form onSubmit={handleAddCenter} className="form-container" style={{marginBottom: '30px'}}>
-            <input
-              type="text"
-              placeholder="Center Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <button type="submit">Add Center</button>
-          </form>
-        )}
+    const newCourse = {
+      id: Date.now(),
+      name: courseName,
+      price: coursePrice,
+      duration: courseDuration,
+      students: 0,
+    };
 
-        {loading ? <p>Loading...</p> : (
-          <div className="dashboard-cards">
-            {centers.map((center, index) => (
-              <div key={index} className="dashboard-box">
+    setCourses([...courses, newCourse]);
+
+    setCourseName("");
+    setCoursePrice("");
+    setCourseDuration("");
+  };
+return (
+  <div className="dashboard-page">
+
+    {/* Admin Dashboard */}
+    {role === "admin" && (
+      <div>
+        <h1>Admin Dashboard</h1>
+
+        <div className="dashboard-cards">
+
+          {centers
+            .filter((center) => !center.approved)
+            .map((center) => (
+
+              <div key={center.id} className="dashboard-box">
+
                 <h2>{center.name}</h2>
-                <p>{center.location}</p>
+
+                <p>Location: {center.location}</p>
+
                 <p>{center.description}</p>
-                <p style={{color: center.approved ? 'green' : 'orange', fontWeight: 'bold'}}>
-                  {center.approved ? '✅ Approved' : '⏳ Pending'}
-                </p>
-                {!center.approved && (
-                  <button onClick={() => handleApprove(center.id)} style={{marginRight: '10px'}}>
-                    ✅ Approve
-                  </button>
-                )}
-                <button onClick={() => handleDelete(center.id)} style={{background: 'linear-gradient(135deg, #f44336, #d32f2f)'}}>
-                  🗑️ Delete
+
+                <p>Status: Pending</p>
+
+                <button
+                  onClick={() => handleApprove(center.id)}
+                >
+                  Approve
                 </button>
+
               </div>
-            ))}
+
+          ))}
+
+        </div>
+      </div>
+    )}
+
+    {/* Center Dashboard */}
+    {role !== "admin" && (
+      <div>
+
+        <h1>🏫 Center Dashboard</h1>
+
+        {!center && (
+          <div className="pending-box">
+
+            <h2>Submit Center Information</h2>
+
+            <form
+              onSubmit={handleSubmitCenter}
+              className="form-container"
+            >
+
+              <input
+                placeholder="Center Name"
+                value={centerName}
+                onChange={(e) =>
+                  setCenterName(e.target.value)
+                }
+              />
+
+              <input
+                placeholder="Location"
+                value={location}
+                onChange={(e) =>
+                  setLocation(e.target.value)
+                }
+              />
+
+              <textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) =>
+                  setDescription(e.target.value)
+                }
+              />
+
+              <input
+                type="file"
+                onChange={(e) =>
+                  setLicense(e.target.files[0])
+                }
+              />
+
+              <button type="submit">
+                Submit For Approval
+              </button>
+
+            </form>
+
           </div>
         )}
-      </div>
-    );
-  }
 
-  if (role === 'center') {
-    return (
-      <div className="dashboard-page">
-        <h1>🏫 Center Dashboard</h1>
-        {success && <p style={{color: 'green', marginBottom: '15px'}}>{success}</p>}
+        {center && !center.approved && (
+          <div className="pending-box">
 
-        <button onClick={() => setShowForm(!showForm)} style={{marginBottom: '20px'}}>
-          ➕ Add My Center
-        </button>
+            <h2>{center.name}</h2>
+<button
+  onClick={() => setEditing(true)}
+  className="edit-btn"
+>
+  Edit Profile
+</button>
+{editing && (
 
-        {showForm && (
-          <form onSubmit={handleAddCenter} className="form-container" style={{marginBottom: '30px'}}>
-            <input
-              type="text"
-              placeholder="Center Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <button type="submit">Add Center</button>
-          </form>
+  <div className="edit-box">
+
+    <input
+      value={center.name}
+      onChange={(e) =>
+        setCenter({
+          ...center,
+          name: e.target.value
+        })
+      }
+    />
+
+    <input
+      value={center.location}
+      onChange={(e) =>
+        setCenter({
+          ...center,
+          location: e.target.value
+        })
+      }
+    />
+
+    <textarea
+      value={center.description}
+      onChange={(e) =>
+        setCenter({
+          ...center,
+          description: e.target.value
+        })
+      }
+    />
+
+    <button onClick={() => setEditing(false)}>
+      Save Changes
+    </button>
+
+  </div>
+
+)}
+            <p>⏳ Waiting for admin approval</p>
+
+            <p>Location: {center.location}</p>
+
+            <p>{center.description}</p>
+
+          </div>
         )}
 
-        <p style={{color: '#ff6f00', marginTop: '20px'}}>
-          ⚠️ Your center will be visible after admin approval.
-        </p>
-      </div>
-    );
-  }
+        {center && center.approved && (
 
-  return (
-    <div className="dashboard-page">
-      <h1>📊 Dashboard</h1>
-      <p>Please login to view your dashboard.</p>
-    </div>
-  );
+         <div className="status-box">
+
+  <h2>{center.name}</h2>
+
+  <p className="pending-status">
+    ⏳ Waiting for admin approval
+  </p>
+
+  <p>
+    Your request is under review.
+  </p>
+            <h2>Welcome, {center.name}</h2>
+
+            <h3>Add New Course</h3>
+
+            <form
+              onSubmit={handleAddCourse}
+              className="form-container"
+            >
+
+              <input
+                placeholder="Course Name"
+                value={courseName}
+                onChange={(e) =>
+                  setCourseName(e.target.value)
+                }
+              />
+
+              <input
+                placeholder="Price"
+                value={coursePrice}
+                onChange={(e) =>
+                  setCoursePrice(e.target.value)
+                }
+              />
+
+              <input
+                placeholder="Duration"
+                value={courseDuration}
+                onChange={(e) =>
+                  setCourseDuration(e.target.value)
+                }
+              />
+
+              <button type="submit">
+                Add Course
+              </button>
+
+            </form>
+
+            <h3>My Courses</h3>
+
+            {courses.length === 0 ? (
+              <p>No courses added yet.</p>
+            ) : (
+              courses.map((course) => (
+
+                <div
+                  key={course.id}
+                  className="course-card"
+                >
+
+                  <h3>{course.name}</h3>
+
+                  <p>
+                    Price: {course.price} SAR
+                  </p>
+
+                  <p>
+                    Duration: {course.duration}
+                  </p>
+
+                  <p>
+                    Students Joined:
+                    {course.students}
+                  </p>
+
+                </div>
+
+              ))
+            )}
+
+          </div>
+        )}
+
+      </div>
+    )}
+
+  </div>
+)
 }
 
 export default Dashboard;

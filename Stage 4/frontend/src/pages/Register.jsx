@@ -10,14 +10,20 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
-      localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      alert('Registration successful!');
+      alert('Registration successful');
       window.location.href = '/';
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      console.log(err);
+
+      if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else {
+        setError(err.message);
+      }
     }
   };
 

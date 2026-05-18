@@ -64,7 +64,7 @@ const createTables = async () => {
     `);
     console.log("Tables created successfully");
   } catch (err) {
-    console.error("Error creating tables:", err.message);
+    console.error("Error creating tables:", err);
   }
 };
 

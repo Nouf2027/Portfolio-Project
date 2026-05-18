@@ -68,13 +68,21 @@ h1, h2, h3 {
   padding: 6px 16px;
   border-radius: 20px;
   border: 2px solid #ffca28;
+  text-decoration: none;
+  transition: 0.3s;
+
 }
 
 .nav-links a:hover {
   background: #ffca28;
   color: white;
 }
-
+.active-link{
+  background: #ff7a00;
+  color: white;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 6px 12px rgba(255, 122, 0, 0.3);
+}
 /* Hero */
 .hero {
   background: linear-gradient(135deg, #fff9c4, #ffe0b2);
@@ -313,7 +321,49 @@ button:hover {
   font-size: 18px;
   border-radius: 20px;
 }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+    padding-left: 10px;
+}
 
+.logo-text {
+  margin: 0;
+}
+
+.logo-leaf {
+  font-size: 28px;
+  line-height: 1;
+  display: inline-block;
+  transform: translateY(2px);
+}
+.logo:hover .logo-leaf{
+  transform: translateY(-2px);
+  transition: 0.3s;
+}
+.logo-text{
+  display: flex;
+  align-items: center;
+}
+.logo-emoji{
+  display: inline-block;
+  animation: float 2s infinite ease-in-out;
+}
+@keyframes float {
+  0%{
+    transform: translateY(0px);
+  }
+
+  50%{
+    transform: translateY(-5px);
+  }
+
+  100%{
+    transform: translateY(0px);
+  }
+}
 /* Register */
 .register-page {
   display: flex;
@@ -513,4 +563,105 @@ button:hover {
 @keyframes fly {
   0%, 100% { transform: translateX(0px) translateY(0px); }
   50% { transform: translateX(20px) translateY(-10px); }
+}
+/* profile */
+.profile-container{
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.profile-page{
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.profile-card{
+  background: white;
+  border: 3px dashed #e5b94d;
+  border-radius: 30px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.profile-card h1,
+.profile-card h2{
+  margin-bottom: 18px;
+}
+
+.profile-card p{
+  margin: 8px 0;
+  font-size: 18px;
+}
+.profile-info{
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.profile-buttons{
+  display: flex;
+  gap: 12px;
+    margin-top: 20px;
+
+}
+ .profile-info{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+.profile-title{
+  font-size: 42px;
+  color: #ff7a00;
+  margin-bottom: 20px;
+}
+.profile-buttons{
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+/* bookings */
+.bookings-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.booking-card{
+  background: #fff8eb;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  border: 2px solid #ffd27d;
+}
+.empty-bookings{
+  margin-top: 20px;
+  padding: 30px;
+  background: #fff8e8;
+  border: 2px dashed #e5b94d;
+  border-radius: 22px;
+  text-align: center;
+}
+
+.empty-bookings p:first-child{
+  font-size: 24px;
+  font-weight: bold;
+  color: #d9551c;
+}
+
+.empty-bookings a{
+  display: inline-block;
+  margin-top: 12px;
+  background: #e85d1c;
+  color: white;
+  padding: 12px 22px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
 }

@@ -12,29 +12,37 @@ function Booking() {
 
   useEffect(() => {
     setCourses([
-      { id: 2, name: 'دورة الإلقاء', price: '500 ريال' },
-      { id: 3, name: 'دورة القيادة', price: '800 ريال' },
-      { id: 4, name: 'دورة البرمجة', price: '600 ريال' },
-      { id: 5, name: 'دورة الرياضيات', price: '450 ريال' },
+{ id: 2, name: 'دورة الالقاء', price: '500 ريال', duration: '4 weeks' },
+      { id: 3, name: 'دورة القيادة', price: '800 ريال', duration: '6 weeks' },
+      { id: 4, name: 'دورة البرمجة', price: '600 ريال', duration: '8 weeks' },
+      { id: 5, name: 'دورة الرياضيات', price: '450 ريال', duration: '5 weeks' },
     ]);
   }, []);
+  const handleSubmit= async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post('/bookings', { course_id: courseId, date });
-      setSuccess('Booking successful!');
-      setError('');
-    } catch (err) {
-      setError('Booking failed. Please try again.');
-    }
-  };
+  try {
+    await API.post('/bookings', {
+      course_id: courseId,
+      date: date
+    });
+
+    setSuccess('Booking successful!');
+    setError('');
+  } catch (err) {
+    setError('Booking failed. Please try again.');
+  }
+};
+
+
 
   return (
     <div className="booking-page">
       <h1>Book a Center</h1>
+      <p>Please select a course and choose a suitable booking date.</p>
       {error && <p style={{color: 'red'}}>{error}</p>}
       {success && <p style={{color: 'green'}}>{success}</p>}
+{success && <p>The center will receive your booking request.</p>}
       <form className="form-container" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -48,20 +56,22 @@ function Booking() {
           value={parentName}
           onChange={(e) => setParentName(e.target.value)}
         />
+        <label>Select Booking Date</label>
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
+        <label>Available Courses</label>
         <select value={courseId} onChange={(e) => setCourseId(e.target.value)}>
           <option value="">اختاري الكورس</option>
           {courses.map(course => (
             <option key={course.id} value={course.id}>
-              {course.name} - {course.price}
+             {course.name} - {course.price} - {course.duration} 
             </option>
           ))}
         </select>
-        <button type="submit">Book Now</button>
+        <button type="submit">Confirm Booking</button>
       </form>
     </div>
   );
