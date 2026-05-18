@@ -6,7 +6,7 @@
 | Task | Priority | Assigned To | Deadline |
 |------|----------|-------------|----------|
 | Project & GitHub Setup | Must Have | Reem | Apr 29 |
-| Database Setup (PostgreSQL) | Must Have | Hadeel | Apr 30 |
+| Database Setup (PostgreSQL) | Must Have | Hadeel | Apr 30 | 
 | Register & Login API (JWT) | Must Have | Hadeel | May 3 |
 | Login / Register UI | Must Have | Reem | May 3 |
 | Centers Listing API | Must Have | Dalal | May 6 |
