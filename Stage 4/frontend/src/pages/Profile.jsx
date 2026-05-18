@@ -18,10 +18,18 @@ function Profile() {
     }
   }, [role]);
 
+  const handleCancelBooking = async (id) => {
+    try {
+      await API.delete(`/bookings/${id}`);
+      setBookings(bookings.filter(b => b.id !== id));
+    } catch (err) {
+      alert('Failed to cancel booking');
+    }
+  };
+
   return (
     <div className="profile-page">
 
-      {/* بيانات المستخدم - للكل */}
       <div className="profile-card">
         <h1>My Profile</h1>
         <div className="profile-info">
@@ -39,7 +47,6 @@ function Profile() {
         </div>
       </div>
 
-      {/* Parent - حجوزاته */}
       {role === 'parent' && (
         <div className="profile-card bookings-section">
           <div className="bookings-header">
@@ -62,13 +69,18 @@ function Profile() {
                 <p><strong>Days:</strong> {booking.days}</p>
                 <p><strong>Times:</strong> {booking.times}</p>
                 <p className="status">{booking.status}</p>
+                <button 
+                  onClick={() => handleCancelBooking(booking.id)}
+                  style={{backgroundColor:'red', color:'white', border:'none', padding:'8px 16px', borderRadius:'8px', cursor:'pointer', marginTop:'10px'}}
+                >
+                  ❌ Cancel Booking
+                </button>
               </div>
             ))
           )}
         </div>
       )}
 
-      {/* Center - بيانات المركز وحجوزاته */}
       {role === 'center' && (
         <div className="profile-card">
           <h2>🏫 Center Information</h2>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import API from "../api/axios";
 
@@ -24,6 +23,14 @@ function Dashboard() {
       API.get("/centers/all").then(res => setCenters(res.data)).catch(() => {});
       API.get("/courses").then(res => setCourses(res.data)).catch(() => {});
       API.get("/bookings/all").then(res => setBookings(res.data)).catch(() => {});
+    }
+    if (role === "center") {
+      API.get("/centers/mine").then(res => {
+        if (res.data) {
+          setCenter(res.data);
+          API.get(`/courses?center_id=${res.data.id}`).then(r => setCourses(r.data)).catch(() => {});
+        }
+      }).catch(() => {});
     }
   }, [role]);
 
@@ -53,7 +60,6 @@ function Dashboard() {
     }
     try {
       const res = await API.post('/centers', { name: centerName, location, description });
-      setCenters([...centers, res.data]);
       setCenter(res.data);
       setCenterName("");
       setLocation("");
@@ -83,7 +89,6 @@ function Dashboard() {
       {role === "admin" && (
         <div>
           <h1>Admin Dashboard</h1>
-
           <div className="tabs">
             <button className={activeTab === "centers" ? "tab active" : "tab"} onClick={() => setActiveTab("centers")}>🏫 المراكز</button>
             <button className={activeTab === "courses" ? "tab active" : "tab"} onClick={() => setActiveTab("courses")}>📚 الكورسات</button>
@@ -92,9 +97,7 @@ function Dashboard() {
 
           {activeTab === "centers" && (
             <div className="dashboard-cards">
-              {centers.length === 0 ? (
-                <p>لا يوجد مراكز</p>
-              ) : (
+              {centers.length === 0 ? <p>لا يوجد مراكز</p> : (
                 centers.map(c => (
                   <div key={c.id} className="dashboard-box">
                     <h2>{c.name}</h2>
@@ -115,9 +118,7 @@ function Dashboard() {
 
           {activeTab === "courses" && (
             <div className="dashboard-cards">
-              {courses.length === 0 ? (
-                <p>لا يوجد كورسات</p>
-              ) : (
+              {courses.length === 0 ? <p>لا يوجد كورسات</p> : (
                 courses.map(c => (
                   <div key={c.id} className="dashboard-box">
                     <h2>{c.name}</h2>
@@ -131,9 +132,7 @@ function Dashboard() {
 
           {activeTab === "bookings" && (
             <div className="dashboard-cards">
-              {bookings.length === 0 ? (
-                <p>لا يوجد حجوزات</p>
-              ) : (
+              {bookings.length === 0 ? <p>لا يوجد حجوزات</p> : (
                 bookings.map(b => (
                   <div key={b.id} className="dashboard-box">
                     <p>الكورس: {b.course_name}</p>
@@ -148,7 +147,7 @@ function Dashboard() {
         </div>
       )}
 
-      {role !== "admin" && (
+      {role === "center" && (
         <div>
           <h1>🏫 Center Dashboard</h1>
           {!center && (
@@ -183,13 +182,6 @@ function Dashboard() {
           {center && center.approved && (
             <div className="status-box">
               <h2>Welcome, {center.name}</h2>
-              <h3>Add New Course</h3>
-              <form onSubmit={handleAddCourse} className="form-container">
-                <input placeholder="Course Name" value={courseName} onChange={(e) => setCourseName(e.target.value)} />
-                <input placeholder="Price" value={coursePrice} onChange={(e) => setCoursePrice(e.target.value)} />
-                <input placeholder="Duration" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} />
-                <button type="submit">Add Course</button>
-              </form>
               <h3>My Courses</h3>
               {courses.length === 0 ? <p>No courses added yet.</p> : (
                 courses.map(course => (
@@ -197,7 +189,6 @@ function Dashboard() {
                     <h3>{course.name}</h3>
                     <p>Price: {course.price} SAR</p>
                     <p>Duration: {course.duration}</p>
-                    <p>Students Joined: {course.students}</p>
                   </div>
                 ))
               )}

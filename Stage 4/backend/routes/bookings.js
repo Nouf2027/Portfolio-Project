@@ -70,3 +70,13 @@ router.get('/center', authMiddleware, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// Cancel booking
+router.delete('/:id', authMiddleware, async (req, res) => {
+  try {
+    await pool.query('DELETE FROM bookings WHERE id = $1 AND user_id = $2', [req.params.id, req.user.id]);
+    res.json({ message: 'Booking cancelled successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
