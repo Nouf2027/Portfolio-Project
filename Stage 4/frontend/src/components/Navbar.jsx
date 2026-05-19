@@ -13,25 +13,24 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-   <Link to="/" className="logo">
-  <span className="logo-leaf">☘️</span>
-  <h2 className="logo-text">Jeel</h2>
-  <span className="logo-leaf">☘️</span>
-</Link>
+      <Link to="/" className="logo">
+        <span className="logo-leaf">☘️</span>
+        <h2 className="logo-text">Jeel</h2>
+        <span className="logo-leaf">☘️</span>
+      </Link>
       <div className="nav-links">
+        <Link to="/">🏠 Home</Link>
         <Link to="/search">🔍 Search</Link>
-      {role && (
-  <NavLink
-    to="/profile"
-    className={({ isActive }) =>
-      isActive ? "nav-link active-link" : "nav-link"
-    }
-  >
-    🌼 Profile
-  </NavLink>
-)}
-        {(role === 'admin' || role === 'center') && (
-          <Link to="/dashboard">📊 Dashboard</Link>
+        {role && (
+          <NavLink to="/profile" className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}>
+            🌼 Profile
+          </NavLink>
+        )}
+        {role === 'admin' && (
+          <Link to="/dashboard">🛡️ Admin Panel</Link>
+        )}
+        {role === 'center' && (
+          <Link to="/dashboard">🏫 My Center</Link>
         )}
         {!role ? (
           <>

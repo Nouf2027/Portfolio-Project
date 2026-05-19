@@ -3,16 +3,12 @@ const router = express.Router();
 const pool = require('../config/db');
 const authMiddleware = require('../middleware/auth');
 
-// Create booking
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { course_id, date } = req.body;
-    const user_id = req.user.id;
     const result = await pool.query(
-      `INSERT INTO bookings (user_id, course_id, date, status)
-       VALUES ($1, $2, $3, 'pending')
-       RETURNING *`,
-      [user_id, course_id, date]
+      `INSERT INTO bookings (user_id, course_id, date, status) VALUES ($1, $2, $3, 'pending') RETURNING *`,
+      [req.user.id, course_id, date]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -20,13 +16,15 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Get my bookings
 router.get('/me', authMiddleware, async (req, res) => {
   try {
-    const user_id = req.user.id;
     const result = await pool.query(
-      'SELECT * FROM bookings WHERE user_id = $1',
-      [user_id]
+      `SELECT b.*, co.name as course_name, co.price, co.duration, co.days, co.times, ce.name as center_name
+       FROM bookings b
+       JOIN courses co ON b.course_id = co.id
+       JOIN centers ce ON co.center_id = ce.id
+       WHERE b.user_id = $1`,
+      [req.user.id]
     );
     res.json(result.rows);
   } catch (err) {
@@ -34,47 +32,45 @@ router.get('/me', authMiddleware, async (req, res) => {
   }
 });
 
+router.get('/all', authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT b.*, u.email, co.name as course_name, co.price, ce.name as center_name
+       FROM bookings b
+       JOIN users u ON b.user_id = u.id
+       JOIN courses co ON b.course_id = co.id
+       JOIN centers ce ON co.center_id = ce.id`
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get('/center', authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT b.*, u.email, co.name as course_name, ce.name as center_name
+       FROM bookings b
+       JOIN users u ON b.user_id = u.id
+       JOIN courses co ON b.course_id = co.id
+       JOIN centers ce ON co.center_id = ce.id
+       WHERE ce.owner_id = $1`,
+      [req.user.id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.delete('/:id', authMiddleware, async (req, res) => {
+  try {
+    await pool.query('DELETE FROM bookings WHERE id = $1 AND user_id = $2', [req.params.id, req.user.id]);
+    res.json({ message: 'Booking cancelled successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

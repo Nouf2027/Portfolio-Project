@@ -1,24 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API from "../api/axios";
 
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const role = user.role;
-
-const [editing, setEditing] = useState(false);
-  const [centers, setCenters] = useState([
-    {
-      id: 1,
-      name: "Almu Center",
-      location: "Riyadh",
-      description: "Programming Courses",
-      approved: false,
-    },
-  ]);
-
+  const [activeTab, setActiveTab] = useState("centers");
+  const [centers, setCenters] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [center, setCenter] = useState(null);
+  const [centerBookings, setCenterBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // فورم إضافة المركز
   const [centerName, setCenterName] = useState("");
+  const [ownerName, setOwnerName] = useState("");
   const [location, setLocation] = useState("");
+  const [activities, setActivities] = useState("");
+  const [tradeNumber, setTradeNumber] = useState("");
   const [description, setDescription] = useState("");
 
   const [courses, setCourses] = useState([]);
@@ -71,268 +70,167 @@ const newCenter = {
     alert("Center submitted for admin approval");
   };
 
-  const handleAddCourse = (e) => {
+  const handleSubmitCenter = async (e) => {
     e.preventDefault();
-
-    if (!courseName || !coursePrice || !courseDuration) {
-      alert("Please fill all course fields");
+    if (!centerName || !ownerName || !location || !activities || !tradeNumber) {
+      console.log("Please fill all required fields");
       return;
     }
-
-    const newCourse = {
-      id: Date.now(),
-      name: courseName,
-      price: coursePrice,
-      duration: courseDuration,
-      students: 0,
-    };
-
-    setCourses([...courses, newCourse]);
-
-    setCourseName("");
-    setCoursePrice("");
-    setCourseDuration("");
+    try {
+      const res = await API.post('/centers', {
+        name: centerName,
+        location,
+        description: `المالك: ${ownerName} | الأنشطة: ${activities} | السجل التجاري: ${tradeNumber}`
+      });
+      setCenter(res.data);
+      
+    } catch (err) {
+      console.log("Failed to submit center");
+    }
   };
-return (
-  <div className="dashboard-page">
 
-    {/* Admin Dashboard */}
-    {role === "admin" && (
-      <div>
-        <h1>Admin Dashboard</h1>
+  if (loading) return <div className="loader"></div>;
 
-        <div className="dashboard-cards">
+  return (
+    <div className="dashboard-page">
 
-          {centers
-            .filter((center) => !center.approved)
-            .map((center) => (
+      {role === "admin" && (
+        <div>
+          <h1>Admin Dashboard</h1>
+          <div className="tabs">
+            <button className={activeTab === "centers" ? "tab active" : "tab"} onClick={() => setActiveTab("centers")}>🏫 المراكز</button>
+            <button className={activeTab === "courses" ? "tab active" : "tab"} onClick={() => setActiveTab("courses")}>📚 الكورسات</button>
+            <button className={activeTab === "bookings" ? "tab active" : "tab"} onClick={() => setActiveTab("bookings")}>📅 الحجوزات</button>
+          </div>
 
-              <div key={center.id} className="dashboard-box">
+          {activeTab === "centers" && (
+            <div className="dashboard-cards">
+              {centers.length === 0 ? <p>لا يوجد مراكز</p> : (
+                centers.map(c => (
+                  <div key={c.id} className="dashboard-box">
+                    <h2>{c.name}</h2>
+                    <p>📍 {c.location}</p>
+                    <p>{c.description}</p>
+                    <p>Status: {c.approved ? "Approved ✅" : "Pending ⏳"}</p>
+                    {!c.approved && (
+                      <div style={{display:'flex', gap:'10px', marginTop:'10px'}}>
+                        <button onClick={() => handleApprove(c.id)}>Approve ✅</button>
+                        <button onClick={() => handleReject(c.id)} style={{backgroundColor:'red', color:'white', border:'none', padding:'8px 16px', borderRadius:'8px', cursor:'pointer'}}>Reject ❌</button>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          )}
 
+          {activeTab === "courses" && (
+            <div className="dashboard-cards">
+              {centers.filter(c => c.approved).map(center => (
+                <div key={center.id} style={{width:'100%', marginBottom:'20px'}}>
+                  <h2 style={{color:'#e65100', marginBottom:'10px'}}>🏫 {center.name}</h2>
+                  <div className="dashboard-cards">
+                    {courses.filter(co => co.center_id === center.id).length === 0 ? (
+                      <p>لا يوجد كورسات لهذا المركز</p>
+                    ) : (
+                      courses.filter(co => co.center_id === center.id).map(c => (
+                        <div key={c.id} className="dashboard-box">
+                          <h3>{c.name}</h3>
+                          <p>السعر: {c.price} SAR</p>
+                          <p>المدة: {c.duration}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "bookings" && (
+            <div className="dashboard-cards">
+              {bookings.length === 0 ? <p>لا يوجد حجوزات</p> : (
+                bookings.map(b => (
+                  <div key={b.id} className="dashboard-box">
+                    <p><strong>المركز:</strong> {b.center_name}</p>
+                    <p><strong>الكورس:</strong> {b.course_name}</p>
+                    <p><strong>المستخدم:</strong> {b.email}</p>
+                    <p><strong>التاريخ:</strong> {new Date(b.date).toLocaleDateString()}</p>
+                    <p><strong>الحالة:</strong> {b.status}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {role === "center" && (
+        <div>
+          <h1>🏫 My Center</h1>
+          {!center ? (
+            <div className="pending-box">
+              <h2>Submit Center Information</h2>
+              <form onSubmit={handleSubmitCenter} className="form-container">
+                <input placeholder="اسم المركز *" value={centerName} onChange={(e) => setCenterName(e.target.value)} required />
+                <input placeholder="اسم المالك *" value={ownerName} onChange={(e) => setOwnerName(e.target.value)} required />
+                <input placeholder="الموقع *" value={location} onChange={(e) => setLocation(e.target.value)} required />
+                <input placeholder="نوع الأنشطة *" value={activities} onChange={(e) => setActivities(e.target.value)} required />
+                <input placeholder="رقم السجل التجاري *" value={tradeNumber} onChange={(e) => setTradeNumber(e.target.value)} required />
+                <textarea placeholder="وصف المركز" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <label>رخصة المركز (ملف)</label>
+                <input type="file" onChange={(e) => setLicense(e.target.files[0])} />
+                <button type="submit">Submit For Approval 🙏</button>
+              </form>
+            </div>
+          ) : !center.approved ? (
+            <div className="pending-box">
+              <h2>{center.name}</h2>
+              <p>⏳ طلبك قيد المراجعة من الأدمن</p>
+              <p>📍 {center.location}</p>
+              <p>{center.description}</p>
+            </div>
+          ) : (
+            <div>
+              <div className="dashboard-box" style={{marginBottom:'20px'}}>
                 <h2>{center.name}</h2>
-
-                <p>Location: {center.location}</p>
-
+                <p>📍 {center.location}</p>
                 <p>{center.description}</p>
-
-                <p>Status: Pending</p>
-
-                <button
-                  onClick={() => handleApprove(center.id)}
-                >
-                  Approve
-                </button>
-
+                <p>Status: Approved ✅</p>
               </div>
 
-          ))}
+              <h3>📚 My Courses</h3>
+              <div className="dashboard-cards">
+                {courses.length === 0 ? <p>No courses yet.</p> : (
+                  courses.map(course => (
+                    <div key={course.id} className="dashboard-box">
+                      <h3>{course.name}</h3>
+                      <p>Price: {course.price} SAR</p>
+                      <p>Duration: {course.duration}</p>
+                    </div>
+                  ))
+                )}
+              </div>
 
+              <h3 style={{marginTop:'20px'}}>📅 Center Bookings</h3>
+              <div className="dashboard-cards">
+                {centerBookings.length === 0 ? <p>No bookings yet.</p> : (
+                  centerBookings.map(b => (
+                    <div key={b.id} className="dashboard-box">
+                      <p><strong>الكورس:</strong> {b.course_name}</p>
+                      <p><strong>الطالب:</strong> {b.email}</p>
+                      <p><strong>التاريخ:</strong> {new Date(b.date).toLocaleDateString()}</p>
+                      <p><strong>الحالة:</strong> {b.status}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-    )}
-
-    {/* Center Dashboard */}
-    {role !== "admin" && (
-      <div>
-
-        <h1>🏫 Center Dashboard</h1>
-
-        {!center && (
-          <div className="pending-box">
-
-            <h2>Submit Center Information</h2>
-
-            <form
-              onSubmit={handleSubmitCenter}
-              className="form-container"
-            >
-
-              <input
-                placeholder="Center Name"
-                value={centerName}
-                onChange={(e) =>
-                  setCenterName(e.target.value)
-                }
-              />
-
-              <input
-                placeholder="Location"
-                value={location}
-                onChange={(e) =>
-                  setLocation(e.target.value)
-                }
-              />
-
-              <textarea
-                placeholder="Description"
-                value={description}
-                onChange={(e) =>
-                  setDescription(e.target.value)
-                }
-              />
-
-
-              <button type="submit">
-                Submit For Approval
-              </button>
-
-            </form>
-
-          </div>
-        )}
-
-        {center && !center.approved && (
-          <div className="pending-box">
-
-            <h2>{center.name}</h2>
-<button
-  onClick={() => setEditing(true)}
-  className="edit-btn"
->
-  Edit Profile
-</button>
-{editing && (
-
-  <div className="edit-box">
-
-    <input
-      value={center.name}
-      onChange={(e) =>
-        setCenter({
-          ...center,
-          name: e.target.value
-        })
-      }
-    />
-
-    <input
-      value={center.location}
-      onChange={(e) =>
-        setCenter({
-          ...center,
-          location: e.target.value
-        })
-      }
-    />
-
-    <textarea
-      value={center.description}
-      onChange={(e) =>
-        setCenter({
-          ...center,
-          description: e.target.value
-        })
-      }
-    />
-
-    <button onClick={() => setEditing(false)}>
-      Save Changes
-    </button>
-
-  </div>
-
-)}
-            <p>⏳ Waiting for admin approval</p>
-
-            <p>Location: {center.location}</p>
-
-            <p>{center.description}</p>
-
-          </div>
-        )}
-
-        {center && center.approved && (
-
-         <div className="status-box">
-
-  <h2>{center.name}</h2>
-
-  <p className="pending-status">
-    ⏳ Waiting for admin approval
-  </p>
-
-  <p>
-    Your request is under review.
-  </p>
-            <h2>Welcome, {center.name}</h2>
-
-            <h3>Add New Course</h3>
-
-            <form
-              onSubmit={handleAddCourse}
-              className="form-container"
-            >
-
-              <input
-                placeholder="Course Name"
-                value={courseName}
-                onChange={(e) =>
-                  setCourseName(e.target.value)
-                }
-              />
-
-              <input
-                placeholder="Price"
-                value={coursePrice}
-                onChange={(e) =>
-                  setCoursePrice(e.target.value)
-                }
-              />
-
-              <input
-                placeholder="Duration"
-                value={courseDuration}
-                onChange={(e) =>
-                  setCourseDuration(e.target.value)
-                }
-              />
-
-              <button type="submit">
-                Add Course
-              </button>
-
-            </form>
-
-            <h3>My Courses</h3>
-
-            {courses.length === 0 ? (
-              <p>No courses added yet.</p>
-            ) : (
-              courses.map((course) => (
-
-                <div
-                  key={course.id}
-                  className="course-card"
-                >
-
-                  <h3>{course.name}</h3>
-
-                  <p>
-                    Price: {course.price} SAR
-                  </p>
-
-                  <p>
-                    Duration: {course.duration}
-                  </p>
-
-                  <p>
-                    Students Joined:
-                    {course.students}
-                  </p>
-
-                </div>
-
-              ))
-            )}
-
-          </div>
-        )}
-
-      </div>
-    )}
-
-  </div>
-)
+      )}
+    </div>
+  );
 }
 
 export default Dashboard;

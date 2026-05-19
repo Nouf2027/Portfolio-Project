@@ -14,7 +14,7 @@ function Register() {
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      alert('Registration successful');
+      window.location.href = '/';
       window.location.href = '/';
     } catch (err) {
       console.log(err);
@@ -54,7 +54,6 @@ function Register() {
           <option value="">Select Account Type</option>
           <option value="parent">Parent</option>
           <option value="center">Center</option>
-          <option value="admin">Admin</option>
         </select>
         <button type="submit">Register</button>
       </form>
