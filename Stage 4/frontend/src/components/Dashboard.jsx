@@ -20,7 +20,6 @@ function Dashboard() {
   const [tradeNumber, setTradeNumber] = useState("");
   const [description, setDescription] = useState("");
 
-  const [courses, setCourses] = useState([]);
   const [courseName, setCourseName] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [courseDuration, setCourseDuration] = useState("");
