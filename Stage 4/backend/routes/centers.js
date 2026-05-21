@@ -40,11 +40,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   try {
-    const { name, location, description } = req.body;
+    const { name, location, description, latitude, longitude } = req.body;
     if (!name || !location || !description) {
       return res.status(400).json({ message: 'Name, location, and description are required' });
     }
-    const center = await Center.create({ name, location, description });
+    const center = await Center.create({ name, location, description , latitude, longitude});
     res.status(201).json(center);
   } catch (err) {
     res.status(500).json({ message: err.message });
