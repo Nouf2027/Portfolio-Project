@@ -18,7 +18,8 @@ class Review {
       `SELECT r.*, u.name as user_name 
        FROM reviews r
        JOIN users u ON r.user_id = u.id
-       WHERE r.centre_id = $1`,
+       WHERE r.centre_id = $1 
+       ORDER BY r.created_at DESC`,
       [centre_id]
     );
     return result.rows;
