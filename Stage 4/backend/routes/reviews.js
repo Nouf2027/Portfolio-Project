@@ -7,7 +7,7 @@ router.get('/center/:centre_id', async (req, res) => {
   try {
     const reviews = await Review.findByCenterId(req.params.centre_id);
     const average = await Review.getAverageRating(req.params.centre_id);
-    res.json({ reviews, average_rating: average });
+    res.json({ reviews, average_rating: Number(average) });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
