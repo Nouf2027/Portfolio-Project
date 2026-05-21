@@ -30,7 +30,7 @@ class Review {
       'SELECT AVG(rating) as avg_rating FROM reviews WHERE centre_id = $1',
       [centre_id]
     );
-    return result.rows[0].avg_rating;
+    return result.rows[0].avg_rating || 0;
   }
 }
 
