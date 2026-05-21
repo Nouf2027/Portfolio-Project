@@ -36,6 +36,8 @@ const createTables = async () => {
         approved BOOLEAN DEFAULT FALSE,
         owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         license VARCHAR(255),
+		latitude DECIMAL(9,6),
+		longitude DECIMAL(9,6),
 	created_at TIMESTAMP DEFAULT NOW()
       );
       CREATE TABLE IF NOT EXISTS courses (
