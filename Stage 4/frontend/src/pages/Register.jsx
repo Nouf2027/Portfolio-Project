@@ -10,7 +10,25 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (password.length < 8) {
+  alert("Password must be at least 8 characters");
+  return;
+}
 
+if (!/[A-Z]/.test(password)) {
+  alert("Password must contain at least one uppercase letter");
+  return;
+}
+
+if (!/[0-9]/.test(password)) {
+  alert("Password must contain at least one number");
+  return;
+}
+
+if (!/[!@#$%^&*]/.test(password)) {
+  alert("Password must contain at least one special character");
+  return;
+}
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
       localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -45,11 +63,14 @@ function Register() {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          
+  type="password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  minLength={8}
+  required
+/>
+        
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="">Select Account Type</option>
           <option value="parent">Parent</option>
