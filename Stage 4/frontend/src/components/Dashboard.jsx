@@ -69,24 +69,6 @@ const newCenter = {
     alert("Center submitted for admin approval");
   };
 
-  const handleSubmitCenter = async (e) => {
-    e.preventDefault();
-    if (!centerName || !ownerName || !location || !activities || !tradeNumber) {
-      console.log("Please fill all required fields");
-      return;
-    }
-    try {
-      const res = await API.post('/centers', {
-        name: centerName,
-        location,
-        description: `المالك: ${ownerName} | الأنشطة: ${activities} | السجل التجاري: ${tradeNumber}`
-      });
-      setCenter(res.data);
-      
-    } catch (err) {
-      console.log("Failed to submit center");
-    }
-  };
 
   if (loading) return <div className="loader"></div>;
 
