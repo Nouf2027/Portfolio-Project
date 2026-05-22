@@ -18,7 +18,6 @@ const Footer = () => {
           <h3 style={styles.title}>Quick Links</h3>
 
           <ul style={styles.list}>
-
             <li>
               <a href="/home" style={styles.link}>
                 Home
@@ -36,7 +35,6 @@ const Footer = () => {
                 Privacy Policy
               </a>
             </li>
-
           </ul>
         </div>
 
@@ -102,10 +100,11 @@ const Footer = () => {
 
 const styles = {
   footer: {
-    backgroundColor: "#fffaf0",
-    marginTop: "10px",
-    padding: "15px 20px 5px",
-    borderTop: "1px solid #fde68a",
+    backgroundColor: "rgba(255,255,255,0.7)",
+    backdropFilter: "blur(10px)",
+    marginTop: "20px",
+    padding: "20px 25px 10px",
+    borderTop: "1px solid #d6e6f5",
   },
 
   container: {
@@ -113,19 +112,19 @@ const styles = {
     margin: "0 auto",
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-    gap: "15px",
+    gap: "20px",
   },
 
   title: {
-    marginBottom: "8px",
+    marginBottom: "10px",
     fontSize: "16px",
-    color: "#f97316",
+    color: "#3b5b7a",
     fontWeight: "500",
   },
 
   text: {
     color: "#64748b",
-    lineHeight: "1.5",
+    lineHeight: "1.6",
     fontWeight: "300",
     fontSize: "13px",
   },
@@ -133,7 +132,7 @@ const styles = {
   list: {
     listStyle: "none",
     padding: 0,
-    lineHeight: "1.6",
+    lineHeight: "1.8",
     color: "#64748b",
     fontWeight: "300",
     fontSize: "13px",
@@ -143,23 +142,25 @@ const styles = {
     display: "flex",
     gap: "14px",
     fontSize: "20px",
-    marginTop: "5px",
+    marginTop: "8px",
   },
 
   iconLink: {
-    color: "#f97316",
+    color: "#3b5b7a",
     textDecoration: "none",
+    transition: "0.3s ease",
   },
 
   link: {
     textDecoration: "none",
     color: "#64748b",
+    transition: "0.3s ease",
   },
 
   bottom: {
-    borderTop: "1px solid #fde68a",
-    marginTop: "10px",
-    paddingTop: "5px",
+    borderTop: "1px solid #d6e6f5",
+    marginTop: "15px",
+    paddingTop: "10px",
     textAlign: "center",
     color: "#94a3b8",
     fontSize: "11px",

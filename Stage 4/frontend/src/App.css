@@ -6,18 +6,19 @@
 }
 
 body {
-  background-color: #fffde7;
   font-family: 'Poppins', sans-serif;
-  background-image:
-    radial-gradient(circle, #ffeb3b33 2px, transparent 2px),
-    radial-gradient(circle, #ff980033 2px, transparent 2px);
-  background-size: 40px 40px;
-  background-position: 0 0, 20px 20px;
+
+  background: linear-gradient(
+    135deg,
+    #eef7ff 0%,
+    #f5fbff 45%,
+    #ffffff 100%
+  );
 }
 
 h1, h2, h3 {
   font-family: 'Poppins', sans-serif;
-  color: #ff6f00;
+  color: #3b5b7a; 
 }
 
 /* Logo */
@@ -30,7 +31,7 @@ h1, h2, h3 {
 .logo-text {
   font-family: 'Poppins', sans-serif;
   font-size: 48px;
-  color: #ff6f00;
+  color: #3b5b7a;
   text-shadow: 4px 4px 0px #ffe082, -2px -2px 0px #ffca28;
   letter-spacing: 5px;
   transform: rotate(-3deg);
@@ -70,7 +71,7 @@ h1, h2, h3 {
 .nav-links a {
   text-decoration: none;
 
-  color: #f57c00;
+  color: #3b5b7a;
 
   font-weight: 400;
   font-size: 15px;
@@ -90,11 +91,18 @@ h1, h2, h3 {
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, #fff9c4, #ffe0b2);
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.75),
+    rgba(240,248,255,0.85)
+  );
+
   padding: 80px 40px;
   border-radius: 30px;
   margin: 30px;
-  border: 3px dashed #ffca28;
+
+  border: 2px solid #d6e6f5;
+
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -304,7 +312,7 @@ button:hover {
 .login-form h2 {
   text-align: center;
   font-family: 'Poppins', sans-serif;
-  color: #ff6f00;
+  color: #3b5b7a;
   font-size: 32px;
 }
 
@@ -350,7 +358,7 @@ button:hover {
 .register-form h2 {
   text-align: center;
   font-family: 'Poppins', sans-serif;
-  color: #ff6f00;
+  color: #3b5b7a;
   font-size: 32px;
 }
 
@@ -405,7 +413,7 @@ button:hover {
 
 .booking-page h1 {
   font-family: 'Poppins', sans-serif;
-  color: #ff6f00;
+  color: #3b5b7a;
   font-size: 36px;
   margin-bottom: 20px;
 }
@@ -457,7 +465,7 @@ button:hover {
 
 .details-card h1 {
   font-family: 'Poppins', sans-serif;
-  color: #ff6f00;
+  color: #3b5b7a;
   font-size: 32px;
   margin: 15px 0;
 }
@@ -470,7 +478,7 @@ button:hover {
 
 .reviews-section h2, .reviews-section h3 {
   font-family: 'Poppins', sans-serif;
-  color: #ff6f00;
+  color: #3b5b7a;
   margin-bottom: 15px;
 }
 
@@ -516,7 +524,7 @@ button:hover {
   width: 50px;
   height: 50px;
   border: 5px solid #ffe082;
-  border-top: 5px solid #ff6f00;
+  border-top: 5px solid #3b5b7a;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 40px auto;
