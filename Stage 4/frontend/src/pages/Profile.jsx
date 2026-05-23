@@ -8,6 +8,7 @@ function Profile() {
   const [bookings, setBookings] = useState([]);
   const [centerData, setCenterData] = useState(null);
   const [centerBookings, setCenterBookings] = useState([]);
+  const [centerCourses, setCenterCourses] = useState([]);
   const [users, setUsers] = useState([]);
   const [centers, setCenters] = useState([]);
 
@@ -16,7 +17,12 @@ function Profile() {
       API.get("/bookings/me").then(res => setBookings(res.data)).catch(() => {});
     }
     if (role === "center") {
-      API.get("/centers/mine").then(res => setCenterData(res.data)).catch(() => {});
+      API.get("/centers/mine").then(res => {
+        setCenterData(res.data);
+        if (res.data?.id) {
+          API.get(`/centers/${res.data.id}/courses`).then(r => setCenterCourses(r.data)).catch(() => {});
+        }
+      }).catch(() => {});
       API.get("/bookings/center").then(res => setCenterBookings(res.data)).catch(() => {});
     }
     if (role === "admin") {
@@ -49,6 +55,7 @@ function Profile() {
       </section>
 
       <section className="clean-profile-grid">
+
         <div className="clean-card">
           <h2>👤 My Profile</h2>
           <p><strong>Name:</strong> {user?.name}</p>
@@ -71,15 +78,13 @@ function Profile() {
             ) : (
               <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px', marginTop: '10px'}}>
                 {bookings.map((booking) => (
-                  <div className="booking-card" key={booking.id} style={{background: '#f8faff', borderRadius: '16px', padding: '16px', border: '1px solid #d6e6f5'}}>
+                  <div key={booking.id} style={{background: '#f8faff', borderRadius: '16px', padding: '16px', border: '1px solid #d6e6f5'}}>
                     <h3 style={{color: '#3b5b7a', marginBottom: '8px'}}>{booking.course_name}</h3>
                     <p>🏫 <strong>Center:</strong> {booking.center_name}</p>
                     <p>📅 <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
                     <p>🔄 <strong>Status:</strong> {booking.status}</p>
-                    <button
-                      onClick={() => handleCancelBooking(booking.id)}
-                      style={{marginTop: '10px', background: '#ff4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '10px', cursor: 'pointer', width: '100%'}}
-                    >
+                    <button onClick={() => handleCancelBooking(booking.id)}
+                      style={{marginTop: '10px', background: '#ff4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '10px', cursor: 'pointer', width: '100%'}}>
                       ❌ Cancel Booking
                     </button>
                   </div>
@@ -92,20 +97,21 @@ function Profile() {
         {role === "center" && (
           <>
             {centerBookings.length > 0 && (
-              <div style={{background: '#fff3e0', padding: '12px 20px', borderRadius: '12px', border: '2px solid #ffb74d', marginBottom: '10px', gridColumn: 'span 3'}}>
+              <div style={{background: '#fff3e0', padding: '12px 20px', borderRadius: '12px', border: '2px solid #ffb74d', gridColumn: 'span 3', marginBottom: '10px'}}>
                 🔔 <strong>You have {centerBookings.length} new booking(s)!</strong>
               </div>
             )}
+
             <div className="clean-card">
-              <h2>🏫 Center Profile</h2>
+              <h2>🏫 Center Info</h2>
               {centerData ? (
                 <>
-                  <p><strong>Center Name:</strong> {centerData.name}</p>
+                  <p><strong>Name:</strong> {centerData.name}</p>
                   <p><strong>Location:</strong> {centerData.location}</p>
                   <p><strong>Description:</strong> {centerData.description}</p>
                   <p>
                     <strong>Status:</strong>{" "}
-                    <span className={centerData.approved ? "approved-status" : "pending-status"}>
+                    <span style={{color: centerData.approved ? 'green' : 'orange'}}>
                       {centerData.approved ? "Approved ✅" : "Pending Approval ⏳"}
                     </span>
                   </p>
@@ -114,8 +120,28 @@ function Profile() {
               ) : (
                 <div className="empty-box">
                   <h3>No center registered yet</h3>
-                  <p>Register your center to start adding courses.</p>
                   <a href="/dashboard">Register your center</a>
+                </div>
+              )}
+            </div>
+
+            <div className="clean-card">
+              <h2>📚 My Courses</h2>
+              {centerCourses.length === 0 ? (
+                <div className="empty-box">
+                  <h3>No courses yet</h3>
+                  <a href="/dashboard">Add courses</a>
+                </div>
+              ) : (
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px', marginTop: '10px'}}>
+                  {centerCourses.map(course => (
+                    <div key={course.id} style={{background: '#f8faff', borderRadius: '16px', padding: '16px', border: '1px solid #d6e6f5'}}>
+                      <h3 style={{color: '#3b5b7a'}}>{course.title || course.name}</h3>
+                      <p>💰 {course.price} SAR</p>
+                      <p>⏱️ {course.duration}</p>
+                      <p>📅 {course.days}</p>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -125,15 +151,15 @@ function Profile() {
               {centerBookings.length === 0 ? (
                 <div className="empty-box">
                   <h3>No bookings yet</h3>
-                  <p>Bookings will appear here when parents book your courses.</p>
                 </div>
               ) : (
                 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '12px', marginTop: '10px'}}>
                   {centerBookings.map((booking) => (
-                    <div className="booking-card" key={booking.id} style={{background: '#f8faff', borderRadius: '16px', padding: '16px', border: '1px solid #d6e6f5'}}>
+                    <div key={booking.id} style={{background: '#f8faff', borderRadius: '16px', padding: '16px', border: '1px solid #d6e6f5'}}>
                       <h3 style={{color: '#3b5b7a'}}>{booking.course_name}</h3>
                       <p>👤 <strong>Student:</strong> {booking.email}</p>
                       <p>📅 <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
+                      <p>🔄 <strong>Status:</strong> {booking.status}</p>
                     </div>
                   ))}
                 </div>
@@ -153,12 +179,13 @@ function Profile() {
               <h1>{centers.length}</h1>
             </div>
             <div className="clean-card stat-card">
-              <h2>⏳ Pending Centers</h2>
-              <h1>{centers.filter(center => !center.approved).length}</h1>
+              <h2>⏳ Pending</h2>
+              <h1>{centers.filter(c => !c.approved).length}</h1>
               <a className="main-link" href="/dashboard">Admin Dashboard</a>
             </div>
           </>
         )}
+
       </section>
     </div>
   );
