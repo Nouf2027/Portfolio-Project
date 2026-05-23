@@ -13,6 +13,8 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [courseSuccess, setCourseSuccess] = useState("");
   const [centerSuccess, setCenterSuccess] = useState("");
+const [courseDate, setCourseDate] = useState("");
+const [license, setLicense] = useState("");
 
   const [centerName, setCenterName] = useState("");
   const [ownerName, setOwnerName] = useState("");
