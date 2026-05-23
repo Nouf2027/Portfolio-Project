@@ -12,6 +12,7 @@ function Dashboard() {
   const [centerBookings, setCenterBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [license, setLicense] = useState(null);
+  const [courseSuccess, setCourseSuccess] = useState("");
 
   const [centerName, setCenterName] = useState("");
   const [ownerName, setOwnerName] = useState("");
@@ -101,9 +102,9 @@ function Dashboard() {
     e.preventDefault();
     try {
       const res = await API.post("/courses", {
-        title: courseName,
+        name: courseName,
+        description: courseType,
         instructor: courseInstructor,
-        type: courseType,
         times: courseTime,
         days: courseDays,
         duration: courseDuration,
@@ -120,7 +121,8 @@ function Dashboard() {
       setCourseDuration("");
       setCourseDays("");
       setShowCourseForm(false);
-      alert("Course added successfully ✅");
+      setCourseSuccess("✅ تمت إضافة الكورس بنجاح! يمكن للأهل حجزه الآن.");
+      setTimeout(() => setCourseSuccess(""), 4000);
     } catch (err) {
       alert("Failed to add course.");
     }
@@ -220,6 +222,12 @@ function Dashboard() {
                 </button>
               </div>
 
+              {courseSuccess && (
+                <div style={{background:'#e8f5e9', color:'#2e7d32', padding:'14px 20px', borderRadius:'12px', marginBottom:'16px', border:'2px solid #a5d6a7', fontSize:'16px', fontWeight:'600'}}>
+                  {courseSuccess}
+                </div>
+              )}
+
               {showCourseForm && (
                 <form onSubmit={handleAddCourse} className="form-container" style={{marginBottom:'20px', background:'#f8faff', padding:'20px', borderRadius:'16px', border:'1px solid #d6e6f5'}}>
                   <h3 style={{color:'#3b5b7a', marginBottom:'15px'}}>📚 Add New Course</h3>
@@ -238,9 +246,9 @@ function Dashboard() {
                 {courses.length === 0 ? <p>No courses yet.</p> : (
                   courses.map(course => (
                     <div key={course.id} className="dashboard-box">
-                      <h3>{course.title || course.name}</h3>
+                      <h3>{course.name}</h3>
                       <p>👨‍🏫 {course.instructor}</p>
-                      <p>🎯 {course.type}</p>
+                      <p>🎯 {course.description}</p>
                       <p>🕐 {course.times}</p>
                       <p>📅 {course.days}</p>
                       <p>⏱️ {course.duration}</p>
