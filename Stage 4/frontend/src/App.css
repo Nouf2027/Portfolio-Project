@@ -38,39 +38,64 @@ h1, h2, h3 {
 
 /* Navbar */
 .navbar {
+  height: 78px;
+  background: rgba(28, 18, 10, 0.96);
+  backdrop-filter: blur(12px);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 18px 40px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
+  justify-content: space-between;
+  padding: 0 65px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 25px rgba(80, 40, 10, 0.18);
+}
+
+.navbar.hide {
+  transform: translateY(-100%);
+}
+
+.navbar.show {
+  transform: translateY(0);
+}
+
+.brand {
+  color: #f6b35b;
+  text-decoration: none;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
 
 .nav-links {
   display: flex;
-  gap: 18px;
   align-items: center;
+  gap: 28px;
 }
 
-.nav-links a {
+.nav-links a,
+.logout-btn {
+  color: #f6c27a !important;
   text-decoration: none;
-  color: #3b5b7a;
-  font-weight: 400;
-  font-size: 15px;
-  padding: 8px 14px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: 700;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-.nav-links a:hover {
-  background: #fff3e0;
-  transform: translateY(-2px);
+.nav-links a:hover,
+.logout-btn:hover {
+  color: #fff0d0 !important;
 }
 
+.nav-btn {
+  background: #f6b35b !important;
+  color: #1b120b !important;
+  padding: 10px 22px !important;
+  border-radius: 24px !important;
+}
 /* Hero */
 .hero {
   background: linear-gradient(
@@ -801,4 +826,27 @@ button:hover,
 
 .logo-emoji {
   font-size: 30px;
+}
+.profile-page {
+  padding: 20px;
+}
+
+.profile-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin-top: 20px;
+}
+
+.profile-card h2 {
+  margin-bottom: 15px;
+}
+
+.profile-card p {
+  margin: 10px 0;
+}
+
+.profile-hero {
+  display: none;
 }
