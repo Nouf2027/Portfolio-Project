@@ -20,7 +20,8 @@ function Dashboard() {
   const [tradeNumber, setTradeNumber] = useState("");
   const [description, setDescription] = useState("");
 const [image, setImage] = useState("");
-  
+  const [centerImage, setCenterImage] = useState(null);
+
   const [courseName, setCourseName] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [courseDuration, setCourseDuration] = useState("");
@@ -77,6 +78,7 @@ const newCenter = {
   description,
   license: license ? license.name : "No license uploaded",
   approved: false,
+  image: centerImage ? URL.createObjectURL(centerImage) : "",
 };
     if (!centerName || !location || !description) {
       alert("Please fill all fields");
@@ -193,6 +195,11 @@ const newCenter = {
   placeholder="Center Image URL"
   value={image}
   onChange={(e) => setImage(e.target.value)}
+  
+/>
+<input
+  type="file"
+  onChange={(e) => setCenterImage(e.target.files[0])}
 />
                 <label>رخصة المركز (ملف)</label>
                 <input type="file" onChange={(e) => setLicense(e.target.files[0])} />

@@ -1,40 +1,42 @@
-import { useState, useEffect } from "react";
-import CenterCard from "../components/CenterCard";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../api/axios";
-import Loading from "../components/Loading";
 
 function Home() {
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState("");
   const [centers, setCenters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
-  const [selectedCenter, setSelectedCenter] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const categories = ["All", "Art", "Programming", "Language", "Science", "Robotics"];
 
-  const submitReview = async () => {
-    try {
-      await API.post("/reviews", {
-        centre_id: selectedCenter.id,
-        rating,
-        comment,
-      });
+  useEffect(() => {
+    const fetchCenters = async () => {
+      try {
+        const res = await API.get("/centers");
 
-      alert("Review submitted successfully");
-      setRating(5);
-      setComment("");
-    } catch (err) {
-      console.log(err);
-      alert("Please login before submitting a review");
-    }
-  };
+        const approvedCenters = res.data.filter(
+          (center) => center.approved === true
+        );
+
+        setCenters(approvedCenters);
+      } catch (err) {
+        console.log("Failed to load centers", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCenters();
+  }, []);
 
   const filteredCenters = centers.filter((center) => {
-    const matchesSearch = center.name
-      ?.toLowerCase()
-      .includes(searchText.toLowerCase());
+    const text = searchText.toLowerCase();
+
+    const matchesSearch =
+      center.name?.toLowerCase().includes(text) ||
+      center.location?.toLowerCase().includes(text) ||
+      center.description?.toLowerCase().includes(text);
 
     const matchesCategory =
       selectedCategory === "All" || center.category === selectedCategory;
@@ -42,119 +44,128 @@ function Home() {
     return matchesSearch && matchesCategory;
   });
 
-  useEffect(() => {
-    API.get("/centers")
-      .then((res) => {
-        setCenters(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
+  const heroImages = centers
+    .filter((center) => center.image)
+    .slice(0, 3);
+
+  if (loading) {
+    return (
+      <div className="home-page">
+        <div className="loading-box">Loading centers...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="home-page">
-      <section className="hero">
-        <div className="hero-slider">
-          <div className="slide-track">
-            <img src="/img1.jpg" alt="center" />
-            <img src="/img2.jpg" alt="center" />
-            <img src="/img3.jpg" alt="center" />
-          </div>
+
+      <section className="home-hero">
+        <div className="hero-text">
+          <h1>Discover the Best Learning Centers for Your Child</h1>
+          <p>
+            Jeel helps parents find trusted centers, explore courses, read reviews,
+            and book easily.
+          </p>
+        </div>
+
+        <div className="hero-images">
+          {heroImages.length > 0 ? (
+            heroImages.map((center) => (
+              <img
+                key={center.id || center._id}
+                src={center.image}
+                alt={center.name}
+              />
+            ))
+          ) : (
+            <div className="hero-placeholder">🏫</div>
+          )}
         </div>
       </section>
 
-      <div className="filter-row">
-        <div className="categories">
+      <section className="search-filter-box">
+        <input
+          type="text"
+          placeholder="Search by center name, city, or description..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+
+        <div className="filter-section">
           {categories.map((category) => (
             <button
               key={category}
-              className={selectedCategory === category ? "category active" : "category"}
+              className={
+                selectedCategory === category
+                  ? "filter-btn active"
+                  : "filter-btn"
+              }
               onClick={() => setSelectedCategory(category)}
             >
               {category}
             </button>
           ))}
         </div>
+      </section>
 
-        <div className="home-search">
-          <input
-            type="text"
-            placeholder="Search centers..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
+      <section className="centers-section">
+        <div className="section-header">
+          <h2>Available Centers</h2>
+          <p>{filteredCenters.length} center(s) found</p>
         </div>
-      </div>
 
-      <div className="cards-container">
-        {loading ? (
-          <Loading />
-        ) : centers.length === 0 ? (
-          <div className="empty-state">
+        {filteredCenters.length === 0 ? (
+          <div className="empty-centers">
             <h3>No centers found</h3>
-            <p>Try adjusting your search terms.</p>
+            <p>Try searching with another keyword or category.</p>
           </div>
         ) : (
-          filteredCenters.map((center, index) => (
-            <CenterCard
-              key={index}
-              center={center}
-              onClick={() => setSelectedCenter(center)}
-            />
-          ))
-        )}
-      </div>
+          <div className="centers-grid">
+            {filteredCenters.map((center) => (
+              <div className="center-card" key={center.id || center._id}>
+                {center.image ? (
+                  <img
+                    src={center.image}
+                    alt={center.name}
+                    className="center-image"
+                  />
+                ) : (
+                  <div className="center-image-placeholder">🏫</div>
+                )}
 
-      {selectedCenter && (
-        <div className="popup-overlay" onClick={() => setSelectedCenter(null)}>
-          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setSelectedCenter(null)}>
-              ×
-            </button>
+                <div className="center-content">
+                  <span className="center-category">
+                    {center.category || "Child Development"}
+                  </span>
 
-            {selectedCenter.image && (
-              <img
-                src={`http://localhost:5000/uploads/${selectedCenter.image}`}
-                alt={selectedCenter.name}
-                className="popup-image"
-              />
-            )}
+                  <h3>{center.name}</h3>
 
-            <h2>{selectedCenter.name}</h2>
-            <p>{selectedCenter.location}</p>
-            <p>{selectedCenter.description}</p>
+                  <p className="center-location">
+                    📍 {center.location || "Location not added"}
+                  </p>
 
-            {localStorage.getItem("user") ? (
-              <div className="review-box">
-                <h3>Rate this center</h3>
+                  <p className="center-description">
+                    {center.description || "No description available."}
+                  </p>
 
-                <select value={rating} onChange={(e) => setRating(e.target.value)}>
-                  <option value="5">⭐⭐⭐⭐⭐</option>
-                  <option value="4">⭐⭐⭐⭐</option>
-                  <option value="3">⭐⭐⭐</option>
-                  <option value="2">⭐⭐</option>
-                  <option value="1">⭐</option>
-                </select>
+                  <div className="center-rating">
+                    ⭐ {center.rating || "4.8"}
+                    <span> ({center.reviews_count || 0} reviews)</span>
+                  </div>
 
-                <textarea
-                  placeholder="Write your review..."
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                />
-
-                <button onClick={submitReview}>Submit Review</button>
+                  <Link
+                    to={`/centers/${center.id || center._id}`}
+                    className="details-btn"
+                  >
+                    View Details
+                  </Link>
+                </div>
               </div>
-            ) : (
-              <p className="login-note">Login to rate this center</p>
-            )}
-
-            <button>Book Now</button>
+            ))}
           </div>
-        </div>
-      )}
+        )}
+      </section>
+
     </div>
   );
 }
