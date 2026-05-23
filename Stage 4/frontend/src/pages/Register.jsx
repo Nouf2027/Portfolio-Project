@@ -8,6 +8,7 @@ function Register() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [centerName, setCenterName] = useState('');
@@ -57,8 +58,11 @@ function Register() {
           description: centerActivities,
           license: centerLicense,
         }, { headers: { Authorization: `Bearer ${token}` } });
-        alert("✅ Your center request has been submitted! Please wait for admin approval.");
-        window.location.href = '/login';
+        setLoading(false);
+        setSuccess("✅ تم إرسال طلب المركز بنجاح! سيتم مراجعته من قبل الإدارة.");
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 3000);
       } else {
         window.location.href = '/';
       }
@@ -79,6 +83,11 @@ function Register() {
       <form className="register-form" onSubmit={handleSubmit}>
         <h2>Register</h2>
         {error && <p style={{color: 'red'}}>{error}</p>}
+        {success && (
+          <div style={{background:'#e8f5e9', color:'#2e7d32', padding:'14px 20px', borderRadius:'12px', marginBottom:'16px', border:'2px solid #a5d6a7', fontSize:'16px', fontWeight:'600'}}>
+            {success}
+          </div>
+        )}
         <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
