@@ -58,7 +58,7 @@ function Dashboard() {
         setLoading(false);
       }).catch(() => setLoading(false));
     }
-  }, [role]);
+  }, [role, window.location.pathname]);
 
   const handleApprove = async (id) => {
     try {
@@ -90,7 +90,7 @@ function Dashboard() {
         location,
         description,
       });
-      setCenter(res.data);
+      setCenter(res.data)/}, [role]);;
       alert("Center submitted for admin approval ✅");
     } catch (err) {
       alert("Failed to submit center.");
