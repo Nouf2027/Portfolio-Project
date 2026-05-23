@@ -68,7 +68,7 @@ function Home() {
           </p>
         </div>
 
-        <div className="hero-images">
+        <div className="hero-images" style={{display:"flex",justifyContent:"center",gap:"16px",flexWrap:"wrap"}}>
           {heroImages.length > 0 ? (
             heroImages.map((center) => (
               <img
