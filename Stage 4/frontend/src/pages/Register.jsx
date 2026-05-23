@@ -9,6 +9,9 @@ function Register() {
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+const [image, setImage] = useState("");
+const [location, setLocation] = useState("");
+const [description, setDescription] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +35,13 @@ if (!/[!@#$%^&*]/.test(password)) {
   alert("Password must contain at least one special character");
   return;
 }
+await API.post("/centers", {
+  name,
+  location,
+  description,
+  image,
+});
+
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
       localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -61,11 +71,29 @@ if (!/[!@#$%^&*]/.test(password)) {
           onChange={(e) => setName(e.target.value)}
         />
         <input
+  type="text"
+  placeholder="Location"
+  value={location}
+  onChange={(e) => setLocation(e.target.value)}
+/>
+
+<textarea
+  placeholder="Description"
+  value={description}
+  onChange={(e) => setDescription(e.target.value)}
+/>
+        <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        <input
+  type="text"
+  placeholder="Center Image URL"
+  value={image}
+  onChange={(e) => setImage(e.target.value)}
+/>
         <input
           
   type="password"

@@ -71,7 +71,18 @@ function CenterDetails() {
           </div>
         )}
       </div>
+<div className="review-card" key={review.id}>
+  <img
+    src={review.user_image}
+    alt={review.user_name}
+    className="review-avatar"
+  />
 
+  <div>
+    <h4>{review.user_name}</h4>
+    <p>{review.comment}</p>
+  </div>
+</div>
       <div className="reviews-section">
         <h2>Reviews</h2>
         {reviews.length === 0 ? (
