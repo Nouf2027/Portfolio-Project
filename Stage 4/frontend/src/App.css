@@ -638,3 +638,38 @@ button:hover,
 .course-card:hover {
   transform: translateY(-3px);
 }
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.dashboard-box {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  border: 2px solid #ffe082;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 2px solid #ffe082;
+  background: white;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #ff6f00;
+  color: white;
+  border-color: #ff6f00;
+}
