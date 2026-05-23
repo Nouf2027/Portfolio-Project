@@ -15,20 +15,17 @@ function Navbar() {
   return (
     <nav className="modern-navbar">
       <div className="nav-logo">
-        <Link to="/">☘️ Jeel</Link>
+        <Link to="/">
+          <span className="logo-emoji">🌱</span>
+          <span className="nav-logo-text">Jeel</span>
+        </Link>
       </div>
       <div className={`nav-links ${menuOpen ? "active" : ""}`}>
         <Link to="/home">Home</Link>
         <Link to="/search">Search</Link>
-        {role === "center" && (
-          <Link to="/dashboard">My Center</Link>
-        )}
-        {role === "admin" && (
-          <Link to="/dashboard">Admin</Link>
-        )}
-        {role && (
-          <Link to="/profile">Profile</Link>
-        )}
+        {role === "center" && <Link to="/dashboard">My Center</Link>}
+        {role === "admin" && <Link to="/dashboard">Admin</Link>}
+        {role && <Link to="/profile">Profile</Link>}
         {!role ? (
           <>
             <Link to="/login">Login</Link>
@@ -38,9 +35,7 @@ function Navbar() {
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         )}
       </div>
-      <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-        ☰
-      </div>
+      <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
     </nav>
   );
 }
