@@ -13,7 +13,25 @@ function Navbar() {
   };
 
   return (
+    
     <nav className="modern-navbar">
+      {!user ? (
+  <>
+    <Link to="/login">Login</Link>
+    <Link to="/register">Register</Link>
+  </>
+) : (
+  <>
+    <Link to="/">Home</Link>
+    <Link to="/search">Search</Link>
+
+    {user.role === "parent" && <Link to="/profile">Profile</Link>}
+    {user.role === "center" && <Link to="/my-center">My Center</Link>}
+    {user.role === "admin" && <Link to="/dashboard">Dashboard</Link>}
+
+    <button onClick={handleLogout}>Logout</button>
+  </>
+)}
       <div className="nav-logo">
         <Link to="/">
           <span className="logo-emoji">🌱</span>
