@@ -90,7 +90,7 @@ function Dashboard() {
         location,
         description,
       });
-      setCenter(res.data)/}, [role]);;
+      setCenter(res.data);
       alert("Center submitted for admin approval ✅");
     } catch (err) {
       alert("Failed to submit center.");
