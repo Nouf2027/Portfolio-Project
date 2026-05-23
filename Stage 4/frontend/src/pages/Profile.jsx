@@ -115,23 +115,19 @@ function Profile() {
                       {centerData.approved ? "Approved ✅" : "Pending Approval ⏳"}
                     </span>
                   </p>
-                  <a className="main-link" href="/dashboard">Manage Center</a>
+                  <a className="main-link" href="/dashboard" style={{marginTop: '10px', display: 'inline-block'}}>
+                    ⚙️ Manage Center
+                  </a>
                 </>
               ) : (
-                <div className="empty-box">
-                  <h3>No center registered yet</h3>
-                  <a href="/dashboard">Register your center</a>
-                </div>
+                <p style={{color: '#94a3b8'}}>No center registered yet.</p>
               )}
             </div>
 
             <div className="clean-card">
               <h2>📚 My Courses</h2>
               {centerCourses.length === 0 ? (
-                <div className="empty-box">
-                  <h3>No courses yet</h3>
-                  <a href="/dashboard">Add courses</a>
-                </div>
+                <p style={{color: '#94a3b8'}}>No courses yet.</p>
               ) : (
                 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px', marginTop: '10px'}}>
                   {centerCourses.map(course => (
@@ -149,9 +145,7 @@ function Profile() {
             <div className="clean-card">
               <h2>📅 Center Bookings</h2>
               {centerBookings.length === 0 ? (
-                <div className="empty-box">
-                  <h3>No bookings yet</h3>
-                </div>
+                <p style={{color: '#94a3b8'}}>No bookings yet.</p>
               ) : (
                 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '12px', marginTop: '10px'}}>
                   {centerBookings.map((booking) => (

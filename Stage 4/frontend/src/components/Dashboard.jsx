@@ -22,6 +22,10 @@ function Dashboard() {
   const [image, setImage] = useState("");
 
   const [courseName, setCourseName] = useState("");
+  const [courseInstructor, setCourseInstructor] = useState("");
+  const [courseType, setCourseType] = useState("");
+  const [courseTime, setCourseTime] = useState("");
+  const [courseDate, setCourseDate] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [courseDuration, setCourseDuration] = useState("");
   const [courseDays, setCourseDays] = useState("");
@@ -46,6 +50,11 @@ function Dashboard() {
       ]).then(([centerRes, bookingsRes]) => {
         setCenter(centerRes.data);
         setCenterBookings(bookingsRes.data);
+        if (centerRes.data?.id) {
+          API.get(`/centers/${centerRes.data.id}/courses`)
+            .then(r => setCourses(r.data))
+            .catch(() => {});
+        }
         setLoading(false);
       }).catch(() => setLoading(false));
     }
@@ -93,13 +102,20 @@ function Dashboard() {
     try {
       const res = await API.post("/courses", {
         title: courseName,
-        price: coursePrice,
-        duration: courseDuration,
+        instructor: courseInstructor,
+        type: courseType,
+        times: courseTime,
         days: courseDays,
+        duration: courseDuration,
+        price: coursePrice,
         center_id: center.id,
       });
       setCourses([...courses, res.data]);
       setCourseName("");
+      setCourseInstructor("");
+      setCourseType("");
+      setCourseTime("");
+      setCourseDate("");
       setCoursePrice("");
       setCourseDuration("");
       setCourseDays("");
@@ -199,15 +215,21 @@ function Dashboard() {
 
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px'}}>
                 <h3>📚 My Courses</h3>
-                <button onClick={() => setShowCourseForm(!showCourseForm)}>+ Add Course</button>
+                <button onClick={() => setShowCourseForm(!showCourseForm)}>
+                  {showCourseForm ? '✕ Close' : '+ Add Course'}
+                </button>
               </div>
 
               {showCourseForm && (
-                <form onSubmit={handleAddCourse} className="form-container" style={{marginBottom:'20px'}}>
+                <form onSubmit={handleAddCourse} className="form-container" style={{marginBottom:'20px', background:'#f8faff', padding:'20px', borderRadius:'16px', border:'1px solid #d6e6f5'}}>
+                  <h3 style={{color:'#3b5b7a', marginBottom:'15px'}}>📚 Add New Course</h3>
                   <input placeholder="Course Name *" value={courseName} onChange={(e) => setCourseName(e.target.value)} required />
-                  <input placeholder="Price (SAR) *" value={coursePrice} onChange={(e) => setCoursePrice(e.target.value)} required />
-                  <input placeholder="Duration (e.g. 8 weeks) *" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} required />
+                  <input placeholder="Instructor Name *" value={courseInstructor} onChange={(e) => setCourseInstructor(e.target.value)} required />
+                  <input placeholder="Type (e.g. Programming, Art) *" value={courseType} onChange={(e) => setCourseType(e.target.value)} required />
+                  <input placeholder="Time (e.g. 5:00 PM - 7:00 PM) *" value={courseTime} onChange={(e) => setCourseTime(e.target.value)} required />
                   <input placeholder="Days (e.g. Mon, Wed) *" value={courseDays} onChange={(e) => setCourseDays(e.target.value)} required />
+                  <input placeholder="Duration (e.g. 8 weeks) *" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} required />
+                  <input placeholder="Price (SAR) *" value={coursePrice} onChange={(e) => setCoursePrice(e.target.value)} required />
                   <button type="submit">Add Course ✅</button>
                 </form>
               )}
@@ -216,10 +238,13 @@ function Dashboard() {
                 {courses.length === 0 ? <p>No courses yet.</p> : (
                   courses.map(course => (
                     <div key={course.id} className="dashboard-box">
-                      <h3>{course.name || course.title}</h3>
-                      <p>💰 {course.price} SAR</p>
-                      <p>⏱️ {course.duration}</p>
+                      <h3>{course.title || course.name}</h3>
+                      <p>👨‍🏫 {course.instructor}</p>
+                      <p>🎯 {course.type}</p>
+                      <p>🕐 {course.times}</p>
                       <p>📅 {course.days}</p>
+                      <p>⏱️ {course.duration}</p>
+                      <p>💰 {course.price} SAR</p>
                     </div>
                   ))
                 )}
