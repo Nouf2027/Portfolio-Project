@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import API from '../api/axios';
+import Loading from "../components/Loading";
 
 function Register() {
   const [name, setName] = useState('');
@@ -7,9 +8,11 @@ function Register() {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (password.length < 8) {
   alert("Password must be at least 8 characters");
   return;
@@ -35,6 +38,7 @@ if (!/[!@#$%^&*]/.test(password)) {
       window.location.href = '/';
       window.location.href = '/';
     } catch (err) {
+      setLoading(false);
       console.log(err);
 
       if (err.response?.data?.message) {
@@ -44,7 +48,7 @@ if (!/[!@#$%^&*]/.test(password)) {
       }
     }
   };
-
+  if (loading) return <Loading />;
   return (
     <div className="register-page">
       <form className="register-form" onSubmit={handleSubmit}>

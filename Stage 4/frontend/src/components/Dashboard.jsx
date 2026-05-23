@@ -19,7 +19,8 @@ function Dashboard() {
   const [activities, setActivities] = useState("");
   const [tradeNumber, setTradeNumber] = useState("");
   const [description, setDescription] = useState("");
-
+  const [image, setImage] = useState(null);
+  
   const [courseName, setCourseName] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [courseDuration, setCourseDuration] = useState("");
@@ -32,6 +33,7 @@ const newCenter = {
 };
   const handleApprove = (id) => {
     const updatedCenters = centers.map((center) =>
+
       center.id === id ? { ...center, approved: true } : center
     );
 
@@ -43,6 +45,28 @@ const newCenter = {
 
   const handleSubmitCenter = (e) => {
     e.preventDefault();
+    const handleSubmitCenter = async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append("name", centerName);
+  formData.append("location", location);
+  formData.append("image", image);
+
+  try {
+    const res = await API.post("/centers", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    setCenter(res.data);
+    alert("Center submitted for admin approval");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
     <p className="pending-text">
 ⏳ Waiting for admin approval
 </p>
@@ -89,6 +113,11 @@ const newCenter = {
               {centers.length === 0 ? <p>لا يوجد مراكز</p> : (
                 centers.map(c => (
                   <div key={c.id} className="dashboard-box">
+                    <img
+  src={c.image || "/images/default-center.jpg"}
+  alt={c.name}
+  className="center-image"
+/>
                     <h2>{c.name}</h2>
                     <p>📍 {c.location}</p>
                     <p>{c.description}</p>

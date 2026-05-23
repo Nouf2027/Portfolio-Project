@@ -9,7 +9,6 @@ import CenterDetails from "./pages/CenterDetails";
 import Booking from "./pages/Booking";
 import Dashboard from "./components/Dashboard";
 import Profile from './pages/Profile';
-import CourseDetails from './pages/CourseDetails';
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/courses/:id" element={<CourseDetails />} />
       </Routes>
     </BrowserRouter>
   );

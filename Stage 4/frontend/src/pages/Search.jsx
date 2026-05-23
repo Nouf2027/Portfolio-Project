@@ -25,6 +25,7 @@ function Search() {
   };
 
   return (
+    
     <div className="search-page">
       <h1>Discover Skill Centers for Your Child</h1>
       <div className="search-box">
@@ -44,6 +45,7 @@ function Search() {
         ) : (
           <p>No centers found.</p>
         )}
+        
       </div>
     </div>
   );
