@@ -2,12 +2,12 @@ const pool = require('../config/db');
 
 class Center {
   // Create new center
-  static async create({ name, location, description }) {
+  static async create({ name, location, description , latitude, longitude }) {
     const result = await pool.query(
-      `INSERT INTO centers (name, location, description, approved)
-       VALUES ($1, $2, $3, FALSE)
+      `INSERT INTO centers (name, location, description, approved, latitude, longitude)
+       VALUES ($1, $2, $3, FALSE, $4, $5)
        RETURNING *`,
-      [name, location, description]
+      [name, location, description, latitude, longitude]
     );
     return result.rows[0];
   }

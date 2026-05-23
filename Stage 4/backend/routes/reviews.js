@@ -7,7 +7,7 @@ router.get('/center/:centre_id', async (req, res) => {
   try {
     const reviews = await Review.findByCenterId(req.params.centre_id);
     const average = await Review.getAverageRating(req.params.centre_id);
-    res.json({ reviews, average_rating: average });
+    res.json({ reviews, average_rating: Number(average) });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -28,7 +28,15 @@ router.post('/', auth, async (req, res) => {
       rating,
       comment
     });
-    res.status(201).json(review);
+    const pool = require('../config/db');
+    const result = await pool.query(
+      `SELECT r.*, u.name as user_name 
+       FROM reviews r
+       JOIN users u ON r.user_id = u.id
+       WHERE r.id = $1`,
+      [review.id]
+    );
+    res.status(201).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

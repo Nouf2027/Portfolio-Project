@@ -3,6 +3,7 @@ const router = express.Router();
 const Center = require('../models/Center');
 const auth = require('../middleware/auth');
 const pool = require('../config/db');
+const Course = require('../models/Course');
 
 router.get('/', async (req, res) => {
   try {
@@ -64,11 +65,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   try {
-    const { name, location, description } = req.body;
+    const { name, location, description, latitude, longitude } = req.body;
     if (!name || !location || !description) {
       return res.status(400).json({ message: 'Name, location, and description are required' });
     }
-    const center = await Center.create({ name, location, description });
+    const center = await Center.create({ name, location, description, latitude, longitude });
     res.status(201).json(center);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -97,6 +98,15 @@ router.delete('/:id', auth, async (req, res) => {
     }
     await pool.query('DELETE FROM centers WHERE id = $1', [req.params.id]);
     res.json({ message: 'Center deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get('/:id/courses', async (req, res) => {
+  try {
+    const courses = await Course.findByCenterId(req.params.id);
+    res.json(courses);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

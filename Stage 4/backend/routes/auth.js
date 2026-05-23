@@ -7,6 +7,10 @@ const User = require('../models/User');
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
+    if (!password || !passwordRegex.test(password)) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters and contain both letters and numbers' });
+    }
     const existing = await User.findByEmail(email);
     if (existing) {
       return res.status(400).json({ message: 'Email already exists' });
