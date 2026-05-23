@@ -35,7 +35,6 @@ function Navbar() {
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         )}
       </div>
-      <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>☰</div>
     </nav>
   );
 }
