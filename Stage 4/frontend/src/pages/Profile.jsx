@@ -27,7 +27,7 @@ function Profile() {
     }
     if (role === "admin") {
       API.get("/auth/users").then(res => setUsers(res.data)).catch(() => {});
-      API.get("/centers").then(res => setCenters(res.data)).catch(() => {});
+      API.get("/centers/all").then(res => setCenters(res.data)).catch(() => {});
     }
   }, [role]);
 
