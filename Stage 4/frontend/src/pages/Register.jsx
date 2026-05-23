@@ -10,7 +10,6 @@ function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // حقول السنتر
   const [centerName, setCenterName] = useState('');
   const [centerLocation, setCenterLocation] = useState('');
   const [centerActivities, setCenterActivities] = useState('');
@@ -47,7 +46,8 @@ function Register() {
     }
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
-      localStorage.setItem('token', res.data.token);
+      const token = res.data.token;
+      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
 
       if (role === 'center') {
@@ -56,7 +56,7 @@ function Register() {
           location: centerLocation,
           description: centerActivities,
           license: centerLicense,
-        });
+        }, { headers: { Authorization: `Bearer ${token}` } });
         alert("✅ Your center request has been submitted! Please wait for admin approval.");
         window.location.href = '/login';
       } else {
@@ -79,28 +79,9 @@ function Register() {
       <form className="register-form" onSubmit={handleSubmit}>
         <h2>Register</h2>
         {error && <p style={{color: 'red'}}>{error}</p>}
-
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <select value={role} onChange={(e) => setRole(e.target.value)} required>
           <option value="">Select Account Type</option>
           <option value="parent">Parent</option>
@@ -111,40 +92,11 @@ function Register() {
           <>
             <hr style={{margin: '15px 0', borderColor: '#ffe082'}} />
             <h3 style={{color: '#3b5b7a', marginBottom: '10px'}}>🏫 Center Information</h3>
-            <input
-              type="text"
-              placeholder="Center Name *"
-              value={centerName}
-              onChange={(e) => setCenterName(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Location *"
-              value={centerLocation}
-              onChange={(e) => setCenterLocation(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Activities (e.g. Programming, Art) *"
-              value={centerActivities}
-              onChange={(e) => setCenterActivities(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Trade Number *"
-              value={centerTrade}
-              onChange={(e) => setCenterTrade(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="License Number"
-              value={centerLicense}
-              onChange={(e) => setCenterLicense(e.target.value)}
-            />
+            <input type="text" placeholder="Center Name *" value={centerName} onChange={(e) => setCenterName(e.target.value)} required />
+            <input type="text" placeholder="Location *" value={centerLocation} onChange={(e) => setCenterLocation(e.target.value)} required />
+            <input type="text" placeholder="Activities (e.g. Programming, Art) *" value={centerActivities} onChange={(e) => setCenterActivities(e.target.value)} required />
+            <input type="text" placeholder="Trade Number *" value={centerTrade} onChange={(e) => setCenterTrade(e.target.value)} required />
+            <input type="text" placeholder="License Number" value={centerLicense} onChange={(e) => setCenterLicense(e.target.value)} />
           </>
         )}
 
