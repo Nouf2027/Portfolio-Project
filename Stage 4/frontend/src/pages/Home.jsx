@@ -11,7 +11,7 @@ function Home() {
 
   const categories = ["All", "Art", "Programming", "Language", "Science", "Robotics"];
 
-  const heroImage = { image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600&q=80" };
+  const heroImageUrl = "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg";
 
   useEffect(() => {
     const fetchCenters = async () => {
@@ -52,7 +52,7 @@ function Home() {
 
       {/* Hero */}
       <section className="home-hero">
-        <img src={heroImage.image} alt="hero" className="hero-bg-img" />
+        <img src={heroImageUrl} alt="hero" className="hero-bg-img" />
         <div className="hero-overlay">
           <h1>اكتشفي أفضل مراكز التعلم لطفلك</h1>
           <p>جيل يساعد الأهل على إيجاد مراكز موثوقة، استكشاف الدورات، وقراءة التقييمات بسهولة.</p>
