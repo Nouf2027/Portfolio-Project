@@ -47,6 +47,7 @@ function Register() {
     }
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
+      localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
 
       if (role === 'center') {

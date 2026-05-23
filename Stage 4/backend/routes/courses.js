@@ -27,4 +27,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.post('/', async (req, res) => {
+  try {
+    const { name, description, price, duration, days, times, instructor, center_id } = req.body;
+    const result = await pool.query(
+      'INSERT INTO courses (name, description, price, duration, days, times, instructor, center_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [name, description, price, duration, days, times, instructor, center_id]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
