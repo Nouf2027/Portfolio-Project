@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import API from "../api/axios";
 
@@ -29,166 +28,126 @@ function Profile() {
   }, [role]);
 
   return (
-    <div className="modern-profile-page">
+    <div className="clean-profile-page">
 
-      <aside className="profile-sidebar">
-        <h2>☘️ Jeel</h2>
-        <a href="/profile" className="active">🏠 Overview</a>
-        <a href="/search">🏫 Centers</a>
-        <a href="/dashboard">📊 Dashboard</a>
-        <a href="/profile">⚙️ Settings</a>
-        <a href="/login">🚪 Logout</a>
-      </aside>
+      <section className="profile-hero">
+        <div>
+          <h1>Welcome back, {user?.name} 👋</h1>
+          <p>Manage your account and activities in Jeel.</p>
 
-      <main className="profile-main">
-
-        <section className="hero-profile">
-          <div>
-            <h1>Welcome back, {user?.name} 👋</h1>
-            <p>Here’s what’s happening with your account today.</p>
-
-            <div className="hero-tags">
-              <span>✉️ {user?.email}</span>
-              <span className={`role-pill ${role}`}>{role}</span>
-            </div>
+          <div className="profile-tags">
+            <span>✉️ {user?.email}</span>
+            <span className={`role-pill ${role}`}>{role}</span>
           </div>
+        </div>
+      </section>
 
-          <div className="hero-avatar">
-            👤
-          </div>
-        </section>
+      <section className="clean-profile-grid">
 
-        <section className="dashboard-grid">
+        <div className="clean-card">
+          <h2>👤 My Profile</h2>
+          <p><strong>Name:</strong> {user?.name}</p>
+          <p><strong>Email:</strong> {user?.email}</p>
+          <p><strong>Role:</strong> {user?.role}</p>
 
-          <div className="modern-card">
-            <h2>👤 My Profile</h2>
-            <p><strong>Name:</strong> {user?.name}</p>
-            <p><strong>Email:</strong> {user?.email}</p>
-            <p><strong>Role:</strong> {user?.role}</p>
+          {role !== "admin" && (
+            <button className="main-btn">Edit Profile</button>
+          )}
+        </div>
 
-            {role !== "admin" && (
-              <div className="card-actions">
-                <button>Edit Profile</button>
-                <button className="danger-btn">Delete Account</button>
+        {role === "parent" && (
+          <div className="clean-card">
+            <h2>📚 My Bookings</h2>
+
+            {bookings.length === 0 ? (
+              <div className="empty-box">
+                <h3>No bookings yet</h3>
+                <p>Start exploring centers and book your first course.</p>
+                <a href="/search">Find Centers</a>
               </div>
+            ) : (
+              bookings.map((booking) => (
+                <div className="booking-card" key={booking.id}>
+                  <h3>{booking.course_name}</h3>
+                  <p><strong>Center:</strong> {booking.center_name}</p>
+                  <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
+                  <p><strong>Status:</strong> {booking.status}</p>
+                </div>
+              ))
             )}
           </div>
+        )}
 
-          {role === "parent" && (
-            <>
-              <div className="modern-card">
-                <h2>📚 My Bookings</h2>
-                <div className="stat-box">{bookings.length} booking(s)</div>
+        {role === "center" && (
+          <>
+            <div className="clean-card">
+              <h2>🏫 Center Profile</h2>
 
-                {bookings.length === 0 ? (
-                  <div className="empty-modern">
-                    <h3>No bookings yet</h3>
-                    <p>Start exploring centers and book your first course.</p>
-                    <a href="/search">Find Centers</a>
-                  </div>
-                ) : (
-                  bookings.map((booking) => (
-                    <div className="booking-card" key={booking.id}>
-                      <h3>{booking.course_name}</h3>
-                      <p>{booking.center_name}</p>
-                    </div>
-                  ))
-                )}
-              </div>
+              {centerData ? (
+                <>
+                  <p><strong>Center Name:</strong> {centerData.name}</p>
+                  <p><strong>Location:</strong> {centerData.location}</p>
+                  <p><strong>Description:</strong> {centerData.description}</p>
+                  <p>
+                    <strong>Status:</strong>{" "}
+                    <span className={centerData.approved ? "approved-status" : "pending-status"}>
+                      {centerData.approved ? "Approved ✅" : "Pending Approval ⏳"}
+                    </span>
+                  </p>
 
-              <div className="modern-card">
-                <h2>⭐ Recommended Centers</h2>
-                <div className="empty-modern">
-                  <p>Explore learning centers for your child.</p>
-                  <a href="/search">Browse Centers</a>
+                  <a className="main-link" href="/dashboard">Manage Center</a>
+                </>
+              ) : (
+                <div className="empty-box">
+                  <h3>No center registered yet</h3>
+                  <p>Register your center to start adding courses.</p>
+                  <a href="/dashboard">Register your center</a>
                 </div>
-              </div>
-            </>
-          )}
+              )}
+            </div>
 
-          {role === "center" && (
-            <>
-              <div className="modern-card">
-                <h2>🏫 Center Profile</h2>
+            <div className="clean-card">
+              <h2>📅 Center Bookings</h2>
 
-                {centerData ? (
-                  <>
-                    <p><strong>Center Name:</strong> {centerData.name}</p>
-                    <p><strong>Location:</strong> {centerData.location}</p>
-                    <p><strong>Description:</strong> {centerData.description}</p>
-
-                    <p>
-                      <strong>Status:</strong>{" "}
-                      <span className={centerData.approved ? "approved-status" : "pending-status"}>
-                        {centerData.approved ? "Approved ✅" : "Pending Approval ⏳"}
-                      </span>
-                    </p>
-
-                    <a className="main-link" href="/dashboard">Manage Center</a>
-                  </>
-                ) : (
-                  <div className="empty-modern">
-                    <h3>No center registered yet</h3>
-                    <p>Register your center to start adding courses.</p>
-                    <a href="/dashboard">Register your center</a>
-                  </div>
-                )}
-              </div>
-
-              <div className="modern-card">
-                <h2>📅 Center Bookings</h2>
-                <div className="stat-box">{centerBookings.length} booking(s)</div>
-
-                {centerBookings.length === 0 ? (
-                  <div className="empty-modern">
-                    <h3>No bookings yet</h3>
-                    <p>Bookings will appear here when parents book your courses.</p>
-                  </div>
-                ) : (
-                  centerBookings.map((booking) => (
-                    <div className="booking-card" key={booking.id}>
-                      <h3>{booking.course_name}</h3>
-                      <p><strong>Student:</strong> {booking.email}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              <div className="modern-card">
-                <h2>⚡ Quick Actions</h2>
-                <div className="quick-actions">
-                  <a href="/dashboard">➕ Add Course</a>
-                  <a href="/dashboard">📋 View Bookings</a>
-                  <a href="/dashboard">⚙️ Manage Center</a>
+              {centerBookings.length === 0 ? (
+                <div className="empty-box">
+                  <h3>No bookings yet</h3>
+                  <p>Bookings will appear here when parents book your courses.</p>
                 </div>
-              </div>
-            </>
-          )}
+              ) : (
+                centerBookings.map((booking) => (
+                  <div className="booking-card" key={booking.id}>
+                    <h3>{booking.course_name}</h3>
+                    <p><strong>Student:</strong> {booking.email}</p>
+                    <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          </>
+        )}
 
-          {role === "admin" && (
-            <>
-              <div className="modern-card">
-                <h2>👥 Total Users</h2>
-                <div className="big-number">{users.length}</div>
-              </div>
+        {role === "admin" && (
+          <>
+            <div className="clean-card stat-card">
+              <h2>👥 Users</h2>
+              <h1>{users.length}</h1>
+            </div>
 
-              <div className="modern-card">
-                <h2>🏫 Total Centers</h2>
-                <div className="big-number">{centers.length}</div>
-              </div>
+            <div className="clean-card stat-card">
+              <h2>🏫 Centers</h2>
+              <h1>{centers.length}</h1>
+            </div>
 
-              <div className="modern-card">
-                <h2>⏳ Pending Centers</h2>
-                <div className="big-number">
-                  {centers.filter(center => !center.approved).length}
-                </div>
-                <a className="main-link" href="/dashboard">Go to Admin Dashboard</a>
-              </div>
-            </>
-          )}
+            <div className="clean-card stat-card">
+              <h2>⏳ Pending Centers</h2>
+              <h1>{centers.filter(center => !center.approved).length}</h1>
+              <a className="main-link" href="/dashboard">Admin Dashboard</a>
+            </div>
+          </>
+        )}
 
-        </section>
-      </main>
+      </section>
     </div>
   );
 }

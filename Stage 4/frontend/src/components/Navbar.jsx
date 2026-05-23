@@ -1,35 +1,54 @@
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
-  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role;
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
   return (
-    <nav className="navbar">
-      <Link to="/" className="brand">🍀 Jeel</Link>
+    <nav className="modern-navbar">
 
-      <div className="nav-links">
-        <Link to="/">Home</Link>
+      <div className="nav-logo">
+        <Link to="/">☘️ Jeel</Link>
+      </div>
+
+      <div className={`nav-links ${menuOpen ? "active" : ""}`}>
+
+        <Link to="/home">Home</Link>
+
         <Link to="/centers">Centers</Link>
 
-        {!user ? (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register" className="nav-btn">Register</Link>
-          </>
-        ) : (
-          <>
-            <Link to="/profile">Profile</Link>
-            <Link to="/my-center">My Center</Link>
-            <button className="logout-btn" onClick={logout}>Logout</button>
-          </>
+        <Link to="/profile">Profile</Link>
+
+        {role === "center" && (
+          <Link to="/dashboard">My Center</Link>
         )}
+
+        {role === "admin" && (
+          <Link to="/dashboard">Admin</Link>
+        )}
+
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+
       </div>
+
+      <div
+        className="menu-toggle"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        ☰
+      </div>
+
     </nav>
   );
 }

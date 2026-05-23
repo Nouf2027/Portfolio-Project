@@ -19,7 +19,7 @@ function Dashboard() {
   const [activities, setActivities] = useState("");
   const [tradeNumber, setTradeNumber] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+const [image, setImage] = useState("");
   
   const [courseName, setCourseName] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
@@ -188,6 +188,12 @@ const newCenter = {
                 <input placeholder="نوع الأنشطة *" value={activities} onChange={(e) => setActivities(e.target.value)} required />
                 <input placeholder="رقم السجل التجاري *" value={tradeNumber} onChange={(e) => setTradeNumber(e.target.value)} required />
                 <textarea placeholder="وصف المركز" value={description} onChange={(e) => setDescription(e.target.value)} />
+               <input
+  type="text"
+  placeholder="Center Image URL"
+  value={image}
+  onChange={(e) => setImage(e.target.value)}
+/>
                 <label>رخصة المركز (ملف)</label>
                 <input type="file" onChange={(e) => setLicense(e.target.files[0])} />
                 <button type="submit">Submit For Approval 🙏</button>
