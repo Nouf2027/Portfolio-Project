@@ -13,6 +13,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [license, setLicense] = useState(null);
   const [courseSuccess, setCourseSuccess] = useState("");
+  const [centerSuccess, setCenterSuccess] = useState("");
 
   const [centerName, setCenterName] = useState("");
   const [ownerName, setOwnerName] = useState("");
@@ -92,7 +93,8 @@ function Dashboard() {
         description,
       });
       setCenter(res.data);
-      alert("Center submitted for admin approval ✅");
+      setCenterSuccess("✅ تم إرسال طلب المركز بنجاح! سيتم مراجعته من قبل الإدارة.");
+      setTimeout(() => setCenterSuccess(""), 4000);
     } catch (err) {
       alert("Failed to submit center.");
     }
@@ -183,6 +185,13 @@ function Dashboard() {
       {role === "center" && (
         <div>
           <h1>🏫 My Center</h1>
+
+          {centerSuccess && (
+            <div style={{background:'#e8f5e9', color:'#2e7d32', padding:'14px 20px', borderRadius:'12px', marginBottom:'16px', border:'2px solid #a5d6a7', fontSize:'16px', fontWeight:'600'}}>
+              {centerSuccess}
+            </div>
+          )}
+
           {!center ? (
             <div className="pending-box">
               <h2>Submit Center Information</h2>
