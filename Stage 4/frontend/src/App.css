@@ -568,3 +568,73 @@ button:hover,
 .iconLink:hover {
   transform: translateY(-3px);
 }
+/* Card Hover Effect - Show details on hover */
+.center-description,
+.center-rating,
+.details-btn {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.center-card:hover .center-description,
+.center-card:hover .center-rating,
+.center-card:hover .details-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.center-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.center-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.centers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}
+
+.centers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 20px 40px;
+}
+
+@media (max-width: 900px) {
+  .centers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .centers-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.course-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  border: 2px solid #ffe082;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.course-card:hover {
+  transform: translateY(-3px);
+}

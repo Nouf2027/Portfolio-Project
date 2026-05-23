@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import API from "../api/axios";
 
 function CenterDetails() {
@@ -12,6 +12,10 @@ function CenterDetails() {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [bookingDate, setBookingDate] = useState('');
+  const [bookingSuccess, setBookingSuccess] = useState('');
+  const [bookingError, setBookingError] = useState('');
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const role = user.role;
 
@@ -22,7 +26,7 @@ function CenterDetails() {
     API.get(`/reviews/center/${id}`)
       .then(res => setReviews(res.data.reviews))
       .catch(() => {});
-    API.get(`/courses?center_id=${id}`)
+    API.get(`/centers/${id}/courses`)
       .then(res => setCourses(res.data))
       .catch(() => {});
   }, [id]);
@@ -30,11 +34,31 @@ function CenterDetails() {
   const handleReview = async (e) => {
     e.preventDefault();
     try {
-      await API.post('/reviews', { centre_id: id, rating, comment });
+      const res = await API.post('/reviews', { centre_id: id, rating, comment });
+      setReviews([...reviews, res.data]);
       setSuccess('Review added successfully!');
       setComment('');
     } catch (err) {
       setError('Failed to add review. Please login first.');
+    }
+  };
+
+  const handleBooking = async (e) => {
+    e.preventDefault();
+    try {
+      await API.post('/bookings', {
+        course_id: selectedCourse.id,
+        center_id: id,
+        date: bookingDate
+      });
+      setBookingSuccess('Booking successful! ✅');
+      setBookingDate('');
+      setTimeout(() => {
+        setSelectedCourse(null);
+        setBookingSuccess('');
+      }, 2000);
+    } catch (err) {
+      setBookingError('Booking failed. Please try again.');
     }
   };
 
@@ -43,6 +67,53 @@ function CenterDetails() {
 
   return (
     <div className="details-page">
+
+      {/* Popup */}
+      {selectedCourse && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+          background: 'rgba(0,0,0,0.5)', zIndex: 1000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            background: 'white', borderRadius: '20px', padding: '30px',
+            width: '400px', maxWidth: '90%', position: 'relative'
+          }}>
+            <button onClick={() => setSelectedCourse(null)} style={{
+              position: 'absolute', top: '15px', right: '15px',
+              background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer'
+            }}>✕</button>
+
+            <h2 style={{color: '#3b5b7a', marginBottom: '15px'}}>📚 {selectedCourse.name}</h2>
+            <p>💰 <strong>Price:</strong> {selectedCourse.price} SAR</p>
+            <p>⏱️ <strong>Duration:</strong> {selectedCourse.duration}</p>
+            <p>📅 <strong>Days:</strong> {selectedCourse.days}</p>
+            <p>🕐 <strong>Time:</strong> {selectedCourse.times}</p>
+            {selectedCourse.instructor && <p>👨‍🏫 <strong>Instructor:</strong> {selectedCourse.instructor}</p>}
+            {selectedCourse.description && <p>📝 {selectedCourse.description}</p>}
+
+            <hr style={{margin: '15px 0'}} />
+
+            {bookingSuccess ? (
+              <p style={{color: 'green', textAlign: 'center', fontSize: '18px'}}>{bookingSuccess}</p>
+            ) : (
+              <form onSubmit={handleBooking}>
+                <label><strong>Select Date:</strong></label>
+                <input
+                  type="date"
+                  value={bookingDate}
+                  onChange={(e) => setBookingDate(e.target.value)}
+                  required
+                  style={{width: '100%', padding: '10px', margin: '10px 0', borderRadius: '10px', border: '2px solid #ffe082'}}
+                />
+                {bookingError && <p style={{color: 'red'}}>{bookingError}</p>}
+                <button type="submit" style={{width: '100%'}}>Confirm Booking ✅</button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="details-card">
         <h1>{center.name}</h1>
         <p>{center.location}</p>
@@ -62,27 +133,16 @@ function CenterDetails() {
                 <p>⏱️ {course.duration}</p>
                 <p>📅 {course.days}</p>
                 {role === 'parent' && (
-                  <Link to={`/courses/${course.id}`}>
-                    <button>View Details & Book</button>
-                  </Link>
+                  <button onClick={() => setSelectedCourse(course)}>
+                    View Details & Book
+                  </button>
                 )}
               </div>
             ))}
           </div>
         )}
       </div>
-<div className="review-card" key={review.id}>
-  <img
-    src={review.user_image}
-    alt={review.user_name}
-    className="review-avatar"
-  />
 
-  <div>
-    <h4>{review.user_name}</h4>
-    <p>{review.comment}</p>
-  </div>
-</div>
       <div className="reviews-section">
         <h2>Reviews</h2>
         {reviews.length === 0 ? (
@@ -90,6 +150,7 @@ function CenterDetails() {
         ) : (
           reviews.map((review, index) => (
             <div key={index} style={{background: '#fff9c4', padding: '10px', borderRadius: '10px', marginBottom: '10px'}}>
+              <p><strong>{review.user_name}</strong></p>
               <p>⭐ {review.rating}/5</p>
               <p>{review.comment}</p>
             </div>

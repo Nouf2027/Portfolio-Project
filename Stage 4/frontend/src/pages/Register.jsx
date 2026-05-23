@@ -9,48 +9,36 @@ function Register() {
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-const [image, setImage] = useState("");
-const [location, setLocation] = useState("");
-const [description, setDescription] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     if (password.length < 8) {
-  alert("Password must be at least 8 characters");
-  return;
-}
-
-if (!/[A-Z]/.test(password)) {
-  alert("Password must contain at least one uppercase letter");
-  return;
-}
-
-if (!/[0-9]/.test(password)) {
-  alert("Password must contain at least one number");
-  return;
-}
-
-if (!/[!@#$%^&*]/.test(password)) {
-  alert("Password must contain at least one special character");
-  return;
-}
-await API.post("/centers", {
-  name,
-  location,
-  description,
-  image,
-});
-
+      setError("Password must be at least 8 characters");
+      setLoading(false);
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      setError("Password must contain at least one uppercase letter");
+      setLoading(false);
+      return;
+    }
+    if (!/[0-9]/.test(password)) {
+      setError("Password must contain at least one number");
+      setLoading(false);
+      return;
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      setError("Password must contain at least one special character");
+      setLoading(false);
+      return;
+    }
     try {
       const res = await API.post('/auth/register', { name, email, password, role });
       localStorage.setItem('user', JSON.stringify(res.data.user));
       window.location.href = '/';
-      window.location.href = '/';
     } catch (err) {
       setLoading(false);
-      console.log(err);
-
       if (err.response?.data?.message) {
         setError(err.response.data.message);
       } else {
@@ -58,7 +46,9 @@ await API.post("/centers", {
       }
     }
   };
+
   if (loading) return <Loading />;
+
   return (
     <div className="register-page">
       <form className="register-form" onSubmit={handleSubmit}>
@@ -71,38 +61,19 @@ await API.post("/centers", {
           onChange={(e) => setName(e.target.value)}
         />
         <input
-  type="text"
-  placeholder="Location"
-  value={location}
-  onChange={(e) => setLocation(e.target.value)}
-/>
-
-<textarea
-  placeholder="Description"
-  value={description}
-  onChange={(e) => setDescription(e.target.value)}
-/>
-        <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-  type="text"
-  placeholder="Center Image URL"
-  value={image}
-  onChange={(e) => setImage(e.target.value)}
-/>
-        <input
-          
-  type="password"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-  minLength={8}
-  required
-/>
-        
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          minLength={8}
+          required
+        />
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="">Select Account Type</option>
           <option value="parent">Parent</option>
