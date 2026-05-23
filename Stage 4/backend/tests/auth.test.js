@@ -7,8 +7,8 @@ describe('Auth API', () => {
       .post('/api/auth/register')
       .send({
         name: 'Test User',
-        email: 'testauth2@test.com',
-        password: '123456',
+        email: `testauth${Date.now()}@test.com`,
+        password: 'Test@1234',
         role: 'parent'
       });
     expect(res.statusCode).toBe(201);
@@ -19,7 +19,7 @@ describe('Auth API', () => {
       .post('/api/auth/login')
       .send({
         email: 'reem@test.com',
-        password: '123456'
+        password: 'Reem@123!'
       });
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('token');
