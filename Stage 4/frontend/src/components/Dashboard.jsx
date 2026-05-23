@@ -11,7 +11,6 @@ function Dashboard() {
   const [center, setCenter] = useState(null);
   const [centerBookings, setCenterBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [license, setLicense] = useState(null);
   const [courseSuccess, setCourseSuccess] = useState("");
   const [centerSuccess, setCenterSuccess] = useState("");
 
@@ -27,7 +26,6 @@ function Dashboard() {
   const [courseInstructor, setCourseInstructor] = useState("");
   const [courseType, setCourseType] = useState("");
   const [courseTime, setCourseTime] = useState("");
-  const [courseDate, setCourseDate] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [courseDuration, setCourseDuration] = useState("");
   const [courseDays, setCourseDays] = useState("");
