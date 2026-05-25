@@ -2,11 +2,10 @@ const { Pool } = require("pg");
 require("dotenv").config();
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const createTables = async () => {
@@ -66,8 +65,8 @@ const createTables = async () => {
       );
     `);
     console.log("Tables created successfully");
-  } catch (err) {
-    console.error("Error creating tables:", err.messages);
+   } catch (err) {
+    console.error("Error creating tables:", err.message);
   }
 };
 
