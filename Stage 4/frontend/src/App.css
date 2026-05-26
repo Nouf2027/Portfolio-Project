@@ -451,13 +451,7 @@ h1, h2, h3 {
   cursor: pointer;
 }
 .hero {
-  height: 80vh;
-  background-image: linear-gradient(
-      rgba(0,0,0,0.25),
-      rgba(0,0,0,0.25)
-    ),
-    url("/hero.jpg");
-
+  
   background-size: cover;
   background-position: center;
   display: flex;
