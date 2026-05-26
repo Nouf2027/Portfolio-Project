@@ -44,7 +44,7 @@ const [showNavbar, setShowNavbar] = useState(true);
         {!user ? (
           <>
             <Link to="/login">Login</Link>
-            <Link to="/register" className="nav-btn">
+            <Link to="/register" >
               Register
             </Link>
           </>

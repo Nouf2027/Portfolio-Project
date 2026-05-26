@@ -515,3 +515,26 @@ h1, h2, h3 {
 .navbar.show {
   transform: translateY(0);
 }
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 20px;
+  background: white;
+  flex-wrap: wrap;
+}
+
+.categories button {
+  padding: 11px 24px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #3b5b7a;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.categories button:hover {
+  background: #ff7a00;
+  color: white;
+}
