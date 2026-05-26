@@ -65,14 +65,7 @@ function Home() {
 
       {/* فلاتر */}
       <section className="filter-bar">
-              <div className="categories">
-  <button>All</button>
-  <button>Art</button>
-  <button>Programming</button>
-  <button>Language</button>
-  <button>Science</button>
-  <button>Robotics</button>
-</div>
+             
 
         {categories.map((category) => (
           <button
