@@ -404,13 +404,6 @@ h1, h2, h3 {
   border-radius: 0 0 34px 34px;
 }
 
-.hero-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
 .hero-overlay {
   position: absolute;
   inset: 0;
