@@ -494,3 +494,52 @@ h1, h2, h3 {
   color: white;
   border-color: #ff7a00;
 }
+
+/* login page */
+.login-page {
+  min-height: calc(100vh - 180px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background: #f7f9fc;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  padding: 45px;
+  border-radius: 28px;
+  border: 3px dashed #f4c542;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+}
+
+.login-form h2 {
+  text-align: center;
+  color: #3b5b7a;
+  margin-bottom: 25px;
+  font-size: 38px;
+}
+
+.login-form input {
+  width: 100%;
+  height: 55px;
+  margin-bottom: 18px;
+  padding: 0 18px;
+  border-radius: 16px;
+  border: 2px solid #f4d06f;
+  font-size: 16px;
+}
+
+.login-form button {
+  width: 100%;
+  height: 55px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff9a32, #ff6500);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
