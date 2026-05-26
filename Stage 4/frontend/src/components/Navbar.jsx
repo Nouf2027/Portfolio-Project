@@ -13,33 +13,24 @@ function Navbar() {
 const [showNavbar, setShowNavbar] = useState(true);
 
   useEffect(() => {
+  let lastScrollY = window.scrollY;
 
-    let lastScrollY = window.scrollY;
+  const handleScroll = () => {
+    if (window.scrollY > lastScrollY) {
+      setShowNavbar(false);
+    } else {
+      setShowNavbar(true);
+    }
 
-    const handleScroll = () => {
+    lastScrollY = window.scrollY;
+  };
 
-      if (window.scrollY > lastScrollY) {
+  window.addEventListener("scroll", handleScroll);
 
-        setShowNavbar(false);
-
-      } else {
-
-        setShowNavbar(true);
-
-      }
-
-      lastScrollY = window.scrollY;
-
-    };
-
-    window.addEventListener("scroll", handleScroll);
   return () => {
-
-      window.removeEventListener("scroll", handleScroll);
-
-    };
-
-  }, []);
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
   return (
     <nav className="navbar">
      <Link to="/" className="brand">
