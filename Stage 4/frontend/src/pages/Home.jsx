@@ -52,11 +52,11 @@ function Home() {
 
       {/* Hero */}
       <section className="home-hero">
-        <img src={heroImageUrl} alt="hero" className="hero-bg-img" />
+        <img src={heroImageUrl} alt="hero" className="heroImageUrl" />
         <div className="hero-overlay">
           <h1>اكتشفي أفضل مراكز التعلم لطفلك</h1>
           <p>جيل يساعد الأهل على إيجاد مراكز موثوقة، استكشاف الدورات، وقراءة التقييمات بسهولة.</p>
-          <button className="hero-cta-btn" onClick={() => navigate("/search")}>
+          <button className="heroImageUrl" onClick={() => navigate("/search")}>
             اكتشفي المزيد
           </button>
         </div>
