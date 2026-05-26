@@ -12,7 +12,14 @@ function Home() {
   const categories = ["All", "Art", "Programming", "Language", "Science", "Robotics"];
 
   const heroImageUrl = "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg";
-
+<div className="categories">
+  <button>All</button>
+  <button>Art</button>
+  <button>Programming</button>
+  <button>Language</button>
+  <button>Science</button>
+  <button>Robotics</button>
+</div>
   useEffect(() => {
     const fetchCenters = async () => {
       try {
