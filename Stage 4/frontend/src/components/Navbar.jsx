@@ -9,7 +9,36 @@ function Navbar() {
     localStorage.clear();
     navigate("/login");
   };
+const [showNavbar, setShowNavbar] = useState(true);
 
+  useEffect(() => {
+
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+
+      if (window.scrollY > lastScrollY) {
+
+        setShowNavbar(false);
+
+      } else {
+
+        setShowNavbar(true);
+
+      }
+
+      lastScrollY = window.scrollY;
+
+    };
+
+    window.addEventListener("scroll", handleScroll);
+  return () => {
+
+      window.removeEventListener("scroll", handleScroll);
+
+    };
+
+  }, []);
   return (
     <nav className="navbar">
      <Link to="/" className="brand">
