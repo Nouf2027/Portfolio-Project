@@ -395,7 +395,7 @@ h1, h2, h3 {
   object-fit: contain;
 }
 
-/* FIX HERO IMAGE */
+/*  HERO IMAGE */
 
 .hero img,
 .home-image,
@@ -404,4 +404,75 @@ h1, h2, h3 {
   height: 100vh;
   object-fit: cover;
   display: block;
+}
+.hero {
+  height: 80vh;
+  background-image: linear-gradient(
+      rgba(0,0,0,0.25),
+      rgba(0,0,0,0.25)
+    ),
+    url("/hero.jpg");
+
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 80px;
+}
+
+.hero-content {
+  color: white;
+  max-width: 520px;
+  text-align: right;
+}
+
+.hero-content h1 {
+  color: white;
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.explore-btn {
+  background: white;
+  color: #3b5b7a;
+  padding: 13px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  padding: 28px 20px;
+  background: white;
+}
+
+.categories button {
+  padding: 12px 28px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.categories button:hover {
+  background: #ff9a3d;
+  color: white;
+}
+
+.navbar.hide {
+  transform: translateY(-120%);
+}
+
+.navbar.show {
+  transform: translateY(0);
 }
