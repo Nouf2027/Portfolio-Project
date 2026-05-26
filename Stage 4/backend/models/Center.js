@@ -1,33 +1,52 @@
 const pool = require('../config/db');
+const multer = require("multer");
+const path = require("path");
 
+const storage = multer.diskStorage({
+  destination: "uploads/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
 class Center {
   // Create new center
-  static async create({ name, location, description , latitude, longitude }) {
-    const result = await pool.query(
-      `INSERT INTO centers (name, location, description, approved, latitude, longitude)
-       VALUES ($1, $2, $3, FALSE, $4, $5)
-       RETURNING *`,
-      [name, location, description, latitude, longitude]
-    );
-    return result.rows[0];
-  }
+  
+  static async create({ name, location, description, image }) {
+  const result = await pool.query(
+    `INSERT INTO centers (name, location, description, image, approved)
+     VALUES ($1, $2, $3, $4, FALSE)
+     RETURNING *`,
+    [name, location, description, image]
+  );
+const centerSchema = new mongoose.Schema({
+  name: String,
+  location: String,
+  description: String,
+  image: String,
+  approved: Boolean,
+});
+  return result.rows[0];
+}
 
   // Get all approved centers
-  static async findAll() {
-    const result = await pool.query(
-      'SELECT * FROM centers WHERE approved = TRUE'
-    );
-    return result.rows;
-  }
+ static async findAll() {
+  const result = await pool.query(
+    `SELECT 
+      centers.*,
+      COALESCE(ROUND(AVG(reviews.rating), 1), 0) AS average_rating,
+      COUNT(reviews.id) AS review_count
+    FROM centers
+    LEFT JOIN reviews ON centers.id = reviews.centre_id
+    WHERE centers.approved = TRUE
+    GROUP BY centers.id`
+  );
 
-  // Find center by ID
-  static async findById(id) {
-    const result = await pool.query(
-      'SELECT * FROM centers WHERE id = $1',
-      [id]
-    );
-    return result.rows[0];
-  }
+  return result.rows;
+}
+
+
 
   // Search centers by location
   static async findByLocation(location) {
@@ -46,6 +65,7 @@ class Center {
     );
     return result.rows[0];
   }
+  
 }
 
 module.exports = Center;
