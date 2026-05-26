@@ -12,10 +12,10 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="brand">
-        <img src="/logo.png" alt="Jeel" />
-        <span>Jeel</span>
-      </Link>
+     <Link to="/" className="brand">
+  <span className="logo-icon">🌱</span>
+  <span className="logo-text">Jeel</span>
+</Link>
 
       <div className="nav-links">
         <Link to="/">Home</Link>
