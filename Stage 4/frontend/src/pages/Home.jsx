@@ -12,14 +12,7 @@ function Home() {
   const categories = ["All", "Art", "Programming", "Language", "Science", "Robotics"];
 
   const heroImageUrl = "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg";
-<div className="categories">
-  <button>All</button>
-  <button>Art</button>
-  <button>Programming</button>
-  <button>Language</button>
-  <button>Science</button>
-  <button>Robotics</button>
-</div>
+
   useEffect(() => {
     const fetchCenters = async () => {
       try {
@@ -59,6 +52,15 @@ function Home() {
 
       {/* Hero */}
       <section className="home-hero">
+        <div className="categories">
+  <button>All</button>
+  <button>Art</button>
+  <button>Programming</button>
+  <button>Language</button>
+  <button>Science</button>
+  <button>Robotics</button>
+</div>
+
 <img src={heroImageUrl} alt="Children learning" className="hero-image" />
         <div className="hero-overlay">
           <h1>اكتشفي أفضل مراكز التعلم لطفلك</h1>
