@@ -51,13 +51,16 @@ router.post('/login', async (req, res) => {
   res.status(500).json({ message: err.message });
 }
 });
+
 // Update user profile
 router.put("/update-profile", async (req, res) => {
   try {
-    // Get data from request body
     const { id, name, email } = req.body;
 
-    // Update user information
+    if (!id || !name || !email) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
     const result = await pool.query(
       `
       UPDATE users
@@ -68,18 +71,18 @@ router.put("/update-profile", async (req, res) => {
       [name, email, id]
     );
 
-    // Return updated user
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     res.json({
       message: "Profile updated successfully",
       user: result.rows[0],
     });
   } catch (err) {
-    console.error(err);
-
-    // Return error response
-    res.status(500).json({
-      message: "Failed to update profile",
-    });
+    console.error("Update profile error:", err);
+    res.status(500).json({ message: "Failed to update profile" });
   }
 });
+
 module.exports = router;
