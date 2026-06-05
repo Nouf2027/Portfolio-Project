@@ -61,23 +61,15 @@ router.put("/update-profile", async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const result = await pool.query(
-      `
-      UPDATE users
-      SET name = $1, email = $2
-      WHERE id = $3
-      RETURNING id, name, email, role
-      `,
-      [name, email, id]
-    );
+    const updatedUser = await User.updateProfile(id, name, email);
 
-    if (result.rows.length === 0) {
+    if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
 
     res.json({
       message: "Profile updated successfully",
-      user: result.rows[0],
+      user: updatedUser,
     });
   } catch (err) {
     console.error("Update profile error:", err);
