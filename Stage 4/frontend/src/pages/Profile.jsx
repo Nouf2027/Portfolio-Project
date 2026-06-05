@@ -39,6 +39,27 @@ function Profile() {
       alert("Failed to cancel booking.");
     }
   };
+  
+const [isEditing, setIsEditing] = useState(false);
+const [editName, setEditName] = useState(user?.name || "");
+const [editEmail, setEditEmail] = useState(user?.email || "");
+
+const handleUpdateProfile = async () => {
+  try {
+    const res = await API.put("/auth/update-profile", {
+  id: user.id,
+  name: editName,
+  email: editEmail,
+});
+
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    alert("Profile updated successfully");
+    setIsEditing(false);
+    window.location.reload();
+  } catch (err) {
+    alert("Failed to update profile");
+  }
+};
 
   return (
     <div className="clean-profile-page">
@@ -62,8 +83,40 @@ function Profile() {
           <p><strong>Email:</strong> {user?.email}</p>
           <p><strong>Role:</strong> {user?.role}</p>
           {role !== "admin" && (
-            <button className="main-btn">Edit Profile</button>
-          )}
+  <>
+    <button
+      className="main-btn"
+      onClick={() => setIsEditing(true)}
+    >
+      Edit Profile
+    </button>
+
+    {isEditing && (
+      <div className="edit-profile-box">
+
+        <input
+          value={editName}
+          onChange={(e) => setEditName(e.target.value)}
+          placeholder="Name"
+        />
+
+        <input
+          value={editEmail}
+          onChange={(e) => setEditEmail(e.target.value)}
+          placeholder="Email"
+        />
+
+        <button
+          className="main-btn"
+          onClick={handleUpdateProfile}
+        >
+          Save Changes
+        </button>
+
+      </div>
+    )}
+  </>
+)}
         </div>
 
         {role === "parent" && (
@@ -73,7 +126,7 @@ function Profile() {
               <div className="empty-box">
                 <h3>No bookings yet</h3>
                 <p>Start exploring centers and book your first course.</p>
-                <a href="/search">Find Centers</a>
+<a className="main-btn" href="/search">Find Centers</a>
               </div>
             ) : (
               <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px', marginTop: '10px'}}>
