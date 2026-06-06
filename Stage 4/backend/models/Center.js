@@ -2,7 +2,6 @@ const pool = require('../config/db');
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const path = require("path");
 
 const uploadDir = path.join(__dirname, "../uploads");
 
