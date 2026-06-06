@@ -5,8 +5,16 @@ const fs = require("fs");
 
 const uploadDir = path.join(__dirname, "../uploads");
 
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// Create uploads folder only if it does not exist as a directory
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  } else if (!fs.statSync(uploadDir).isDirectory()) {
+    fs.unlinkSync(uploadDir);
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.error("Uploads folder error:", err);
 }
 
 const storage = multer.diskStorage({
