@@ -112,8 +112,6 @@ router.get('/:id/courses', async (req, res) => {
   }
 });
 
-module.exports = router;
-
 router.patch('/:id', auth, async (req, res) => {
   try {
     const { name, location, description, image } = req.body;
@@ -126,3 +124,6 @@ router.patch('/:id', auth, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+module.exports = router;
+

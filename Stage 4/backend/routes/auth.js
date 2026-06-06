@@ -51,29 +51,40 @@ router.post('/login', async (req, res) => {
   res.status(500).json({ message: err.message });
 }
 });
-
 // Update user profile
 router.put("/update-profile", async (req, res) => {
   try {
+    // Get user data from request body
     const { id, name, email } = req.body;
 
+    // Validate required fields
     if (!id || !name || !email) {
-      return res.status(400).json({ message: "Missing required fields" });
+      return res.status(400).json({
+        message: "Missing required fields",
+      });
     }
 
+    // Update user in database
     const updatedUser = await User.updateProfile(id, name, email);
 
+    // Check if user exists
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
 
+    // Send updated user back to frontend
     res.json({
       message: "Profile updated successfully",
       user: updatedUser,
     });
   } catch (err) {
     console.error("Update profile error:", err);
-    res.status(500).json({ message: "Failed to update profile" });
+
+    res.status(500).json({
+      message: "Failed to update profile",
+    });
   }
 });
 
