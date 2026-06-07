@@ -22,18 +22,55 @@ function Login() {
   };
 
   return (
-    <div className="login-page">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        {error && <p style={{color: 'red'}}>{error}</p>}
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+  <div className="jeel-login-page">
+    <div className="jeel-login-left">
+      <div className="jeel-left-content">
+        <h1>Jeel</h1>
+        <p>A smart platform for discovering child development centers</p>
+      </div>
+    </div>
+
+    <div className="jeel-login-right">
+      <form className="jeel-login-form" onSubmit={handleSubmit}>
+        <h2>Welcome back 👋</h2>
+        <p>Please enter your details to login to your account</p>
+
+        {error && <div className="login-error">{error}</div>}
+
+        <label>Email</label>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <div className="login-options">
+          <label>
+            <input type="checkbox" /> Remember me
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+
         <button type="submit" disabled={loading}>
-          {loading ? <div className="loader"></div> : 'Login'}
+          {loading ? "Loading..." : "Login"}
         </button>
+
+        <p className="login-register">
+          Don’t have an account? <a href="/register">Register</a>
+        </p>
       </form>
     </div>
-  );
+  </div>
+);
 }
 
 export default Login;
