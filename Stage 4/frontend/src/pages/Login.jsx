@@ -32,9 +32,12 @@ function Login() {
 
     <div className="jeel-login-right">
       <form className="jeel-login-form" onSubmit={handleSubmit}>
-        <h2>Welcome back 👋</h2>
-        <p>Please enter your details to login to your account</p>
+        <h2>Welcome to Jeel 👋</h2>
+<p>Please sign in to continue</p>
 
+<div className="jeel-logo">
+  <img src="/logo.png" alt="Jeel Logo" />
+</div>
         {error && <div className="login-error">{error}</div>}
 
         <label>Email</label>
@@ -71,6 +74,7 @@ function Login() {
     </div>
   </div>
 );
+
 }
 
 export default Login;

@@ -496,6 +496,14 @@ h1, h2, h3 {
   display: flex;
   background: #ffffff;
 }
+.jeel-logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.jeel-logo img {
+  width: 90px;
+}
 
 .jeel-login-left {
   width: 48%;
@@ -533,7 +541,7 @@ h1, h2, h3 {
 }
 
 .jeel-login-form {
-  width: 540px;
+  width: 600px;
 }
 
 .jeel-login-form h2 {
