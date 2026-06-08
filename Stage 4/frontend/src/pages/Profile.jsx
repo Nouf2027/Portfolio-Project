@@ -76,76 +76,121 @@ const handleUpdateProfile = async () => {
       </section>
 
       <section className="clean-profile-grid">
-
-        <div className="clean-card">
-          <h2>👤 My Profile</h2>
-          <p><strong>Name:</strong> {user?.name}</p>
-          <p><strong>Email:</strong> {user?.email}</p>
-          <p><strong>Role:</strong> {user?.role}</p>
-          {role !== "admin" && (
-  <>
-    <button
-      className="main-btn"
-      onClick={() => setIsEditing(true)}
-    >
-      Edit Profile
-    </button>
-
-    {isEditing && (
-      <div className="edit-profile-box">
-
-        <input
-          value={editName}
-          onChange={(e) => setEditName(e.target.value)}
-          placeholder="Name"
-        />
-
-        <input
-          value={editEmail}
-          onChange={(e) => setEditEmail(e.target.value)}
-          placeholder="Email"
-        />
-
-        <button
-          className="main-btn"
-          onClick={handleUpdateProfile}
-        >
-          Save Changes
-        </button>
-
+  <div className="profile-card">
+    <div className="avatar-box">
+      <div className="avatar">
+        {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
       </div>
-    )}
-  </>
-)}
-        </div>
+      <button className="camera-btn">📷</button>
+    </div>
 
-        {role === "parent" && (
-          <div className="clean-card" style={{gridColumn: 'span 2'}}>
-            <h2>📚 My Bookings</h2>
-            {bookings.length === 0 ? (
-              <div className="empty-box">
-                <h3>No bookings yet</h3>
-                <p>Start exploring centers and book your first course.</p>
-<a className="main-btn" href="/search">Find Centers</a>
-              </div>
-            ) : (
-              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px', marginTop: '10px'}}>
-                {bookings.map((booking) => (
-                  <div key={booking.id} style={{background: '#f8faff', borderRadius: '16px', padding: '16px', border: '1px solid #d6e6f5'}}>
-                    <h3 style={{color: '#3b5b7a', marginBottom: '8px'}}>{booking.course_name}</h3>
-                    <p>🏫 <strong>Center:</strong> {booking.center_name}</p>
-                    <p>📅 <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
-                    <p>🔄 <strong>Status:</strong> {booking.status}</p>
-                    <button onClick={() => handleCancelBooking(booking.id)}
-                      style={{marginTop: '10px', background: '#ff4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '10px', cursor: 'pointer', width: '100%'}}>
-                      ❌ Cancel Booking
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+    <div className="profile-info">
+      <div className="info-row">
+        <span>Name</span>
+        <strong>{user?.name}</strong>
+      </div>
+
+      <div className="info-row">
+        <span>Email</span>
+        <strong>{user?.email}</strong>
+      </div>
+
+      <div className="info-row">
+        <span>Role</span>
+        <strong>{user?.role}</strong>
+      </div>
+    </div>
+
+    {role !== "admin" && (
+      <button
+        className="edit-profile-btn"
+        onClick={() => setIsEditing(true)}
+      >
+        ✎ Edit Profile
+      </button>
+    )}
+  </div>
+
+  {isEditing && (
+    <div className="edit-profile-box">
+      <input
+        value={editName}
+        onChange={(e) => setEditName(e.target.value)}
+        placeholder="Name"
+      />
+
+      <input
+        value={editEmail}
+        onChange={(e) => setEditEmail(e.target.value)}
+        placeholder="Email"
+      />
+
+      <button className="main-btn" onClick={handleUpdateProfile}>
+        Save Changes
+      </button>
+    </div>
+  )}
+
+  {role === "parent" && (
+    <div className="bookings-card">
+      <div className="bookings-header">
+        <h2>📅 My Bookings</h2>
+      </div>
+
+      {bookings.length === 0 ? (
+        <div className="empty-box">
+          <div className="empty-icon">📅</div>
+          <h3>No bookings yet</h3>
+          <p>Start exploring centers and book your first course.</p>
+          <a className="main-btn" href="/search">Find Centers</a>
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+            gap: "16px",
+            marginTop: "10px",
+          }}
+        >
+          {bookings.map((booking) => (
+            <div
+              key={booking.id}
+              style={{
+                background: "#f8faff",
+                borderRadius: "16px",
+                padding: "16px",
+                border: "1px solid #d6e6f5",
+              }}
+            >
+              <h3 style={{ color: "#3b5b7a", marginBottom: "8px" }}>
+                {booking.course_name}
+              </h3>
+              <p>🏫 <strong>Center:</strong> {booking.center_name}</p>
+              <p>📅 <strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
+              <p>🔄 <strong>Status:</strong> {booking.status}</p>
+
+              <button
+                onClick={() => handleCancelBooking(booking.id)}
+                style={{
+                  marginTop: "10px",
+                  background: "#ff4444",
+                  color: "white",
+                  border: "none",
+                  padding: "8px 16px",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+              >
+                ❌ Cancel Booking
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )}
 
         {role === "center" && (
           <>
