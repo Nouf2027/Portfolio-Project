@@ -12,17 +12,16 @@ import Privacy from "./pages/Privacy";
 import Dashboard from "./components/Dashboard";
 import Profile from './pages/Profile';
 import { useLocation } from "react-router-dom";
+
 function AppContent() {
   const location = useLocation();
 
   const hideNavbar =
     location.pathname === "/login" ||
     location.pathname === "/register";
-}
+return (
 
-function App() {
-  return (
-    <BrowserRouter>
+  <>
 {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -36,9 +35,23 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
-      <Footer />
+      {!hideNavbar && <Footer />}
+      </>
+
+);
+
+}
+
+
+
+
+function App() {
+  return (
+    <BrowserRouter>
+<AppContent />
     </BrowserRouter>
   );
 }
+
 
 export default App;
