@@ -634,6 +634,38 @@ h1, h2, h3 {
 .login-register {
   margin-top: 28px;
 }
+
+/* password */
+.password-toggle {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  color: #6b7280 !important;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.password-toggle:hover {
+  color: #305376 !important;
+}
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  padding-right: 50px;
+}
+
 /* register page */
 .register-page {
   min-height: calc(100vh - 180px);
@@ -709,33 +741,7 @@ h1, h2, h3 {
   border-radius: 0 25px 0 0;
   z-index: 5;
 }
- /* password */
-
-.password-container {
-  position: relative;
-}
-
-.password-toggle {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  background: transparent;
-  border: none;
-  cursor: pointer;
-
-  color: #6b7280;
-  font-size: 18px;
-}
-
-.password-toggle:hover {
-  color: #305376;
-}
-
-.password-container input {
-  padding-right: 50px;
-}
+ 
 /* search page */
 .search-page {
   min-height: 100vh;
