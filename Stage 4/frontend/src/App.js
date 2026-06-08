@@ -11,11 +11,19 @@ import Booking from "./pages/Booking";
 import Privacy from "./pages/Privacy";
 import Dashboard from "./components/Dashboard";
 import Profile from './pages/Profile';
+import { useLocation } from "react-router-dom";
+function AppContent() {
+  const location = useLocation();
+
+  const hideNavbar =
+    location.pathname === "/login" ||
+    location.pathname === "/register";
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+{!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
