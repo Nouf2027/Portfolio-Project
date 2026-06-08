@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import API from '../api/axios';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
 
 function Login() {
   const [email, setEmail] = useState('');
