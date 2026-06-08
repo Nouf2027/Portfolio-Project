@@ -516,6 +516,8 @@ h1, h2, h3 {
   background-position: center;
   border-bottom-right-radius: 45px;
   position: relative;
+    overflow: hidden;
+
 }
 .jeel-login-right{
   box-shadow: -5px 0 20px rgba(0,0,0,0.05);
@@ -527,7 +529,7 @@ h1, h2, h3 {
 }
 
 .jeel-left-content h1 {
-  font-size: 56px;
+  font-size: 64px;
   margin-bottom: 20px;
 }
 
@@ -681,6 +683,33 @@ h1, h2, h3 {
   font-weight: bold;
   cursor: pointer;
 }
+.corner-top {
+  position: absolute;
+  top: 30px;
+  right: -25px;
+
+  width: 90px;
+  height: 90px;
+
+  background: white;
+
+  border-radius: 0 0 0 25px;
+  z-index: 5;
+}
+.corner-bottom {
+  position: absolute;
+  bottom: 30px;
+  left: -25px;
+
+  width: 90px;
+  height: 90px;
+
+  background: white;
+
+  border-radius: 0 25px 0 0;
+  z-index: 5;
+}
+
 
 /* search page */
 .search-page {
