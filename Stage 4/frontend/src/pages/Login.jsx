@@ -40,12 +40,12 @@ their children's growth</p>
 <div className="jeel-logo">
   <img src="/jeel-logo.png" alt="Jeel Logo" />
 </div>
-        <h2>Welcome to Jeel 👋</h2>
-<p>Please sign in to continue</p>
+        <h2>مرحبا بعودتك 👋</h2>
+<p>يُرجى ادخال بيانتك  لتسجيل الدخول</p>
 
         {error && <div className="login-error">{error}</div>}
 
-        <label>Email</label>
+        <label>البريد الإلكتروني</label>
         <input
           type="email"
           placeholder="Enter your email"
@@ -72,9 +72,9 @@ their children's growth</p>
 
         <div className="login-options">
           <label>
-            <input type="checkbox" /> Remember me
+            <input type="checkbox" /> تذكرني
           </label>
-          <a href="#">Forgot password?</a>
+          <a href="#" dir="rtl">نسيت كلمة المرور?</a>
         </div>
 
         <button type="submit" disabled={loading}>
@@ -82,7 +82,7 @@ their children's growth</p>
         </button>
 
         <p className="login-register">
-          Don’t have an account? <a href="/register">Register</a>
+          ليس لديك حساب؟ <a href="/register" dir="rtl">انشاء حساب</a>
         </p>
       </form>
     </div>
