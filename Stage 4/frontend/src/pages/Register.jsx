@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import API from '../api/axios';
 import Loading from "../components/Loading";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Register() {
   const [name, setName] = useState('');
@@ -16,6 +17,7 @@ function Register() {
   const [centerActivities, setCenterActivities] = useState('');
   const [centerTrade, setCenterTrade] = useState('');
   const [centerLicense, setCenterLicense] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,7 +92,22 @@ function Register() {
         )}
         <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+<div className="password-container">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+
+  <button
+    type="button"
+    className="password-toggle"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
         <select value={role} onChange={(e) => setRole(e.target.value)} required>
           <option value="">Select Account Type</option>
           <option value="parent">Parent</option>
