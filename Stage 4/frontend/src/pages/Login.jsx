@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import API from '../api/axios';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from "react";
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+const [showPassword, setShowPassword] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,13 +54,22 @@ their children's growth</p>
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="password-container">
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+
+  <button
+    type="button"
+    className="password-toggle"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
 
         <div className="login-options">
           <label>
