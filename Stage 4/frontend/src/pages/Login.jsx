@@ -26,7 +26,9 @@ function Login() {
     <div className="jeel-login-left">
       <div className="jeel-left-content">
         <h1>Jeel</h1>
-        <p>A smart platform for discovering child development centers</p>
+        <p>Helping parents find
+the right center for
+their children's growth</p>
       </div>
     </div>
 
