@@ -67,11 +67,7 @@ const handleUpdateProfile = async () => {
         <div>
           <h1>Welcome back, {user?.name} 👋</h1>
           <p>Manage your account and activities in Jeel.</p>
-          <div className="profile-tags">
-            <span>✉️ {user?.email}</span>
-            <span> </span>
-            <span className={`role-pill ${role}`}>{role}</span>
-          </div>
+          
         </div>
       </section>
 
