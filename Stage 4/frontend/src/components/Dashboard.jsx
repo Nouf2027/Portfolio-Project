@@ -142,7 +142,27 @@ const [license, setLicense] = useState("");
             <button className={activeTab === "centers" ? "tab active" : "tab"} onClick={() => setActiveTab("centers")}>🏫 Centers</button>
             <button className={activeTab === "bookings" ? "tab active" : "tab"} onClick={() => setActiveTab("bookings")}>📅 Bookings</button>
           </div>
+<div className="stats-grid">
+  <div className="stat-card">
+    <h3>{centers.length}</h3>
+    <p>Total Centers</p>
+  </div>
 
+  <div className="stat-card">
+    <h3>{centers.filter(c => c.approved).length}</h3>
+    <p>Approved</p>
+  </div>
+
+  <div className="stat-card">
+    <h3>{centers.filter(c => !c.approved).length}</h3>
+    <p>Pending</p>
+  </div>
+
+  <div className="stat-card">
+    <h3>{bookings.length}</h3>
+    <p>Bookings</p>
+  </div>
+</div>
           {activeTab === "centers" && (
             <div className="dashboard-cards">
               {centers.length === 0 ? <p>No centers yet</p> : (
