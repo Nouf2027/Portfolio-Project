@@ -742,27 +742,44 @@ h1, h2, h3 {
   margin-top: 28px;
 }
 @media (max-width: 768px) {
-
-  .login-container {
+  .jeel-login-page {
     flex-direction: column;
+    min-height: 100vh;
   }
 
-  .login-left {
+  .jeel-login-left {
     display: none;
   }
 
-  .login-right {
+  .jeel-login-right {
     width: 100%;
-    padding: 20px;
+    min-height: 100vh;
+    padding: 30px 20px;
   }
 
-  .login-form {
+  .jeel-login-form {
     width: 100%;
-    max-width: 400px;
-    margin: auto;
+    max-width: 380px;
+    margin: 0 auto;
   }
 
+  .jeel-login-form h2 {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .jeel-login-form input {
+    height: 56px;
+    font-size: 16px;
+  }
+
+  .login-options {
+    flex-direction: row;
+    gap: 10px;
+    font-size: 14px;
+  }
 }
+
 /* password */
 .password-toggle {
   position: absolute;
