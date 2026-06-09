@@ -11,6 +11,7 @@ function Register() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
 
   const [centerName, setCenterName] = useState('');
   const [centerLocation, setCenterLocation] = useState('');
@@ -123,6 +124,20 @@ function Register() {
             <input type="text" placeholder="Activities (e.g. Programming, Art) *" value={centerActivities} onChange={(e) => setCenterActivities(e.target.value)} required />
             <input type="text" placeholder="Trade Number *" value={centerTrade} onChange={(e) => setCenterTrade(e.target.value)} required />
             <input type="text" placeholder="License Number" value={centerLicense} onChange={(e) => setCenterLicense(e.target.value)} />
+         <label className="upload-label">
+  Center Logo / Center Image
+</label>
+
+<input
+  type="file"
+  accept="image/*"
+  onChange={(e) => setImage(e.target.files[0])}
+/>
+
+<small>
+  Upload a clear image for your center (JPG, PNG, WEBP)
+</small>
+
           </>
         )}
 
