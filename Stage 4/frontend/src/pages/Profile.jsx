@@ -124,8 +124,9 @@ const handleUpdateProfile = async () => {
     )}
   </div>
 
-  {isEditing && (
-    <div className="edit-profile-box">
+ {isEditing && (
+  <div className="modal-overlay">
+    <div className="edit-profile-modal">
       <input
         value={editName}
         onChange={(e) => setEditName(e.target.value)}
@@ -137,11 +138,21 @@ const handleUpdateProfile = async () => {
         onChange={(e) => setEditEmail(e.target.value)}
         placeholder="Email"
       />
+<div className="modal-buttons">
+  <button className="main-btn" onClick={handleUpdateProfile}>
+    Save Changes
+  </button>
 
-      <button className="main-btn" onClick={handleUpdateProfile}>
-        Save Changes
-      </button>
+  <button
+    className="cancel-btn"
+    onClick={() => setIsEditing(false)}
+  >
+    Cancel
+  </button>
+</div>
     </div>
+  </div>
+  
   )}
 
   {role === "parent" && (
@@ -199,6 +210,7 @@ const handleUpdateProfile = async () => {
                 ❌ Cancel Booking
               </button>
             </div>
+            
           ))}
         </div>
       )}
