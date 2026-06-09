@@ -327,6 +327,25 @@ h1, h2, h3 {
   color: #6b7280;
   margin-bottom: 22px;
 }
+
+
+.main-btn {
+  display: inline-block;
+  background: #ff7a00;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.main-btn:hover {
+  background: #e86f00;
+}
+
  /* RESPONSIVE */
  .modal-overlay {
   position: fixed;
@@ -358,20 +377,30 @@ h1, h2, h3 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-.modal-buttons {
-  display: flex;
-  gap: 10px;
+
+
+
+.modal-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
 }
 
-.cancel-btn {
-  background: #f3f4f6;
-  color: #374151;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 10px;
-  cursor: pointer;
+.modal-buttons button{
+  flex:1;
 }
 
+.cancel-btn{
+  background:#f3f4f6;
+  border:none;
+  border-radius:10px;
+  padding:12px;
+  cursor:pointer;
+}
+
+.main-btn{
+  border:none;
+}
 @media (max-width: 768px) {
   .clean-profile-grid {
     grid-template-columns: 1fr;
