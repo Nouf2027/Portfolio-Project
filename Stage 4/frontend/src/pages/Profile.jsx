@@ -11,6 +11,16 @@ function Profile() {
   const [centerCourses, setCenterCourses] = useState([]);
   const [users, setUsers] = useState([]);
   const [centers, setCenters] = useState([]);
+  const [profileImage, setProfileImage] = useState(null);
+
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+
+  if (file) {
+    const imageUrl = URL.createObjectURL(file);
+    setProfileImage(imageUrl);
+  }
+};
 
   useEffect(() => {
     if (role === "parent") {
@@ -67,11 +77,24 @@ const handleUpdateProfile = async () => {
 
   <div className="profile-card">
     <div className="avatar-box">
-      <div className="avatar">
-        {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
-      </div>
-      <button className="camera-btn">📷</button>
-    </div>
+  <div className="avatar">
+    {profileImage ? (
+      <img src={profileImage} alt="Profile" />
+    ) : (
+      user?.name ? user.name.charAt(0).toUpperCase() : "U"
+    )}
+  </div>
+
+  <label className="camera-btn">
+    📷
+    <input
+      type="file"
+      accept="image/*"
+      hidden
+      onChange={handleImageChange}
+    />
+  </label>
+</div>
           <h1>My Profile</h1>
 
     <div className="profile-info">
