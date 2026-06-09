@@ -147,11 +147,20 @@ const [license, setLicense] = useState("");
     <h3>{centers.length}</h3>
     <p>Total Centers</p>
   </div>
+<div className="admin-actions">
+  {!c.approved && (
+    <button onClick={() => handleApprove(c.id)}>
+      Approve ✅
+    </button>
+  )}
 
-  <div className="stat-card">
-    <h3>{centers.filter(c => c.approved).length}</h3>
-    <p>Approved</p>
-  </div>
+  <button
+    className="delete-center-btn"
+    onClick={() => handleReject(c.id)}
+  >
+    Delete 🗑️
+  </button>
+</div>
 
   <div className="stat-card">
     <h3>{centers.filter(c => !c.approved).length}</h3>

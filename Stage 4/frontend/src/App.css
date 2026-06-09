@@ -1206,3 +1206,13 @@ h1, h2, h3 {
   margin-top:8px;
   color:#666;
 }
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.delete-center-btn {
+  background: #ef4444 !important;
+  color: white;
+}
