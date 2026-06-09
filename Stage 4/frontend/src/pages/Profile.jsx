@@ -73,6 +73,11 @@ const handleUpdateProfile = async () => {
 
   return (
     <div className="clean-profile-page">
+      <div className="profile-title">
+  <h1>My Profile</h1>
+  <p>Manage your account and activities in Jeel.</p>
+</div>
+
       <section className="clean-profile-grid">
 
   <div className="profile-card">
@@ -95,7 +100,6 @@ const handleUpdateProfile = async () => {
     />
   </label>
 </div>
-          <h1>My Profile</h1>
 
     <div className="profile-info">
       <div className="info-row">
