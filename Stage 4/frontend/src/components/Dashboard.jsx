@@ -172,10 +172,10 @@ const [license, setLicense] = useState("");
                     <p>📍 {c.location}</p>
                     <p>{c.description}</p>
                     <p>Status: {c.approved ? "Approved ✅" : "Pending ⏳"}</p>
-                    <div className="admin-actions">
+                      <div className="admin-actions">
   {!c.approved && (
     <button onClick={() => handleApprove(c.id)}>
-      Approve
+      Approve ✅
     </button>
   )}
 
@@ -183,10 +183,9 @@ const [license, setLicense] = useState("");
     className="delete-center-btn"
     onClick={() => handleReject(c.id)}
   >
-    Delete
+    Delete 🗑️
   </button>
-</div>
-                   
+</div>         
                   </div>
                 ))
               )}
