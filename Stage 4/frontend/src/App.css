@@ -1099,44 +1099,45 @@ h1, h2, h3 {
 }
 
 /* Admin Dashboard */
-.dashboard-page {
-  background: #fafafa;
+  .dashboard-page {
   min-height: 100vh;
-  padding: 50px 10%;
+  background: #fafafa;
+  padding: 70px 10%;
 }
 
 .dashboard-page > div {
+  max-width: 900px;
+  margin: 0 auto;
   background: white;
-  border-radius: 18px;
-  padding: 35px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  padding: 40px;
+  border-radius: 22px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
 }
 
 .dashboard-page h1 {
-  font-size: 34px;
   color: #14213d;
-  margin-bottom: 20px;
+  font-size: 38px;
+  margin-bottom: 25px;
 }
 
 .tabs {
   display: flex;
-  gap: 12px;
-  margin-bottom: 25px;
+  gap: 14px;
+  margin-bottom: 35px;
 }
 
 .tab {
   border: 1px solid #eee;
   background: white;
-  padding: 12px 22px;
-  border-radius: 12px;
+  padding: 13px 25px;
+  border-radius: 14px;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: 600;
 }
 
 .tab.active {
-  background: #ff7a00;
+  background: linear-gradient(90deg, #ff8a1c, #ff5b00);
   color: white;
-  border-color: #ff7a00;
 }
 
 .dashboard-cards {
@@ -1148,25 +1149,21 @@ h1, h2, h3 {
 .dashboard-box {
   background: #fff;
   border: 1px solid #eee;
-  border-radius: 16px;
-  padding: 22px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.05);
 }
 
-.dashboard-box h2,
-.dashboard-box h3 {
+.dashboard-box h2 {
   color: #14213d;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.dashboard-box button {
-  background: #ff7a00;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  cursor: pointer;
+.dashboard-box p {
+  margin: 8px 0;
+  color: #374151;
 }
+
 .stats-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
