@@ -115,10 +115,13 @@ router.get('/:id/courses', async (req, res) => {
 router.patch('/:id', auth, async (req, res) => {
   try {
     const { name, location, description, image } = req.body;
-    const result = await pool.query(
-      'UPDATE centers SET name=COALESCE($1,name), location=COALESCE($2,location), description=COALESCE($3,description), image=COALESCE($4,image) WHERE id=$5 RETURNING *',
-      [name, location, description, image, req.params.id]
-    );
+
+const center = await Center.create({
+  name,
+  location,
+  description,
+  image
+});
     res.json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ message: err.message });

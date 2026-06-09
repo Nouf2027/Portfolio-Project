@@ -35,13 +35,7 @@ class Center {
      RETURNING *`,
     [name, location, description, image]
   );
-const centerSchema = new mongoose.Schema({
-  name: String,
-  location: String,
-  description: String,
-  image: String,
-  approved: Boolean,
-});
+
   return result.rows[0];
 }
 
