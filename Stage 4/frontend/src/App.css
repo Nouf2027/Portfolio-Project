@@ -1099,54 +1099,63 @@ h1, h2, h3 {
 }
 
 /* Admin Dashboard */
-.admin-page {
-  padding: 50px 10%;
-  background: #fafafa;
-  min-height: 100vh;
+.dashboard-page{
+  padding: 40px;
+  max-width: 1400px;
+  margin: auto;
 }
 
-.admin-title {
-  font-size: 34px;
-  color: #14213d;
+.dashboard-page h1{
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #1f2937;
+}
+
+.tabs{
+  display: flex;
+  gap: 12px;
   margin-bottom: 25px;
 }
 
-.admin-stats {
+.tab{
+  border: none;
+  background: #f3f4f6;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tab.active{
+  background: #ff8c42;
+  color: white;
+}
+
+.dashboard-cards{
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
   gap: 20px;
-  margin-bottom: 30px;
 }
 
-.admin-card {
+.dashboard-box{
   background: white;
+  border-radius: 20px;
   padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  transition: .3s;
 }
 
-.admin-table {
-  width: 100%;
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  border-collapse: collapse;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+.dashboard-box:hover{
+  transform: translateY(-5px);
 }
 
-.admin-table th,
-.admin-table td {
-  padding: 16px;
-  border-bottom: 1px solid #eee;
-  text-align: left;
+.dashboard-box h2,
+.dashboard-box h3{
+  margin-bottom: 12px;
+  color: #1f2937;
 }
 
-.approve-btn {
-  background: #22c55e;
-  color: white;
-}
-
-.reject-btn {
-  background: #ef4444;
-  color: white;
+.dashboard-box p{
+  margin: 8px 0;
+  color: #555;
 }
