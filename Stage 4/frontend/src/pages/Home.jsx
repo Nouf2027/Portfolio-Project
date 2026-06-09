@@ -81,14 +81,13 @@ function Home() {
       {/* المراكز */}
       <section className="centers-section">
         <div className="section-header">
-          <h2>Available Centers</h2>
-          <p>{filteredCenters.length} center(s) found</p>
+          <h2>المراكز المتاحة</h2>
+          <p>{filteredCenters.length} تم العثور على مركز</p>
         </div>
 
         {filteredCenters.length === 0 ? (
           <div className="empty-centers">
-            <h3>No centers found</h3>
-            <p>Try searching with another keyword or category.</p>
+            <h3>لا توجد مراكز</h3>
           </div>
         ) : (
           <div className="centers-grid">
@@ -109,7 +108,7 @@ function Home() {
                     <span> ({center.reviews_count || 0} reviews)</span>
                   </div>
                   <Link to={`/centers/${center.id || center._id}`} className="details-btn">
-                    View Details
+                    عرض التفاصيل
                   </Link>
                 </div>
               </div>
