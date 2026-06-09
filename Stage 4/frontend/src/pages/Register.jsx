@@ -12,7 +12,8 @@ function Register() {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
-
+  const [successMessage, setSuccessMessage] = useState("");
+  
   const [centerName, setCenterName] = useState('');
   const [centerLocation, setCenterLocation] = useState('');
   const [centerActivities, setCenterActivities] = useState('');

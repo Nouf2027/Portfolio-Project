@@ -147,20 +147,11 @@ const [license, setLicense] = useState("");
     <h3>{centers.length}</h3>
     <p>Total Centers</p>
   </div>
-<div className="admin-actions">
-  {!c.approved && (
-    <button onClick={() => handleApprove(c.id)}>
-      Approve ✅
-    </button>
-  )}
 
-  <button
-    className="delete-center-btn"
-    onClick={() => handleReject(c.id)}
-  >
-    Delete 🗑️
-  </button>
-</div>
+  <div className="stat-card">
+    <h3>{centers.filter(c => c.approved).length}</h3>
+    <p>Approved</p>
+  </div>
 
   <div className="stat-card">
     <h3>{centers.filter(c => !c.approved).length}</h3>
@@ -181,12 +172,21 @@ const [license, setLicense] = useState("");
                     <p>📍 {c.location}</p>
                     <p>{c.description}</p>
                     <p>Status: {c.approved ? "Approved ✅" : "Pending ⏳"}</p>
-                    {!c.approved && (
-                      <div style={{display:'flex', gap:'10px', marginTop:'10px'}}>
-                        <button onClick={() => handleApprove(c.id)}>Approve ✅</button>
-                        <button onClick={() => handleReject(c.id)} style={{backgroundColor:'red', color:'white', border:'none', padding:'8px 16px', borderRadius:'8px', cursor:'pointer'}}>Reject ❌</button>
-                      </div>
-                    )}
+                    <div className="admin-actions">
+  {!c.approved && (
+    <button onClick={() => handleApprove(c.id)}>
+      Approve
+    </button>
+  )}
+
+  <button
+    className="delete-center-btn"
+    onClick={() => handleReject(c.id)}
+  >
+    Delete
+  </button>
+</div>
+                   
                   </div>
                 ))
               )}
