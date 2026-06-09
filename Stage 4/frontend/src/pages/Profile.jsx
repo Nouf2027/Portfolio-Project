@@ -63,15 +63,8 @@ const handleUpdateProfile = async () => {
 
   return (
     <div className="clean-profile-page">
-      <section className="profile-hero">
-        <div>
-          <h1>Welcome back, {user?.name} 👋</h1>
-          <p>Manage your account and activities in Jeel.</p>
-          
-        </div>
-      </section>
-
       <section className="clean-profile-grid">
+
   <div className="profile-card">
     <div className="avatar-box">
       <div className="avatar">
@@ -79,6 +72,7 @@ const handleUpdateProfile = async () => {
       </div>
       <button className="camera-btn">📷</button>
     </div>
+          <h1>My Profile</h1>
 
     <div className="profile-info">
       <div className="info-row">
