@@ -500,6 +500,8 @@ h1, h2, h3 {
   object-fit: cover;
   object-position: center;
   display: block;
+    margin-bottom: 40px;
+
 }
 .home-hero {
   position: relative;
@@ -507,10 +509,10 @@ h1, h2, h3 {
   height: 420px;
   overflow: hidden;
   border-radius: 0 0 34px 34px;
+    margin-bottom: 40px;
+
 }
-.hero-banner {
-  margin-bottom: 40px;
-}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
