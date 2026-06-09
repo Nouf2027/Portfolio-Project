@@ -34,6 +34,7 @@ return (
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/my-center" element={<Dashboard />} />
       </Routes>
       {!hideNavbar && <Footer />}
       </>

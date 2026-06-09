@@ -60,7 +60,9 @@ function Register() {
           location: centerLocation,
           description: centerActivities,
           license: centerLicense,
-        }, { headers: { Authorization: `Bearer ${token}` } });
+        }, 
+        
+        { headers: { Authorization: `Bearer ${token}` } });
         setLoading(false);
         setSuccess("✅ تم إرسال طلب المركز بنجاح! سيتم مراجعته من قبل الإدارة.");
         setTimeout(() => {
@@ -69,6 +71,32 @@ function Register() {
       } else {
         window.location.href = '/';
       }
+setSuccessMessage(
+
+      role === "center"
+
+        ? "تم تسجيلك بنجاح. سيتم مراجعة مركزك من قبل الإدارة قبل ظهوره في الموقع."
+
+        : "تم إنشاء حسابك بنجاح."
+
+    );
+
+{successMessage && (
+  <div className="modal-overlay">
+    <div className="edit-profile-modal">
+      <h2>تم التسجيل بنجاح ✅</h2>
+      <p>{successMessage}</p>
+
+      <button
+        className="main-btn"
+        onClick={() => window.location.href = "/login"}
+      >
+        الذهاب لتسجيل الدخول
+      </button>
+    </div>
+  </div>
+)}
+
     } catch (err) {
       setLoading(false);
       if (err.response?.data?.message) {
