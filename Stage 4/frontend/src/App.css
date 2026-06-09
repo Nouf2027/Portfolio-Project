@@ -277,12 +277,15 @@ h1, h2, h3 {
   position: absolute;
   top: 28px;
   right: 28px;
+
   background: white;
   border: 1px solid #ff6b00;
   color: #ff6b00;
+
   padding: 12px 24px;
   border-radius: 12px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .bookings-card {
