@@ -255,7 +255,19 @@ h1, h2, h3 {
   color: #14213d;
   margin: 0;
 }
+.profile-title {
+  margin-bottom: 25px;
+}
 
+.profile-title h1 {
+  font-size: 30px;
+  color: #14213d;
+  margin-bottom: 8px;
+}
+
+.profile-title p {
+  color: #6b7280;
+}
 .avatar-box {
   position: relative;
   width: 140px;
