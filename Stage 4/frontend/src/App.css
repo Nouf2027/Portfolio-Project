@@ -1002,11 +1002,7 @@ h1, h2, h3 {
   background: white;
   flex-wrap: wrap;
 }
-.category-tabs {
-  display: flex;
-  gap: 12px;
-  margin-top: 30px;
-}
+
 .categories button {
   padding: 12px 26px;
   border: 1px solid #f2d28a;
@@ -1044,4 +1040,9 @@ h1, h2, h3 {
   background: #ff8c42;
   color: white;
 }
-
+.filters {
+  display: flex;
+  gap: 12px;
+  padding-top: 40px;
+  margin-bottom: 25px;
+}
