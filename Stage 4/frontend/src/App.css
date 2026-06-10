@@ -1058,3 +1058,10 @@ button:hover {
   .overview-grid { grid-template-columns: 1fr; }
   .dashboard-main { padding: 24px 20px; }
 }
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
