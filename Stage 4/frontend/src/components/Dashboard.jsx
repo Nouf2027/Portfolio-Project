@@ -87,12 +87,24 @@ const [license, setLicense] = useState("");
       return;
     }
     try {
-      const res = await API.post("/centers", {
-        name: centerName,
-        location,
-        description,
-      });
-      setCenter(res.data);
+      const formData = new FormData();
+
+formData.append("name", centerName);
+formData.append("location", location);
+formData.append("description", description);
+
+if (image) {
+  formData.append("image", image);
+}
+
+const res = await API.post("/centers", formData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
+
+setCenter(res.data);
+
       setCenterSuccess("✅ تم إرسال طلب المركز بنجاح! سيتم مراجعته من قبل الإدارة.");
       setTimeout(() => setCenterSuccess(""), 4000);
     } catch (err) {
@@ -230,7 +242,13 @@ const [license, setLicense] = useState("");
                 <input placeholder="Activities *" value={activities} onChange={(e) => setActivities(e.target.value)} required />
                 <input placeholder="Trade Number *" value={tradeNumber} onChange={(e) => setTradeNumber(e.target.value)} required />
                 <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                <input type="text" placeholder="Center Image URL" value={image} onChange={(e) => setImage(e.target.value)} />
+<label>📷 Center Image</label>
+
+<input
+  type="file"
+  accept="image/*"
+  onChange={(e) => setImage(e.target.files[0])}
+/>
                 <label>License File</label>
                 <input type="file" onChange={(e) => setLicense(e.target.files[0])} />
                 <button type="submit">Submit For Approval 🙏</button>

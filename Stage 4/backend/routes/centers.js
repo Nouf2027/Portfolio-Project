@@ -4,27 +4,30 @@ const Center = require('../models/Center');
 const auth = require('../middleware/auth');
 const pool = require('../config/db');
 const Course = require('../models/Course');
-
-router.get('/', async (req, res) => {
+router.post("/", auth, upload.single("image"), async (req, res) => {
   try {
-    const centers = await Center.findAll();
-    res.json(centers);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+    const { name, location, description } = req.body;
+    const image = req.file ? req.file.filename : null;
 
-router.get('/all', auth, async (req, res) => {
-  try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Admins only' });
+    if (!name || !location || !description) {
+      return res.status(400).json({
+        message: "Name, location, and description are required",
+      });
     }
-    const result = await pool.query('SELECT * FROM centers ORDER BY approved ASC');
-    res.json(result.rows);
+
+    const center = await Center.create({
+      name,
+      location,
+      description,
+      image,
+    });
+
+    res.status(201).json(center);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 router.get('/search', async (req, res) => {
   try {
