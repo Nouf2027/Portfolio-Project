@@ -97,6 +97,18 @@ function CenterDetails() {
 
       {/* معلومات المركز */}
       <div style={{background:'white', borderRadius:'20px', padding:'30px', marginBottom:'30px', border:'1px solid #d6e6f5', display:'flex', gap:'30px', flexWrap:'wrap'}}>
+       <div style={{flex:1, minWidth:'250px'}}>
+  <img
+    src={center.image || "/default-center.jpg"}
+    alt={center.name}
+    style={{
+      width: "100%",
+      height: "260px",
+      objectFit: "cover",
+      borderRadius: "18px"
+    }}
+  />
+</div>
         <div style={{flex:1, minWidth:'250px'}}>
           <h1 style={{color:'#3b5b7a', marginBottom:'10px'}}>{center.name}</h1>
           <p style={{color:'#64748b'}}>📍 {center.location}</p>
