@@ -982,6 +982,13 @@ h1, h2, h3 {
   background: #f3f4f6;
   font-size: 40px;
 }
+.center-details-image {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 22px;
+  margin-bottom: 25px;
+}
 
 .rating {
   padding: 12px 18px 0;
