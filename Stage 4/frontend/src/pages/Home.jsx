@@ -94,7 +94,11 @@ function Home() {
             {filteredCenters.map((center) => (
               <div className="center-card" key={center.id || center._id}>
                 {center.image ? (
-                  <img src={center.image} alt={center.name} className="center-image" />
+<img
+  src={`${API.defaults.baseURL.replace("/api", "")}/uploads/${center.image}`}
+  alt={center.name}
+  className="center-image"
+/>
                 ) : (
                   <div className="center-image-placeholder">🏫</div>
                 )}
