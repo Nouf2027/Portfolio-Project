@@ -72,7 +72,21 @@ router.get('/mine', auth, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+router.get('/all', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admins only' });
+    }
 
+    const result = await pool.query(
+      'SELECT * FROM centers ORDER BY approved ASC'
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 router.get('/:id', async (req, res) => {
   try {
     const center = await Center.findById(req.params.id);
