@@ -11,11 +11,13 @@ function CenterDetails() {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const role = user.role;
 
   useEffect(() => {
+    // زيادة المشاهدات
+    API.patch(`/centers/${id}/view`).catch(() => {});
+
     API.get(`/centers/${id}`)
       .then(res => {
         setCenter(res.data);
@@ -97,7 +99,6 @@ function CenterDetails() {
         {role === 'admin' && (
           <p style={{color: '#ff6f00', fontWeight: 'bold'}}>⚠️ Admins cannot add reviews</p>
         )}
-
         {role === 'center' && (
           <p style={{color: '#ff6f00', fontWeight: 'bold'}}>⚠️ Centers cannot add reviews</p>
         )}
