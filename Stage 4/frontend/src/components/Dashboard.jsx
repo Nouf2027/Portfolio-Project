@@ -24,6 +24,7 @@ function Dashboard() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [licenseFile, setLicenseFile] = useState(null);
+  const [category, setCategory] = useState("");
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const role = user.role;
@@ -77,13 +78,15 @@ function Dashboard() {
         });
         imageUrl = uploadRes.data.url;
       }
-      await API.post("/centers", { name, location, description, image: imageUrl });
+      await API.post("/centers", { name, location, description, image: imageUrl, category });
       setSuccess("تم إرسال بيانات المركز بنجاح");
       setShowForm(false);
       setName(""); setLocation(""); setDescription("");
-      setImage(null); setLicenseFile(null);
-      const res = await API.get("/centers/all");
-      setCenters(res.data);
+      setImage(null); setLicenseFile(null); setCategory("");
+      if (role === "admin") {
+        const res = await API.get("/centers/all");
+        setCenters(res.data);
+      }
     } catch (err) { console.error(err); }
   };
 
@@ -100,7 +103,6 @@ function Dashboard() {
     return status;
   };
 
-  // بيانات الرسم البياني
   const chartData = centers.map((center) => ({
     name: center.name?.length > 10 ? center.name.substring(0, 10) + "..." : center.name,
     الحجوزات: getCenterBookingsCount(center),
@@ -117,8 +119,6 @@ function Dashboard() {
   if (role === "admin") {
     return (
       <div className="dashboard-layout" dir="rtl">
-
-        {/* Sidebar */}
         <aside className="dashboard-sidebar">
           <div className="sidebar-header">
             <FaShieldAlt className="sidebar-logo-icon" />
@@ -146,10 +146,7 @@ function Dashboard() {
           </div>
         </aside>
 
-        {/* Main Content */}
         <main className="dashboard-main">
-
-          {/* Header */}
           <div className="dashboard-topbar">
             <h1 className="dashboard-title">
               {activeTab === "overview" && "نظرة عامة"}
@@ -159,15 +156,13 @@ function Dashboard() {
             </h1>
             {activeTab === "centers" && (
               <button className="admin-add-btn" onClick={() => setShowForm(!showForm)}>
-                <FaPlus />
-                إضافة مركز
+                <FaPlus /> إضافة مركز
               </button>
             )}
           </div>
 
           {success && <div className="success-message">{success}</div>}
 
-          {/* Form */}
           {showForm && activeTab === "centers" && (
             <form onSubmit={handleAddCenter} className="form-container admin-form">
               <input placeholder="اسم المركز" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -181,7 +176,6 @@ function Dashboard() {
             </form>
           )}
 
-          {/* Stats */}
           <div className="stats-grid">
             <div className="stat-card">
               <FaBuilding className="stat-icon" />
@@ -210,10 +204,8 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Overview Tab */}
           {activeTab === "overview" && (
             <div className="overview-grid">
-              {/* رسم بياني للمراكز */}
               <div className="chart-card">
                 <h3>الحجوزات والكورسات لكل مركز</h3>
                 <ResponsiveContainer width="100%" height={280}>
@@ -228,8 +220,6 @@ function Dashboard() {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-
-              {/* الكورسات الأكثر مشاهدة */}
               <div className="chart-card">
                 <h3>الكورسات الأكثر مشاهدة</h3>
                 {topCourses.length === 0 ? (
@@ -255,7 +245,6 @@ function Dashboard() {
             </div>
           )}
 
-          {/* Centers Tab */}
           {activeTab === "centers" && (
             <div className="dashboard-cards">
               {centers.length === 0 ? <p>لا توجد مراكز حتى الآن</p> : (
@@ -307,7 +296,6 @@ function Dashboard() {
             </div>
           )}
 
-          {/* Bookings Tab */}
           {activeTab === "bookings" && (
             <div className="modern-table-wrapper">
               {bookings.length === 0 ? <p>لا توجد حجوزات حتى الآن</p> : (
@@ -341,7 +329,6 @@ function Dashboard() {
             </div>
           )}
 
-          {/* Courses Tab */}
           {activeTab === "courses" && (
             <div className="dashboard-cards">
               {courses.length === 0 ? <p>لا توجد كورسات حتى الآن</p> : (
@@ -382,6 +369,17 @@ function Dashboard() {
             <input placeholder="اسم المركز" value={name} onChange={(e) => setName(e.target.value)} required />
             <input placeholder="الموقع" value={location} onChange={(e) => setLocation(e.target.value)} required />
             <input placeholder="الوصف" value={description} onChange={(e) => setDescription(e.target.value)} required />
+            <label>التصنيف</label>
+            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value="">اختر تصنيفاً (اختياري)</option>
+              <option value="Art">فنون</option>
+              <option value="Programming">برمجة</option>
+              <option value="Language">لغات</option>
+              <option value="Science">علوم</option>
+              <option value="Robotics">روبوتيكس</option>
+              <option value="Math">رياضيات</option>
+              <option value="Sports">رياضة</option>
+            </select>
             <label>صورة المركز</label>
             <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
             <label>وثيقة أو ترخيص المركز</label>
