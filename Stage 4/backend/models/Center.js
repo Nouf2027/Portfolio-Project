@@ -28,12 +28,12 @@ const upload = multer({ storage });
 class Center {
   // Create new center
   
-  static async create({ name, location, description, image }) {
+ static async create({ name, location, description, image, owner_id }) {
   const result = await pool.query(
-    `INSERT INTO centers (name, location, description, image, approved)
-     VALUES ($1, $2, $3, $4, FALSE)
+    `INSERT INTO centers (name, location, description, image, owner_id, approved)
+     VALUES ($1, $2, $3, $4, $5, FALSE)
      RETURNING *`,
-    [name, location, description, image]
+    [name, location, description, image, owner_id]
   );
 
   return result.rows[0];

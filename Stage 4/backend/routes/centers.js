@@ -35,11 +35,12 @@ router.post("/", auth, upload.single("image"), async (req, res) => {
     }
 
     const center = await Center.create({
-      name,
-      location,
-      description,
-      image,
-    });
+  name,
+  location,
+  description,
+  image,
+  owner_id: req.user.id
+});
 
     res.status(201).json(center);
   } catch (err) {
