@@ -12,31 +12,31 @@ function Login() {
       const res = await API.post('/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      alert('Login successful!');
+      alert('تم تسجيل الدخول بنجاح');
       window.location.href = '/';
     } catch (err) {
-      setError('Invalid email or password');
+      setError('البريد الالكتروني او كلمة المرور غير صحيحة');
     }
   };
 
   return (
     <div className="login-page">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
+        <h2>تسجيل الدخول</h2>
         {error && <p style={{color: 'red'}}>{error}</p>}
         <input
           type="email"
-          placeholder="Email"
+          placeholder="البريد الالكتروني"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="كلمة المرور"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button type="submit">تسجيل الدخول</button>
       </form>
     </div>
   );
