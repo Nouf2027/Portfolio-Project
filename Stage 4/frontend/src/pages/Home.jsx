@@ -5,40 +5,61 @@ import API from "../api/axios";
 function Home() {
   const [centers, setCenters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     API.get('/centers')
       .then(res => {
         setCenters(res.data);
-        setLoading(false);
       })
       .catch(err => {
         console.error(err);
-        setLoading(false);
+        setError('حدث خطأ أثناء تحميل المراكز. حاول مجدداً.');
       });
+      .finally(() => setLoading(false));
   }, []);
 
+  const filteredCenters = useMemo(() => {
+    const search = searchTerm.trim().toLowerCase();
+    return centers.filter(center =>
+      center.name?.toLowerCase().includes(search) ||
+      center.city?.toLowerCase().includes(search) ||
+      center.category?.toLowerCase().includes(search)
+    );
+  }, [centers, searchTerm]);
+  
   return (
     <div className="home-page">
       <section className="hero">
         <div>
-          <h1>Find the Best Skill Centers for Your Child</h1>
-          <p>Discover trusted centers in art, programming, science, and more.</p>
-          <a href="/search" className="hero-button">Start Searching</a>
+          <h1>اعثر على أفضل مراكز تنمية المهارات لطفلك</h1>
+          <p>اكتشف مراكز موثوقة في الفنون والبرمجة والعلوم وغيرها</p>
+          <a href="/search" className="hero-button">ابدأ البحث</a>
         </div>
       </section>
       <section className="featured-section">
-        <h2>Featured Centers</h2>
+        <h2>المراكز المميزة</h2>
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="ابحث عن مركز أو مدينة أو تصنيف..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
         <div className="cards-container">
           {loading ? (
-            <p>Loading...</p>
-          ) : centers.length === 0 ? (
-            <p>No centers found.</p>
-          ) : (
-            centers.map((center, index) => (
-              <CenterCard key={index} center={center} />
-            ))
-          )}
+      <p>جاري البحث...</p>
+    ) : error ? (
+      <p className="error-message">{error}</p>
+    ) : filteredCenters.length === 0 ? (
+      <p>لا توجد نتائج مطابقة.</p>
+    ) : (
+      filteredCenters.map((center, index) => (
+        <CenterCard key={center._id || center.id} center={center} />
+      ))
+    )}
         </div>
       </section>
     </div>
