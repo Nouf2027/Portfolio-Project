@@ -1257,3 +1257,31 @@ h1, h2, h3 {
   background: #ef4444 !important;
   color: white;
 }
+
+/* courses */
+.center-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 35px 0 18px;
+}
+
+.center-section-header h2 {
+  color: #14213d;
+  margin: 0;
+}
+
+.center-section-header p {
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+.add-course-btn {
+  background: #ff7a00;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}

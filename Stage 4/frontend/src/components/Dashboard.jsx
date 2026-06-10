@@ -311,10 +311,20 @@ setCenter(res.data);
               </div>
 
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px'}}>
-                <h3>📚 My Courses</h3>
-                <button onClick={() => setShowCourseForm(!showCourseForm)}>
-                  {showCourseForm ? '✕ Close' : '+ Add Course'}
-                </button>
+                <div className="center-section-header">
+  <div>
+    <h2>My Courses</h2>
+    <p>Manage the courses offered by your center.</p>
+  </div>
+
+  <button
+    className="add-course-btn"
+    onClick={() => setShowCourseForm(!showCourseForm)}
+  >
+    {showCourseForm ? "Close" : "+ Add Course"}
+  </button>
+</div>
+
               </div>
 
               {courseSuccess && (
