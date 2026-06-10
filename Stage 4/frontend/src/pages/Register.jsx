@@ -14,10 +14,10 @@ function Register() {
       const res = await API.post('/auth/register', { name, email, password, role });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      alert('Registration successful!');
+      alert('تم انشاء الحساب بنجاح');
       window.location.href = '/';
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      setError('فشل انشاء الحساب، يرجى المحاولة مره اخرى');
     }
   };
 
@@ -28,28 +28,28 @@ function Register() {
         {error && <p style={{color: 'red'}}>{error}</p>}
         <input
           type="text"
-          placeholder="Name"
+          placeholder="الاسم"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="email"
-          placeholder="Email"
+          placeholder="البريد الالكتروني"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="كلمة المرور"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="">Select Account Type</option>
-          <option value="parent">Parent</option>
-          <option value="center">Center</option>
+          <option value="">اختر نوع الحساب</option>
+          <option value="parent">ولي امر</option>
+          <option value="center">مركز</option>
         </select>
-        <button type="submit">Register</button>
+        <button type="submit">انشاء الحساب</button>
       </form>
     </div>
   );
