@@ -34,47 +34,23 @@ router.get('/me', authMiddleware, async (req, res) => {
   }
 });
 
+// Get all bookings (admin only)
+router.get('/all', authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admins only' });
+    }
+    const result = await pool.query(
+      `SELECT b.*, u.email, co.name as course_name, ce.name as center_name
+       FROM bookings b
+       JOIN users u ON b.user_id = u.id
+       JOIN courses co ON b.course_id = co.id
+       JOIN centers ce ON co.center_id = ce.id`
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
