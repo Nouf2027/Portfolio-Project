@@ -2,12 +2,12 @@ const pool = require('../config/db');
 
 class Center {
   // Create new center
-  static async create({ name, location, description }) {
+  static async create({ name, location, description, image, owner_id }) {
     const result = await pool.query(
-      `INSERT INTO centers (name, location, description, approved)
-       VALUES ($1, $2, $3, FALSE)
+      `INSERT INTO centers (name, location, description, image, owner_id, approved)
+       VALUES ($1, $2, $3, $4, $5, FALSE)
        RETURNING *`,
-      [name, location, description]
+      [name, location, description, image, owner_id]
     );
     return result.rows[0];
   }
@@ -15,7 +15,13 @@ class Center {
   // Get all approved centers
   static async findAll() {
     const result = await pool.query(
-      'SELECT * FROM centers WHERE approved = TRUE'
+      `SELECT centers.*, 
+              COALESCE(ROUND(AVG(reviews.rating), 1), 0) AS average_rating,
+              COUNT(reviews.id) AS review_count
+       FROM centers
+       LEFT JOIN reviews ON centers.id = reviews.centre_id
+       WHERE centers.approved = TRUE
+       GROUP BY centers.id`
     );
     return result.rows;
   }
@@ -23,7 +29,13 @@ class Center {
   // Find center by ID
   static async findById(id) {
     const result = await pool.query(
-      'SELECT * FROM centers WHERE id = $1',
+      `SELECT centers.*,
+              COALESCE(ROUND(AVG(reviews.rating), 1), 0) AS average_rating,
+              COUNT(reviews.id) AS review_count
+       FROM centers
+       LEFT JOIN reviews ON centers.id = reviews.centre_id
+       WHERE centers.id = $1
+       GROUP BY centers.id`,
       [id]
     );
     return result.rows[0];
