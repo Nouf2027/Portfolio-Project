@@ -4,6 +4,25 @@ const Center = require('../models/Center');
 const auth = require('../middleware/auth');
 const pool = require('../config/db');
 const Course = require('../models/Course');
+const multer = require("multer");
+const path = require("path");
+const storage = multer.diskStorage({
+  destination: "uploads/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
+router.get('/', async (req, res) => {
+  try {
+    const centers = await Center.findAll();
+    res.json(centers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 router.post("/", auth, upload.single("image"), async (req, res) => {
   try {
     const { name, location, description } = req.body;
@@ -27,7 +46,6 @@ router.post("/", auth, upload.single("image"), async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
 
 router.get('/search', async (req, res) => {
   try {
