@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 import API from "../api/axios";
+import {
+  FiBookOpen,
+  FiCalendar,
+  FiClock,
+  FiCheckCircle
+} from "react-icons/fi";
 
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -224,7 +230,41 @@ setCenter(res.data);
 
       {role === "center" && (
         <div>
-          <h1>🏫 My Center</h1>
+          <h1> My Center</h1>
+              
+            <div className="center-stats-grid">
+  <div className="center-stat-card">
+    <FiBookOpen />
+    <div>
+      <h3>{courses.length}</h3>
+      <p>Total Courses</p>
+    </div>
+  </div>
+
+  <div className="center-stat-card">
+    <FiCalendar />
+    <div>
+      <h3>{centerBookings.length}</h3>
+      <p>Total Bookings</p>
+    </div>
+  </div>
+
+  <div className="center-stat-card">
+    <FiClock />
+    <div>
+      <h3>{centerBookings.filter(b => b.status === "pending").length}</h3>
+      <p>Pending Bookings</p>
+    </div>
+  </div>
+
+  <div className="center-stat-card">
+    <FiCheckCircle />
+    <div>
+      <h3>{centerBookings.filter(b => b.status === "confirmed").length}</h3>
+      <p>Confirmed</p>
+    </div>
+  </div>
+</div>
 
           {centerSuccess && (
             <div style={{background:'#e8f5e9', color:'#2e7d32', padding:'14px 20px', borderRadius:'12px', marginBottom:'16px', border:'2px solid #a5d6a7', fontSize:'16px', fontWeight:'600'}}>
@@ -242,7 +282,7 @@ setCenter(res.data);
                 <input placeholder="Activities *" value={activities} onChange={(e) => setActivities(e.target.value)} required />
                 <input placeholder="Trade Number *" value={tradeNumber} onChange={(e) => setTradeNumber(e.target.value)} required />
                 <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-<label>📷 Center Image</label>
+<label> Center Image</label>
 
 <input
   type="file"
@@ -257,15 +297,15 @@ setCenter(res.data);
           ) : !center.approved ? (
             <div className="pending-box">
               <h2>{center.name}</h2>
-              <p>⏳ Your request is under review by admin</p>
-              <p>📍 {center.location}</p>
+              <p> Your request is under review by admin</p>
+              <p> {center.location}</p>
               <p>{center.description}</p>
             </div>
           ) : (
             <div>
               <div className="dashboard-box" style={{marginBottom:'20px'}}>
                 <h2>{center.name}</h2>
-                <p>📍 {center.location}</p>
+                <p>{center.location}</p>
                 <p>{center.description}</p>
                 <p>Status: Approved ✅</p>
               </div>
