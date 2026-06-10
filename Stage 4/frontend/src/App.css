@@ -127,8 +127,7 @@ button {
   min-height: 420px;
   border-radius: 34px;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(47, 85, 120, 0.92), rgba(47, 85, 120, 0.68)),
-    url("../public/children.jpg");
+  background: linear-gradient(135deg, rgba(47, 85, 120, 0.92), rgba(47, 85, 120, 0.68));
   background-size: cover;
   background-position: center;
   display: flex;
