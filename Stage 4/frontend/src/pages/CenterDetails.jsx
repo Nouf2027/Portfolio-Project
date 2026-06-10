@@ -115,9 +115,10 @@ function CenterDetails() {
           <p style={{color:'#475569', marginTop:'10px', lineHeight:'1.8'}}>{center.description}</p>
         </div>
         <div style={{flex:1, minWidth:'250px', background:'#f8faff', borderRadius:'16px', padding:'20px'}}>
-⭐ {reviews.length > 0
-  ? `${center.average_rating}/5`
-  : "No ratings yet"}
+<p>
+  ⭐ <strong>Rating:</strong>{" "}
+  {reviews.length > 0 ? `${center.average_rating}/5` : "No ratings yet"}
+</p>
   
             <p>📝 <strong>Reviews:</strong> {reviews.length}</p>
           <p>📚 <strong>Courses:</strong> {courses.length}</p>
