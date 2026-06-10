@@ -1,5 +1,6 @@
- import React from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
+import { FaHome, FaSearch, FaShieldAlt, FaBuilding, FaUser, FaKey, FaStar, FaSignOutAlt } from 'react-icons/fa';
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -14,33 +15,28 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="logo">
-        <span className="logo-emoji">🌱</span>
-        <h2 className="logo-text">Jeel</h2>
-        <span className="logo-emoji">🌱</span>
+        <h2 className="logo-text">جيل</h2>
       </div>
-
       <div className="nav-links">
-        <Link to="/">🏠 Home</Link>
-        <Link to="/search">🔍 Search</Link>
-
+        <Link to="/"><FaHome /> الرئيسية</Link>
+        <Link to="/search"><FaSearch /> البحث</Link>
         {role && (
           <Link to="/dashboard">
             {role === 'admin'
-              ? '🛡️ Admin Panel'
+              ? <><FaShieldAlt /> لوحة التحكم</>
               : role === 'center'
-              ? '🏫 Center Portal'
-              : '👤 My Account'}
+              ? <><FaBuilding /> بوابة المركز</>
+              : <><FaUser /> حسابي</>}
           </Link>
         )}
-
         {!role ? (
           <>
-            <Link to="/login">🔑 Login</Link>
-            <Link to="/register">✨ Register</Link>
+            <Link to="/login"><FaKey /> تسجيل الدخول</Link>
+            <Link to="/register"><FaStar /> إنشاء حساب</Link>
           </>
         ) : (
           <button onClick={handleLogout} style={{ marginTop: '0' }}>
-            🚪 Logout
+            <FaSignOutAlt /> تسجيل الخروج
           </button>
         )}
       </div>
