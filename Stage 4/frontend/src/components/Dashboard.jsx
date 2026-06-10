@@ -311,17 +311,17 @@ setCenter(res.data);
               </div>
 
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px'}}>
-                <div className="center-section-header">
+               <div className="center-section-header">
   <div>
-    <h2>My Courses</h2>
-    <p>Manage the courses offered by your center.</p>
+    <h2>الدورات التدريبية</h2>
+    <p>إدارة الدورات المقدمة من المركز</p>
   </div>
 
   <button
     className="add-course-btn"
     onClick={() => setShowCourseForm(!showCourseForm)}
   >
-    {showCourseForm ? "Close" : "+ Add Course"}
+    إضافة دورة
   </button>
 </div>
 
@@ -349,9 +349,10 @@ setCenter(res.data);
 
               <div className="dashboard-cards">
               <div className="courses-grid">
+  
   {courses.length === 0 ? (
     <div className="empty-course-card">
-      No courses added yet
+      لا توجد دورات مضافة حالياً
     </div>
   ) : (
     courses.map((course) => (
@@ -359,20 +360,20 @@ setCenter(res.data);
         <h3>{course.name}</h3>
 
         <p>
-          <strong>Price:</strong> {course.price} SAR
+          <strong>السعر:</strong> {course.price} ريال
         </p>
 
         <p>
-          <strong>Duration:</strong> {course.duration}
+          <strong>المدة:</strong> {course.duration}
         </p>
 
         <p>
-          <strong>Days:</strong> {course.days}
+          <strong>الأيام:</strong> {course.days}
         </p>
 
         <div className="course-actions">
-          <button>Edit</button>
-          <button>Delete</button>
+          <button>تعديل</button>
+          <button>حذف</button>
         </div>
       </div>
     ))
