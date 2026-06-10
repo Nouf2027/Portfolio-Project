@@ -13,7 +13,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" dir="rtl">
       <div className="logo">
         <h2 className="logo-text">جيل</h2>
       </div>
