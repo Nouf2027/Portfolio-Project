@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { FaHome, FaSearch, FaShieldAlt, FaBuilding, FaUser, FaKey, FaStar, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaSearch, FaShieldAlt, FaBuilding, FaUser, FaKey, FaStar, FaSignOutAlt, FaSeedling } from 'react-icons/fa';
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -15,6 +15,7 @@ function Navbar() {
   return (
     <nav className="navbar" dir="rtl">
       <div className="logo">
+        <FaSeedling style={{color: '#ff7a00', fontSize: '28px'}} />
         <h2 className="logo-text">جيل</h2>
       </div>
       <div className="nav-links">
