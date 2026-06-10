@@ -348,19 +348,38 @@ setCenter(res.data);
               )}
 
               <div className="dashboard-cards">
-                {courses.length === 0 ? <p>No courses yet.</p> : (
-                  courses.map(course => (
-                    <div key={course.id} className="dashboard-box">
-                      <h3>{course.name}</h3>
-                      <p>👨‍🏫 {course.instructor}</p>
-                      <p>🎯 {course.description}</p>
-                      <p>🕐 {course.times}</p>
-                      <p>📅 {course.days}</p>
-                      <p>⏱️ {course.duration}</p>
-                      <p>💰 {course.price} SAR</p>
-                    </div>
-                  ))
-                )}
+              <div className="courses-grid">
+  {courses.length === 0 ? (
+    <div className="empty-course-card">
+      No courses added yet
+    </div>
+  ) : (
+    courses.map((course) => (
+      <div className="course-card" key={course.id}>
+        <h3>{course.name}</h3>
+
+        <p>
+          <strong>Price:</strong> {course.price} SAR
+        </p>
+
+        <p>
+          <strong>Duration:</strong> {course.duration}
+        </p>
+
+        <p>
+          <strong>Days:</strong> {course.days}
+        </p>
+
+        <div className="course-actions">
+          <button>Edit</button>
+          <button>Delete</button>
+        </div>
+      </div>
+    ))
+  )}
+</div>
+
+                
               </div>
 
               <h3 style={{marginTop:'20px'}}>📅 Center Bookings</h3>
