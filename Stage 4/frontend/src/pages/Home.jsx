@@ -104,7 +104,7 @@ function Home() {
                   <p className="center-location">📍 {center.location || "Location not added"}</p>
                   <p className="center-description">{center.description || "No description available."}</p>
                   <div className="center-rating">
-                    ⭐ {center.rating || "4.8"}
+                    ⭐ {center.rating }
                     <span> ({center.reviews_count || 0} reviews)</span>
                   </div>
                   <Link to={`/centers/${center.id || center._id}`} className="details-btn">
