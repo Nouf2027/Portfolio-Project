@@ -55,7 +55,21 @@ class Center {
   return result.rows;
 }
 
+static async findById(id) {
+  const result = await pool.query(
+    `SELECT 
+      centers.*,
+      COALESCE(ROUND(AVG(reviews.rating), 1), 0) AS average_rating,
+      COUNT(reviews.id) AS review_count
+    FROM centers
+    LEFT JOIN reviews ON centers.id = reviews.centre_id
+    WHERE centers.id = $1
+    GROUP BY centers.id`,
+    [id]
+  );
 
+  return result.rows[0];
+}
 
   // Search centers by location
   static async findByLocation(location) {
