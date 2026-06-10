@@ -18,7 +18,12 @@ router.get('/all', auth, async (req, res) => {
     if (req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Admins only' });
     }
-    const result = await pool.query('SELECT * FROM centers ORDER BY approved ASC');
+    const result = await pool.query(
+      `SELECT id, name, location, description, approved, 
+              image, license_file, views, owner_id, created_at 
+       FROM centers 
+       ORDER BY approved ASC`
+    );
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -52,11 +57,17 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   try {
-    const { name, location, description } = req.body;
+    const { name, location, description, image } = req.body;
     if (!name || !location || !description) {
       return res.status(400).json({ message: 'Name, location, and description are required' });
     }
-    const center = await Center.create({ name, location, description });
+    const center = await Center.create({ 
+      name, 
+      location, 
+      description, 
+      image,
+      owner_id: req.user.id 
+    });
     res.status(201).json(center);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -73,6 +84,18 @@ router.patch('/:id/approve', auth, async (req, res) => {
       return res.status(404).json({ message: 'Center not found' });
     }
     res.json(center);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.patch('/:id/view', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `UPDATE centers SET views = views + 1 WHERE id = $1 RETURNING views`,
+      [req.params.id]
+    );
+    res.json({ views: result.rows[0].views });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
