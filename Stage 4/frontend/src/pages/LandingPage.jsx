@@ -1,3 +1,5 @@
+import './LandingPage.css';
+import '../App.css';
 import { Link } from "react-router-dom";
 import { FaSearch, FaBookOpen, FaStar, FaUserCheck, FaShieldAlt, FaArrowLeft } from "react-icons/fa";
 
