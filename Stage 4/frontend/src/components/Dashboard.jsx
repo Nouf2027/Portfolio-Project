@@ -14,6 +14,21 @@ const MONTHS_AR = [
 ];
 const DAYS_AR = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 
+// لون لكل مجال
+const TYPE_COLORS = {
+  "برمجة": "#3b82f6",
+  "فن": "#ec4899",
+  "رياضة": "#10b981",
+  "موسيقى": "#8b5cf6",
+  "لغات": "#f59e0b",
+  "علوم": "#06b6d4",
+  "رياضيات": "#ef4444",
+  "طبخ": "#f97316",
+  "روبوتيك": "#6366f1",
+  "أخرى": "#64748b",
+};
+const getTypeColor = (type) => TYPE_COLORS[type] || "#f97316";
+
 function MiniCalendar({ courses }) {
   const today = new Date();
   const [current, setCurrent] = useState({ year: today.getFullYear(), month: today.getMonth() });
@@ -59,14 +74,22 @@ function MiniCalendar({ courses }) {
           const isToday = day === today.getDate() && current.month === today.getMonth() && current.year === today.getFullYear();
           const isSelected = day === selectedDay;
           const hasCourse = dayCourses.length > 0;
+          const courseColor = hasCourse ? getTypeColor(dayCourses[0].description) : null;
           return (
             <div
               key={i}
               className={"cd-cal-cell" + (isToday ? " today" : "") + (!day ? " empty" : "") + (hasCourse ? " has-course" : "") + (isSelected ? " selected" : "")}
+              style={hasCourse && !isToday ? { background: courseColor + "22", borderRadius: "8px" } : {}}
               onClick={() => day && setSelectedDay(isSelected ? null : day)}
             >
               {day && <span className="cd-day-num">{day}</span>}
-              {hasCourse && <span className="cd-cal-dot"></span>}
+              {hasCourse && (
+                <div className="cd-cal-dots">
+                  {dayCourses.slice(0,3).map((c, idx) => (
+                    <span key={idx} className="cd-cal-dot" style={{ background: getTypeColor(c.description) }}></span>
+                  ))}
+                </div>
+              )}
             </div>
           );
         })}
@@ -79,10 +102,10 @@ function MiniCalendar({ courses }) {
           </div>
           {selectedCourses.map(course => (
             <div key={course.id} className="cd-cal-course-item">
-              <div className="cd-cal-course-icon"><FiBookOpen /></div>
+              <div className="cd-cal-course-icon" style={{ background: getTypeColor(course.description) + "22", color: getTypeColor(course.description) }}><FiBookOpen /></div>
               <div>
                 <strong>{course.name}</strong>
-                <span>{course.times || "الوقت غير محدد"}</span>
+                <span>{course.times || "الوقت غير محدد"} · {course.description}</span>
               </div>
             </div>
           ))}
@@ -264,6 +287,12 @@ function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [loading, setLoading] = useState(true);
 
+  // نظام التنبيهات والتأكيد المخصص
+  const [toast, setToast] = useState(null);
+  const [confirmModal, setConfirmModal] = useState(null);
+  const showToast = (type, message) => { setToast({ type, message }); setTimeout(() => setToast(null), 3500); };
+  const askConfirm = (message, onConfirm) => setConfirmModal({ message, onConfirm });
+
   // ── بيانات المركز ──
   const [center, setCenter] = useState(null);
   const [courses, setCourses] = useState([]);
@@ -370,22 +399,24 @@ function Dashboard() {
     } catch { alert("فشل تحديث حالة الحجز."); }
   };
 
-  const handleConfirmBooking = async (id) => {
-    const ok = window.confirm("هل أنت متأكد من قبول هذا الحجز؟");
-    if (!ok) return;
-    try {
-      const res = await API.patch(`/bookings/${id}/status`, { status: "confirmed" });
-      setCenterBookings(centerBookings.map(b => b.id === id ? { ...b, status: res.data.status } : b));
-    } catch { alert("فشل تحديث حالة الحجز."); }
+  const handleConfirmBooking = (id) => {
+    askConfirm("هل أنت متأكد من قبول هذا الحجز؟", async () => {
+      try {
+        const res = await API.patch(`/bookings/${id}/status`, { status: "confirmed" });
+        setCenterBookings(centerBookings.map(b => b.id === id ? { ...b, status: res.data.status } : b));
+        showToast("success", "تم قبول الحجز بنجاح.");
+      } catch { showToast("error", "فشل تحديث حالة الحجز."); }
+    });
   };
 
-  const handleRejectBooking = async (id) => {
-    const ok = window.confirm("هل أنت متأكد من رفض هذا الحجز؟ سيتم إزالته من القائمة.");
-    if (!ok) return;
-    try {
-      await API.patch(`/bookings/${id}/status`, { status: "cancelled" });
-      setCenterBookings(centerBookings.filter(b => b.id !== id));
-    } catch { alert("فشل رفض الحجز."); }
+  const handleRejectBooking = (id) => {
+    askConfirm("هل أنت متأكد من رفض هذا الحجز؟ سيتم إزالته من القائمة.", async () => {
+      try {
+        await API.patch(`/bookings/${id}/status`, { status: "cancelled" });
+        setCenterBookings(centerBookings.filter(b => b.id !== id));
+        showToast("success", "تم رفض الحجز وإزالته من القائمة.");
+      } catch { showToast("error", "فشل رفض الحجز."); }
+    });
   };
 
   const handleAddCourse = async (e) => {
@@ -428,13 +459,13 @@ function Dashboard() {
   };
 
   const handleDeleteCourse = async (id) => {
-    if (!window.confirm("هل أنت متأكد من حذف هذه الدورة؟")) return;
-    try {
-      await API.delete(`/courses/${id}`);
-      setCourses(courses.filter(c => c.id !== id));
-      setCourseSuccess("تم حذف الدورة بنجاح.");
-      setTimeout(() => setCourseSuccess(""), 4000);
-    } catch (err) { alert(err.response?.data?.message || "فشل حذف الدورة."); }
+    askConfirm("هل أنت متأكد من حذف هذه الدورة؟", async () => {
+      try {
+        await API.delete(`/courses/${id}`);
+        setCourses(courses.filter(c => c.id !== id));
+        showToast("success", "تم حذف الدورة بنجاح.");
+      } catch (err) { showToast("error", err.response?.data?.message || "فشل حذف الدورة."); }
+    });
   };
 
   const handleLogout = () => { localStorage.clear(); navigate("/login"); };
@@ -481,6 +512,17 @@ function Dashboard() {
             }
           </div>
         )}
+
+        {/* زر الرجوع للموقع الرئيسي */}
+        <button
+          className="cd-nav-item cd-home-link"
+          onClick={() => navigate("/")}
+          title={!sidebarOpen ? "الصفحة الرئيسية" : ""}
+        >
+          <span className="cd-nav-icon"><FiHome /></span>
+          {sidebarOpen && <span className="cd-nav-label">الصفحة الرئيسية</span>}
+          {!sidebarOpen && <span className="cd-nav-tooltip">الصفحة الرئيسية</span>}
+        </button>
 
         <nav className="cd-nav">
           {navItems.map(item => (
@@ -758,7 +800,15 @@ function Dashboard() {
                     <div className="cd-bottom-grid">
                       <div className="cd-card cd-calendar-card">
                         <div className="cd-card-header"><h2>التقويم</h2></div>
-                        <MiniCalendar />
+                        <MiniCalendar courses={courses} />
+                        <div className="cd-cal-legend">
+                          {[...new Set(courses.map(c => c.description).filter(Boolean))].slice(0,6).map(type => (
+                            <div key={type} className="cd-legend-item">
+                              <span className="cd-legend-dot" style={{ background: getTypeColor(type) }}></span>
+                              <span>{type}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                       <div className="cd-card cd-quick-stats">
                         <div className="cd-card-header"><h2>إحصائيات سريعة</h2></div>
@@ -992,6 +1042,33 @@ function Dashboard() {
           </>
         )}
       </main>
+
+      {/* Toast إشعار */}
+      {toast && (
+        <div className={`cd-toast ${toast.type}`}>
+          {toast.type === "success" ? <FiCheckCircle /> : <FiX />}
+          <span>{toast.message}</span>
+        </div>
+      )}
+
+      {/* Modal تأكيد */}
+      {confirmModal && (
+        <div className="cd-modal-overlay" onClick={() => setConfirmModal(null)}>
+          <div className="cd-modal" onClick={e => e.stopPropagation()}>
+            <div className="cd-modal-icon"><FiCheckCircle /></div>
+            <p className="cd-modal-message">{confirmModal.message}</p>
+            <div className="cd-modal-actions">
+              <button
+                className="cd-btn-primary"
+                onClick={() => { confirmModal.onConfirm(); setConfirmModal(null); }}
+              >
+                تأكيد
+              </button>
+              <button className="cd-btn-secondary" onClick={() => setConfirmModal(null)}>إلغاء</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
