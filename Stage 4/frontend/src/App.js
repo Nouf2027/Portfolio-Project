@@ -9,7 +9,7 @@ import CenterDetails from "./pages/CenterDetails";
 import Booking from "./pages/Booking";
 import Privacy from "./pages/Privacy";
 import Dashboard from "./components/Dashboard";
-import Profile from './pages/Profile';
+import Profile from "./pages/Profile";
 import { useLocation } from "react-router-dom";
 
 function AppContent() {
@@ -17,40 +17,40 @@ function AppContent() {
 
   const hideNavbar =
     location.pathname === "/login" ||
-    location.pathname === "/register";
-return (
+    location.pathname === "/register" ||
+    location.pathname === "/my-center" ||
+    location.pathname === "/dashboard";
 
-  <>
-{!hideNavbar && <Navbar />}
+  const hideFooter =
+    location.pathname === "/my-center" ||
+    location.pathname === "/dashboard";
+
+  return (
+    <>
+      {!hideNavbar && <Navbar />}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/"           element={<Home />} />
+        <Route path="/home"       element={<Home />} />
+        <Route path="/login"      element={<Login />} />
+        <Route path="/register"   element={<Register />} />
         <Route path="/centers/:id" element={<CenterDetails />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/my-center" element={<Dashboard />} />
+        <Route path="/booking"    element={<Booking />} />
+        <Route path="/dashboard"  element={<Dashboard />} />
+        <Route path="/profile"    element={<Profile />} />
+        <Route path="/privacy"    element={<Privacy />} />
+        <Route path="/my-center"  element={<Dashboard />} />
       </Routes>
-      {!hideNavbar && <Footer />}
-      </>
-
-);
-
+      {!hideFooter && <Footer />}
+    </>
+  );
 }
-
-
-
 
 function App() {
   return (
     <BrowserRouter>
-<AppContent />
+      <AppContent />
     </BrowserRouter>
   );
 }
-
 
 export default App;
