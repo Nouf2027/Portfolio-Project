@@ -69,12 +69,12 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   try {
-    const { name, location, description, image, category } = req.body;
+    const { name, location, description, image, category, license_file } = req.body;
     if (!name || !location || !description) {
       return res.status(400).json({ message: 'Name, location, and description are required' });
     }
     const center = await Center.create({ 
-      name, location, description, image, category,
+      name, location, description, image, category, license_file,
       owner_id: req.user.id 
     });
     res.status(201).json(center);
