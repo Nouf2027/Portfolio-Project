@@ -36,7 +36,7 @@ router.post('/document', auth, upload.single('document'), async (req, res) => {
     }
     const result = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
-        { folder: 'jeel_documents', resource_type: 'raw' },
+        { folder: 'jeel_documents', resource_type: 'auto' },
         (error, result) => {
           if (error) reject(error);
           else resolve(result);
