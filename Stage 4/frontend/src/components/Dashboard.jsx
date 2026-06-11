@@ -532,10 +532,10 @@ function Dashboard() {
                       <div className="cd-card cd-quick-stats">
                         <div className="cd-card-header"><h2>إحصائيات سريعة</h2></div>
                         <div className="cd-quick-list">
-                          <div className="cd-quick-item"><span>معدل الحضور</span><strong>85%</strong></div>
                           <div className="cd-quick-item"><span>دورات نشطة</span><strong>{courses.length}</strong></div>
                           <div className="cd-quick-item"><span>حجوزات مؤكدة</span><strong>{confirmed}</strong></div>
                           <div className="cd-quick-item"><span>حجوزات ملغية</span><strong>{cancelled}</strong></div>
+                          <div className="cd-quick-item"><span>إجمالي الحجوزات</span><strong>{centerBookings.length}</strong></div>
                         </div>
                       </div>
                     </div>
@@ -559,9 +559,24 @@ function Dashboard() {
                         <form onSubmit={handleAddCourse} className="cd-form cd-form-grid">
                           <input className="cd-input" placeholder="اسم الدورة *" value={courseName} onChange={e => setCourseName(e.target.value)} required />
                           <input className="cd-input" placeholder="اسم المدرب *" value={courseInstructor} onChange={e => setCourseInstructor(e.target.value)} required />
-                          <input className="cd-input" placeholder="النوع (مثلاً: البرمجة، الفن) *" value={courseType} onChange={e => setCourseType(e.target.value)} required />
+                          <select className="cd-input cd-select" value={courseType} onChange={e => setCourseType(e.target.value)} required>
+                            <option value="">اختر النوع *</option>
+                            <option value="برمجة">برمجة</option>
+                            <option value="فن">فن</option>
+                            <option value="رياضة">رياضة</option>
+                            <option value="موسيقى">موسيقى</option>
+                            <option value="لغات">لغات</option>
+                            <option value="علوم">علوم</option>
+                            <option value="رياضيات">رياضيات</option>
+                            <option value="طبخ">طبخ</option>
+                            <option value="روبوتيك">روبوتيك</option>
+                            <option value="أخرى">أخرى</option>
+                          </select>
                           <input className="cd-input" placeholder="الوقت (مثلاً: 5:00 م - 7:00 م) *" value={courseTime} onChange={e => setCourseTime(e.target.value)} required />
-                          <input className="cd-input" placeholder="الأيام (مثلاً: الاثنين، الأربعاء) *" value={courseDays} onChange={e => setCourseDays(e.target.value)} required />
+                          <div className="cd-date-field">
+                            <label className="cd-date-label">تاريخ البدء *</label>
+                            <input className="cd-input" type="date" value={courseDays} onChange={e => setCourseDays(e.target.value)} required />
+                          </div>
                           <input className="cd-input" placeholder="مدة الدورة *" value={courseDuration} onChange={e => setCourseDuration(e.target.value)} required />
                           <input className="cd-input" placeholder="السعر (ريال) *" value={coursePrice} onChange={e => setCoursePrice(e.target.value)} required />
                           <div className="cd-form-actions">
@@ -581,9 +596,24 @@ function Dashboard() {
                         <form onSubmit={handleSaveEdit} className="cd-form cd-form-grid">
                           <input className="cd-input" placeholder="اسم الدورة *" value={editName} onChange={e => setEditName(e.target.value)} required />
                           <input className="cd-input" placeholder="اسم المدرب *" value={editInstructor} onChange={e => setEditInstructor(e.target.value)} required />
-                          <input className="cd-input" placeholder="النوع *" value={editType} onChange={e => setEditType(e.target.value)} required />
+                          <select className="cd-input cd-select" value={editType} onChange={e => setEditType(e.target.value)} required>
+                            <option value="">اختر النوع *</option>
+                            <option value="برمجة">برمجة</option>
+                            <option value="فن">فن</option>
+                            <option value="رياضة">رياضة</option>
+                            <option value="موسيقى">موسيقى</option>
+                            <option value="لغات">لغات</option>
+                            <option value="علوم">علوم</option>
+                            <option value="رياضيات">رياضيات</option>
+                            <option value="طبخ">طبخ</option>
+                            <option value="روبوتيك">روبوتيك</option>
+                            <option value="أخرى">أخرى</option>
+                          </select>
                           <input className="cd-input" placeholder="الوقت *" value={editTime} onChange={e => setEditTime(e.target.value)} required />
-                          <input className="cd-input" placeholder="الأيام *" value={editDays} onChange={e => setEditDays(e.target.value)} required />
+                          <div className="cd-date-field">
+                            <label className="cd-date-label">تاريخ البدء *</label>
+                            <input className="cd-input" type="date" value={editDays} onChange={e => setEditDays(e.target.value)} required />
+                          </div>
                           <input className="cd-input" placeholder="مدة الدورة *" value={editDuration} onChange={e => setEditDuration(e.target.value)} required />
                           <input className="cd-input" placeholder="السعر (ريال) *" value={editPrice} onChange={e => setEditPrice(e.target.value)} required />
                           <div className="cd-form-actions">
@@ -701,4 +731,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard
+export default Dashboard;
