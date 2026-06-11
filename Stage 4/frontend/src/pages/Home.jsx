@@ -10,19 +10,23 @@ function Home() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
-
+  
   useEffect(() => {
-    API.get('/centers')
-      .then(res => {
-        setCenters(res.data);
-      })
-      .catch(err => {
+    const fetchCenters = async () => {
+      try {
+        const res = await API.get("/centers");
+        const approvedCenters = res.data.filter((center) => center.approved === true);
+        setCenters(approvedCenters);
+      } catch (err) {
         console.error(err);
         setError('حدث خطأ أثناء تحميل المراكز. حاول مجدداً.');
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCenters();
   }, []);
-
+  
   const filteredCenters = useMemo(() => {
     const search = searchTerm.trim().toLowerCase();
     return centers.filter(center => {
