@@ -287,7 +287,8 @@ function Dashboard() {
                         </a>
                       )}
                       {center.license_file && (
-                        <a href={center.license_file} target="_blank" rel="noreferrer">
+                        <a href={center.license_file.replace('/image/upload/', '/image/upload/fl_attachment/')}
+                          target="_blank" rel="noreferrer">
                           <FaFileAlt /> عرض الوثيقة
                         </a>
                       )}
