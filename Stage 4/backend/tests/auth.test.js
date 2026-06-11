@@ -19,7 +19,7 @@ describe('Auth API', () => {
       .post('/api/auth/login')
       .send({
         email: 'reem@test.com',
-        password: '123456'
+        password: 'Reem@123!'
       });
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('token');
