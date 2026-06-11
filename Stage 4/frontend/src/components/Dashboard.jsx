@@ -117,6 +117,19 @@ setCenter(res.data);
       alert("Failed to submit center.");
     }
   };
+const handleUpdateBookingStatus = async (id, status) => {
+  try {
+    const res = await API.patch(`/bookings/${id}/status`, { status });
+
+    setCenterBookings(
+      centerBookings.map((b) =>
+        b.id === id ? { ...b, status: res.data.status } : b
+      )
+    );
+  } catch (err) {
+    alert("فشل تحديث حالة الحجز");
+  }
+};
 
   const handleAddCourse = async (e) => {
     e.preventDefault();
@@ -430,13 +443,19 @@ setCenter(res.data);
 </td>
 
   <td>
-    <button className="approve-btn">
-      قبول
-    </button>
+   <button
+  className="approve-btn"
+  onClick={() => handleUpdateBookingStatus(b.id, "confirmed")}
+>
+  قبول
+</button>
 
-    <button className="reject-btn">
-      رفض
-    </button>
+<button
+  className="reject-btn"
+  onClick={() => handleUpdateBookingStatus(b.id, "cancelled")}
+>
+  رفض
+</button>
   </td>
 </tr>
         ))
