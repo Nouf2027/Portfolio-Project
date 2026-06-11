@@ -1368,3 +1368,30 @@ h1, h2, h3 {
   color: #6b7280;
   margin-bottom: 18px;
 }
+
+/*booking */
+.bookings-table {
+  margin-top: 20px;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.bookings-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bookings-table th {
+  background: #fff5e8;
+  padding: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.bookings-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}

@@ -393,18 +393,38 @@ setCenter(res.data);
                   🔔 You have {centerBookings.length} booking(s)!
                 </div>
               )}
-              <div className="dashboard-cards">
-                {centerBookings.length === 0 ? <p>لا توجد حجوزات حالياً</p> : (
-                  centerBookings.map(b => (
-                    <div key={b.id} className="dashboard-box">
-                      <p><strong>Course:</strong> {b.course_name}</p>
-                      <p><strong>Student:</strong> {b.email}</p>
-                      <p><strong>Date:</strong> {new Date(b.date).toLocaleDateString()}</p>
-                      <p><strong>Status:</strong> {b.status}</p>
-                    </div>
-                  ))
-                )}
-              </div>
+              <div className="bookings-table">
+  <table>
+    <thead>
+      <tr>
+        <th>ولي الأمر</th>
+        <th>الدورة</th>
+        <th>تاريخ الحجز</th>
+        <th>الحالة</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {centerBookings.length === 0 ? (
+        <tr>
+          <td colSpan="4" className="empty-table">
+            لا توجد حجوزات حالياً
+          </td>
+        </tr>
+      ) : (
+        centerBookings.map((b) => (
+          <tr key={b.id}>
+            <td>{b.email}</td>
+            <td>{b.course_name}</td>
+            <td>{new Date(b.date).toLocaleDateString("ar-SA")}</td>
+            <td>{b.status}</td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+
             </div>
           )}
         </div>
