@@ -22,7 +22,8 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
         }
       ).end(req.file.buffer);
     });
-    res.json({ url: result.secure_url });
+    const fileExtension = req.file.originalname.split('.').pop();
+    res.json({ url: result.secure_url + '.' + fileExtension });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
