@@ -274,14 +274,14 @@ setCenter(res.data);
 
           {!center ? (
             <div className="pending-box">
-              <h2>Submit Center Information</h2>
+              <h2>إضافة مركز جديد</h2>
               <form onSubmit={handleSubmitCenter} className="form-container">
-                <input placeholder="Center Name *" value={centerName} onChange={(e) => setCenterName(e.target.value)} required />
-                <input placeholder="Owner Name *" value={ownerName} onChange={(e) => setOwnerName(e.target.value)} required />
-                <input placeholder="Location *" value={location} onChange={(e) => setLocation(e.target.value)} required />
-                <input placeholder="Activities *" value={activities} onChange={(e) => setActivities(e.target.value)} required />
-                <input placeholder="Trade Number *" value={tradeNumber} onChange={(e) => setTradeNumber(e.target.value)} required />
-                <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <input placeholder=" اسم المركز *" value={centerName} onChange={(e) => setCenterName(e.target.value)} required />
+                <input placeholder="اسم المالك *" value={ownerName} onChange={(e) => setOwnerName(e.target.value)} required />
+                <input placeholder="الموقع *" value={location} onChange={(e) => setLocation(e.target.value)} required />
+                <input placeholder="الأنشطة *" value={activities} onChange={(e) => setActivities(e.target.value)} required />
+                <input placeholder=" *رقم السجل التجاري" value={tradeNumber} onChange={(e) => setTradeNumber(e.target.value)} required />
+                <textarea placeholder="الوصف *" value={description} onChange={(e) => setDescription(e.target.value)} />
 <label> Center Image</label>
 
 <input
@@ -297,7 +297,7 @@ setCenter(res.data);
           ) : !center.approved ? (
             <div className="pending-box">
               <h2>{center.name}</h2>
-              <p> Your request is under review by admin</p>
+              <p> طلب المركز قيد المراجعة من قبل الإدارة </p>
               <p> {center.location}</p>
               <p>{center.description}</p>
             </div>
@@ -307,7 +307,7 @@ setCenter(res.data);
                 <h2>{center.name}</h2>
                 <p>{center.location}</p>
                 <p>{center.description}</p>
-                <p>Status: Approved </p>
+                <p>الحالة: معتمد </p>
               </div>
 
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px'}}>
@@ -341,8 +341,8 @@ setCenter(res.data);
                   <input placeholder="النوع (مثلاً: البرمجة، الفن) *" value={courseType} onChange={(e) => setCourseType(e.target.value)} required />
                   <input placeholder="الوقت (مثلاً: 5:00 PM - 7:00 PM) *" value={courseTime} onChange={(e) => setCourseTime(e.target.value)} required />
                   <input placeholder="الأيام (مثلاً: الاثنين، الأربعاء) *" value={courseDays} onChange={(e) => setCourseDays(e.target.value)} required />
-                  <input placeholder="Duration (e.g. 8 weeks) *" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} required />
-                  <input placeholder="Price (SAR) *" value={coursePrice} onChange={(e) => setCoursePrice(e.target.value)} required />
+                  <input placeholder="مدة الدورة*" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} required />
+                  <input placeholder="السعر (ريال) *" value={coursePrice} onChange={(e) => setCoursePrice(e.target.value)} required />
                   <button type="submit">إضافة دورة </button>
                 </form>
               )}
@@ -390,19 +390,20 @@ setCenter(res.data);
 
               {centerBookings.length > 0 && (
                 <div style={{background:'#fff3e0', padding:'10px 16px', borderRadius:'10px', marginBottom:'10px', border:'2px solid #ffb74d'}}>
-                   You have {centerBookings.length} booking(s)!
+لديك {centerBookings.length} حجز حالياً
                 </div>
               )}
               <div className="bookings-table">
   <table>
-    <thead>
-      <tr>
-        <th>ولي الأمر</th>
-        <th>الدورة</th>
-        <th>تاريخ الحجز</th>
-        <th>الحالة</th>
-      </tr>
-    </thead>
+   <thead>
+  <tr>
+    <th>ولي الأمر</th>
+    <th>الدورة</th>
+    <th>تاريخ الحجز</th>
+    <th>الحالة</th>
+    <th>الإجراءات</th>
+  </tr>
+</thead>
 
     <tbody>
       {centerBookings.length === 0 ? (
@@ -419,12 +420,14 @@ setCenter(res.data);
   <td>{new Date(b.date).toLocaleDateString("ar-SA")}</td>
 
   <td>
+  <span className={`booking-status ${b.status}`}>
     {b.status === "pending"
       ? "قيد الانتظار"
       : b.status === "confirmed"
       ? "مؤكد"
       : "ملغي"}
-  </td>
+  </span>
+</td>
 
   <td>
     <button className="approve-btn">
