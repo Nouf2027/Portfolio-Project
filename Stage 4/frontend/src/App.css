@@ -1395,3 +1395,22 @@ h1, h2, h3 {
   text-align: center;
   border-bottom: 1px solid #eee;
 }
+/*approval */
+.approve-btn {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.reject-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}

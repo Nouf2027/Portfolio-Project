@@ -407,18 +407,35 @@ setCenter(res.data);
     <tbody>
       {centerBookings.length === 0 ? (
         <tr>
-          <td colSpan="4" className="empty-table">
+          <td colSpan="5" className="empty-table">
             لا توجد حجوزات حالياً
           </td>
         </tr>
       ) : (
         centerBookings.map((b) => (
-          <tr key={b.id}>
-            <td>{b.email}</td>
-            <td>{b.course_name}</td>
-            <td>{new Date(b.date).toLocaleDateString("ar-SA")}</td>
-            <td>{b.status}</td>
-          </tr>
+         <tr key={b.id}>
+  <td>{b.email}</td>
+  <td>{b.course_name}</td>
+  <td>{new Date(b.date).toLocaleDateString("ar-SA")}</td>
+
+  <td>
+    {b.status === "pending"
+      ? "قيد الانتظار"
+      : b.status === "confirmed"
+      ? "مؤكد"
+      : "ملغي"}
+  </td>
+
+  <td>
+    <button className="approve-btn">
+      قبول
+    </button>
+
+    <button className="reject-btn">
+      رفض
+    </button>
+  </td>
+</tr>
         ))
       )}
     </tbody>
