@@ -385,14 +385,16 @@ setCenter(res.data);
 </div>
                 
 
-              <h3 style={{marginTop:'20px'}}>📅 Center Bookings</h3>
+<h2 className="section-title">حجوزات المركز</h2>
+<p className="section-subtitle">عرض الحجوزات الخاصة بدورات المركز</p>
+
               {centerBookings.length > 0 && (
                 <div style={{background:'#fff3e0', padding:'10px 16px', borderRadius:'10px', marginBottom:'10px', border:'2px solid #ffb74d'}}>
                   🔔 You have {centerBookings.length} booking(s)!
                 </div>
               )}
               <div className="dashboard-cards">
-                {centerBookings.length === 0 ? <p>No bookings yet.</p> : (
+                {centerBookings.length === 0 ? <p>لا توجد حجوزات حالياً</p> : (
                   centerBookings.map(b => (
                     <div key={b.id} className="dashboard-box">
                       <p><strong>Course:</strong> {b.course_name}</p>

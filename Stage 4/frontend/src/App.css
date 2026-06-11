@@ -1358,3 +1358,13 @@ h1, h2, h3 {
   text-align: center;
   color: #777;
 }
+.section-title {
+  margin-top: 35px;
+  color: #14213d;
+  font-size: 24px;
+}
+
+.section-subtitle {
+  color: #6b7280;
+  margin-bottom: 18px;
+}
