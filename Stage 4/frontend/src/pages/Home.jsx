@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import CenterCard from "../components/CenterCard";
 import API from "../api/axios";
 
@@ -16,7 +16,7 @@ function Home() {
       .catch(err => {
         console.error(err);
         setError('حدث خطأ أثناء تحميل المراكز. حاول مجدداً.');
-      });
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -28,7 +28,7 @@ function Home() {
       center.category?.toLowerCase().includes(search)
     );
   }, [centers, searchTerm]);
-  
+
   return (
     <div className="home-page">
       <section className="hero">
@@ -46,20 +46,20 @@ function Home() {
             placeholder="ابحث عن مركز أو مدينة أو تصنيف..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          />
         </div>
         <div className="cards-container">
           {loading ? (
-      <p>جاري البحث...</p>
-    ) : error ? (
-      <p className="error-message">{error}</p>
-    ) : filteredCenters.length === 0 ? (
-      <p>لا توجد نتائج مطابقة.</p>
-    ) : (
-      filteredCenters.map((center, index) => (
-        <CenterCard key={center._id || center.id} center={center} />
-      ))
-    )}
+            <p>جاري البحث...</p>
+          ) : error ? (
+            <p className="error-message">{error}</p>
+          ) : filteredCenters.length === 0 ? (
+            <p>لا توجد نتائج مطابقة.</p>
+          ) : (
+            filteredCenters.map((center) => (
+              <CenterCard key={center._id || center.id} center={center} />
+            ))
+          )}
         </div>
       </section>
     </div>
