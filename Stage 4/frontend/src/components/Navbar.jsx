@@ -20,7 +20,6 @@ function Navbar() {
       </div>
       <div className="nav-links">
         <Link to="/"><FaHome /> الرئيسية</Link>
-        <Link to="/search"><FaSearch /> البحث</Link>
         {role && (
           <Link to="/dashboard">
             {role === 'admin'
