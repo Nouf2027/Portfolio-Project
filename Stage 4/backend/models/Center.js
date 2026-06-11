@@ -1,18 +1,16 @@
 const pool = require('../config/db');
 
 class Center {
-  // Create new center
-  static async create({ name, location, description, image, category, owner_id }) {
-  const result = await pool.query(
-    `INSERT INTO centers (name, location, description, image, category, owner_id, approved)
-     VALUES ($1, $2, $3, $4, $5, $6, FALSE)
-     RETURNING *`,
-    [name, location, description, image, category, owner_id]
-  );
-  return result.rows[0];
-}
+  static async create({ name, location, description, image, category, license_file, owner_id }) {
+    const result = await pool.query(
+      `INSERT INTO centers (name, location, description, image, category, license_file, owner_id, approved)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, FALSE)
+       RETURNING *`,
+      [name, location, description, image, category, license_file, owner_id]
+    );
+    return result.rows[0];
+  }
 
-  // Get all approved centers
   static async findAll() {
     const result = await pool.query(
       `SELECT centers.*, 
@@ -26,7 +24,6 @@ class Center {
     return result.rows;
   }
 
-  // Find center by ID
   static async findById(id) {
     const result = await pool.query(
       `SELECT centers.*,
@@ -41,7 +38,6 @@ class Center {
     return result.rows[0];
   }
 
-  // Search centers by location
   static async findByLocation(location) {
     const result = await pool.query(
       'SELECT * FROM centers WHERE location ILIKE $1 AND approved = TRUE',
@@ -50,7 +46,6 @@ class Center {
     return result.rows;
   }
 
-  // Approve center (admin only)
   static async approve(id) {
     const result = await pool.query(
       'UPDATE centers SET approved = TRUE WHERE id = $1 RETURNING *',
