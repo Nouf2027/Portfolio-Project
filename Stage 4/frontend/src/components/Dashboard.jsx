@@ -67,28 +67,40 @@ function Dashboard() {
   };
 
   const handleAddCenter = async (e) => {
-    e.preventDefault();
-    try {
-      let imageUrl = "";
-      if (image) {
-        const formData = new FormData();
-        formData.append("image", image);
-        const uploadRes = await API.post("/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        imageUrl = uploadRes.data.url;
-      }
-      await API.post("/centers", { name, location, description, image: imageUrl, category });
-      setSuccess("تم إرسال بيانات المركز بنجاح");
-      setShowForm(false);
-      setName(""); setLocation(""); setDescription("");
-      setImage(null); setLicenseFile(null); setCategory("");
-      if (role === "admin") {
-        const res = await API.get("/centers/all");
-        setCenters(res.data);
-      }
-    } catch (err) { console.error(err); }
-  };
+  e.preventDefault();
+  try {
+    let imageUrl = "";
+    let licenseUrl = "";
+
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+      const uploadRes = await API.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      imageUrl = uploadRes.data.url;
+    }
+
+    if (licenseFile) {
+      const formData = new FormData();
+      formData.append("document", licenseFile);
+      const uploadRes = await API.post("/upload/document", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      licenseUrl = uploadRes.data.url;
+    }
+
+    await API.post("/centers", { name, location, description, image: imageUrl, license_file: licenseUrl, category });
+    setSuccess("تم إرسال بيانات المركز بنجاح");
+    setShowForm(false);
+    setName(""); setLocation(""); setDescription("");
+    setImage(null); setLicenseFile(null); setCategory("");
+    if (role === "admin") {
+      const res = await API.get("/centers/all");
+      setCenters(res.data);
+    }
+  } catch (err) { console.error(err); }
+};
 
   const getCenterBookingsCount = (center) =>
     bookings.filter((b) => b.center_name === center.name).length;
