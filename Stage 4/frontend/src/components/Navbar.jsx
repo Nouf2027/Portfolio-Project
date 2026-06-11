@@ -33,28 +33,27 @@ const [showNavbar, setShowNavbar] = useState(true);
   return (
     <nav className="navbar">
      <Link to="/" className="brand">
-  <span className="logo-icon">🌱</span>
-  <span className="logo-text">Jeel</span>
+    {/*<span className="logo-icon">🌱</span>*/}
+  <span className="logo-text">جيل</span>
 </Link>
 
       <div className="nav-links">
-        <Link to="/">Home</Link>
-        <Link to="/search">Search</Link>
+        <Link to="/">الصفحة الرئسية</Link>
 
         {!user ? (
           <>
-            <Link to="/login">Login</Link>
+            <Link to="/login">تسجيل الدخول</Link>
             <Link to="/register" >
-              Register
+              التسجيل
             </Link>
           </>
         ) : (
           <>
-            {user.role === "parent" && <Link to="/profile">Profile</Link>}
-            {user.role === "center" && <Link to="/my-center">My Center</Link>}
-            {user.role === "admin" && <Link to="/dashboard">Dashboard</Link>}
+            {user.role === "parent" && <Link to="/profile">حسابي</Link>}
+            {user.role === "center" && <Link to="/my-center">مركزي</Link>}
+            {user.role === "admin" && <Link to="/dashboard">لوحة التحكم</Link>}
             <button className="logout-btn" onClick={handleLogout}>
-              Logout
+              تسجيل الخروج
             </button>
           </>
         )}
