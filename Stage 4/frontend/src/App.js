@@ -8,13 +8,14 @@ import Search from "./pages/Search";
 import CenterDetails from "./pages/CenterDetails";
 import Booking from "./pages/Booking";
 import Dashboard from "./components/Dashboard";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<Login />} />
