@@ -1833,3 +1833,48 @@ input[type="date"].cd-input::-webkit-calendar-picker-indicator {
   cursor: pointer;
   opacity: 0.6;
 }
+
+/* ── Sidebar tooltip when closed ── */
+.cd-nav-item { position: relative; }
+
+.cd-nav-tooltip {
+  position: absolute;
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #1e293b;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 999;
+}
+.cd-nav-tooltip::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left-color: #1e293b;
+  border-right: none;
+}
+.cd-nav-item:hover .cd-nav-tooltip { opacity: 1; }
+
+/* زر إلغاء القبول */
+.cd-btn-undo {
+  background: #fef3c7;
+  color: #92400e;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cd-btn-undo:hover { background: #fde68a; }

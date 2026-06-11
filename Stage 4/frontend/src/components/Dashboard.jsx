@@ -160,6 +160,15 @@ function Dashboard() {
     } catch { alert("فشل تحديث حالة الحجز."); }
   };
 
+  const handleConfirmBooking = async (id) => {
+    const ok = window.confirm("هل أنت متأكد من قبول هذا الحجز؟");
+    if (!ok) return;
+    try {
+      const res = await API.patch(`/bookings/${id}/status`, { status: "confirmed" });
+      setCenterBookings(centerBookings.map(b => b.id === id ? { ...b, status: res.data.status } : b));
+    } catch { alert("فشل تحديث حالة الحجز."); }
+  };
+
   const handleAddCourse = async (e) => {
     e.preventDefault();
     try {
@@ -260,16 +269,19 @@ function Dashboard() {
               key={item.key}
               className={`cd-nav-item ${activeSection === item.key ? "active" : ""}`}
               onClick={() => setActiveSection(item.key)}
+              title={!sidebarOpen ? item.label : ""}
             >
               <span className="cd-nav-icon">{item.icon}</span>
               {sidebarOpen && <span className="cd-nav-label">{item.label}</span>}
+              {!sidebarOpen && <span className="cd-nav-tooltip">{item.label}</span>}
             </button>
           ))}
         </nav>
 
-        <button className="cd-nav-item cd-logout" onClick={handleLogout}>
+        <button className="cd-nav-item cd-logout" onClick={handleLogout} title={!sidebarOpen ? "تسجيل الخروج" : ""}>
           <span className="cd-nav-icon"><FiLogOut /></span>
           {sidebarOpen && <span className="cd-nav-label">تسجيل الخروج</span>}
+          {!sidebarOpen && <span className="cd-nav-tooltip">تسجيل الخروج</span>}
         </button>
       </aside>
 
@@ -680,8 +692,15 @@ function Dashboard() {
                               <td><span className={`cd-badge ${b.status}`}>{statusLabel(b.status)}</span></td>
                               <td>
                                 <div className="cd-actions">
-                                  <button className="cd-btn-approve" onClick={() => handleUpdateBookingStatus(b.id, "confirmed")}>قبول</button>
-                                  <button className="cd-btn-reject" onClick={() => handleUpdateBookingStatus(b.id, "cancelled")}>رفض</button>
+                                  {b.status !== "confirmed" && (
+                                    <button className="cd-btn-approve" onClick={() => handleConfirmBooking(b.id)}>قبول</button>
+                                  )}
+                                  {b.status === "confirmed" && (
+                                    <button className="cd-btn-undo" onClick={() => handleUpdateBookingStatus(b.id, "pending")}>إلغاء القبول</button>
+                                  )}
+                                  {b.status !== "cancelled" && (
+                                    <button className="cd-btn-reject" onClick={() => handleUpdateBookingStatus(b.id, "cancelled")}>رفض</button>
+                                  )}
                                 </div>
                               </td>
                             </tr>
