@@ -1,9 +1,11 @@
 import './LandingPage.css';
-import '../App.css';
 import { Link } from "react-router-dom";
 import { FaSearch, FaBookOpen, FaStar, FaUserCheck, FaShieldAlt, FaArrowLeft } from "react-icons/fa";
+import QRCode from "react-qr-code";
 
 function LandingPage() {
+  const siteUrl = "https://portfolio-project-1-2xla.onrender.com";
+
   return (
     <div className="landing-page" dir="rtl">
 
@@ -70,6 +72,13 @@ function LandingPage() {
             <p>ابحثي عن المراكز حسب التصنيف أو الموقع بسهولة</p>
           </div>
         </div>
+      </section>
+
+      {/* QR Code */}
+      <section className="landing-qr">
+        <h2>زوري موقعنا</h2>
+        <p>امسحي الكود للوصول للمنصة مباشرة</p>
+        <QRCode value={siteUrl} className="qr-image" />
       </section>
 
       {/* CTA */}
