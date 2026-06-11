@@ -230,14 +230,14 @@ setCenter(res.data);
 
       {role === "center" && (
         <div>
-          <h1> My Center</h1>
+           <h1>مركزي</h1>
               
             <div className="center-stats-grid">
   <div className="center-stat-card">
     <FiBookOpen />
     <div>
       <h3>{courses.length}</h3>
-      <p>Total Courses</p>
+<p>إجمالي الدورات</p>
     </div>
   </div>
 
@@ -245,7 +245,7 @@ setCenter(res.data);
     <FiCalendar />
     <div>
       <h3>{centerBookings.length}</h3>
-      <p>Total Bookings</p>
+      <p>إجمالي الحجوزات</p>
     </div>
   </div>
 
@@ -253,7 +253,7 @@ setCenter(res.data);
     <FiClock />
     <div>
       <h3>{centerBookings.filter(b => b.status === "pending").length}</h3>
-      <p>Pending Bookings</p>
+      <p>الحجوزات المعلقة</p>
     </div>
   </div>
 
@@ -261,7 +261,7 @@ setCenter(res.data);
     <FiCheckCircle />
     <div>
       <h3>{centerBookings.filter(b => b.status === "confirmed").length}</h3>
-      <p>Confirmed</p>
+      <p>مؤكدة</p>
     </div>
   </div>
 </div>
@@ -307,7 +307,7 @@ setCenter(res.data);
                 <h2>{center.name}</h2>
                 <p>{center.location}</p>
                 <p>{center.description}</p>
-                <p>Status: Approved ✅</p>
+                <p>Status: Approved </p>
               </div>
 
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px'}}>
