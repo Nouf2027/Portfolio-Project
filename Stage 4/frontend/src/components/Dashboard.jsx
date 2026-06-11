@@ -96,6 +96,165 @@ function MiniCalendar({ courses }) {
 }
 
 
+function SettingsSection({ center }) {
+  const [settingName, setSettingName] = useState(center?.name || "");
+  const [settingEmail, setSettingEmail] = useState("");
+  const [settingPhone, setSettingPhone] = useState("");
+  const [settingCity, setSettingCity] = useState(center?.location || "");
+  const [settingDesc, setSettingDesc] = useState(center?.description || "");
+  const [settingLogo, setSettingLogo] = useState(null);
+  const [settingSuccess, setSettingSuccess] = useState("");
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [showLicenseForm, setShowLicenseForm] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const cities = ["الرياض","جدة","مكة المكرمة","المدينة المنورة","الدمام","الخبر","تبوك","أبها","القصيم","حائل","نجران","جازان","الطائف"];
+
+  const handleSaveSettings = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("name", settingName);
+      formData.append("location", settingCity);
+      formData.append("description", settingDesc);
+      if (settingLogo) formData.append("image", settingLogo);
+      await API.patch(`/centers/${center.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+      setSettingSuccess("تم حفظ التغييرات بنجاح.");
+      setTimeout(() => setSettingSuccess(""), 3000);
+    } catch { alert("فشل حفظ التغييرات."); }
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) { alert("كلمة المرور الجديدة غير متطابقة."); return; }
+    try {
+      await API.patch("/users/password", { oldPassword, newPassword });
+      setSettingSuccess("تم تغيير كلمة المرور بنجاح.");
+      setOldPassword(""); setNewPassword(""); setConfirmPassword("");
+      setShowPasswordForm(false);
+      setTimeout(() => setSettingSuccess(""), 3000);
+    } catch { alert("فشل تغيير كلمة المرور."); }
+  };
+
+  return (
+    <div className="cd-section">
+      <div className="cd-page-header">
+        <div><h1>الإعدادات</h1><p>إدارة إعدادات مركزك</p></div>
+      </div>
+
+      {settingSuccess && <div className="cd-success">{settingSuccess}</div>}
+
+      {/* بيانات المركز */}
+      <div className="cd-card cd-settings-card">
+        <form onSubmit={handleSaveSettings}>
+          <div className="cd-settings-grid">
+            <div className="cd-settings-fields">
+              <div className="cd-settings-row">
+                <div className="cd-settings-field">
+                  <label>اسم المركز</label>
+                  <input className="cd-input" value={settingName} onChange={e => setSettingName(e.target.value)} />
+                </div>
+                <div className="cd-settings-field">
+                  <label>البريد الإلكتروني</label>
+                  <input className="cd-input" type="email" value={settingEmail} onChange={e => setSettingEmail(e.target.value)} placeholder="info@example.com" />
+                </div>
+              </div>
+              <div className="cd-settings-row">
+                <div className="cd-settings-field">
+                  <label>رقم التواصل</label>
+                  <input className="cd-input" value={settingPhone} onChange={e => setSettingPhone(e.target.value)} placeholder="+966 50 000 0000" />
+                </div>
+                <div className="cd-settings-field">
+                  <label>المدينة</label>
+                  <select className="cd-input cd-select" value={settingCity} onChange={e => setSettingCity(e.target.value)}>
+                    <option value="">اختر المدينة</option>
+                    {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="cd-settings-field" style={{gridColumn:"1/-1"}}>
+                <label>وصف المركز</label>
+                <textarea className="cd-input cd-textarea" value={settingDesc} onChange={e => setSettingDesc(e.target.value)} rows={3} />
+              </div>
+            </div>
+
+            {/* شعار المركز */}
+            <div className="cd-settings-logo">
+              <label>شعار المركز</label>
+              <div className="cd-logo-box">
+                {settingLogo
+                  ? <img src={URL.createObjectURL(settingLogo)} alt="logo" className="cd-logo-preview" />
+                  : <div className="cd-logo-placeholder">{center?.name?.[0]}</div>
+                }
+              </div>
+              <label className="cd-logo-btn">
+                تغيير الشعار
+                <input type="file" accept="image/*" style={{display:"none"}} onChange={e => setSettingLogo(e.target.files[0])} />
+              </label>
+              <span className="cd-logo-hint">JPG, PNG حتى 2MB</span>
+            </div>
+          </div>
+
+          <button type="submit" className="cd-btn-save">حفظ التغييرات</button>
+        </form>
+      </div>
+
+      {/* تغيير كلمة المرور */}
+      <div className="cd-card cd-settings-item" onClick={() => setShowPasswordForm(!showPasswordForm)}>
+        <div className="cd-settings-item-right">
+          <div className="cd-settings-item-icon" style={{background:"#fef9c3"}}>
+            <FiSettings style={{color:"#a16207"}} />
+          </div>
+          <div>
+            <strong>تغيير كلمة المرور</strong>
+            <span>تحديث كلمة مرور حسابك</span>
+          </div>
+        </div>
+        <FiChevronLeft className={`cd-settings-arrow ${showPasswordForm ? "open" : ""}`} />
+      </div>
+      {showPasswordForm && (
+        <div className="cd-card cd-settings-sub">
+          <form onSubmit={handleChangePassword} className="cd-form">
+            <input className="cd-input" type="password" placeholder="كلمة المرور الحالية *" value={oldPassword} onChange={e => setOldPassword(e.target.value)} required />
+            <input className="cd-input" type="password" placeholder="كلمة المرور الجديدة *" value={newPassword} onChange={e => setNewPassword(e.target.value)} required />
+            <input className="cd-input" type="password" placeholder="تأكيد كلمة المرور الجديدة *" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+            <div className="cd-form-actions">
+              <button type="submit" className="cd-btn-primary">تغيير كلمة المرور</button>
+              <button type="button" className="cd-btn-secondary" onClick={() => setShowPasswordForm(false)}>إلغاء</button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* الترخيص */}
+      <div className="cd-card cd-settings-item" onClick={() => setShowLicenseForm(!showLicenseForm)}>
+        <div className="cd-settings-item-right">
+          <div className="cd-settings-item-icon" style={{background:"#e0f2fe"}}>
+            <FiBookOpen style={{color:"#0369a1"}} />
+          </div>
+          <div>
+            <strong>الترخيص</strong>
+            <span>إدارة ترخيص وموافقات المركز</span>
+          </div>
+        </div>
+        <FiChevronLeft className={`cd-settings-arrow ${showLicenseForm ? "open" : ""}`} />
+      </div>
+      {showLicenseForm && (
+        <div className="cd-card cd-settings-sub">
+          <label className="cd-file-label">
+            رفع ملف الترخيص (PDF أو صورة)
+            <input type="file" accept=".pdf,image/*" />
+          </label>
+          <button className="cd-btn-primary" style={{marginTop:"12px"}}>رفع الملف</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const role = user.role;
@@ -218,6 +377,15 @@ function Dashboard() {
       const res = await API.patch(`/bookings/${id}/status`, { status: "confirmed" });
       setCenterBookings(centerBookings.map(b => b.id === id ? { ...b, status: res.data.status } : b));
     } catch { alert("فشل تحديث حالة الحجز."); }
+  };
+
+  const handleRejectBooking = async (id) => {
+    const ok = window.confirm("هل أنت متأكد من رفض هذا الحجز؟ سيتم إزالته من القائمة.");
+    if (!ok) return;
+    try {
+      await API.patch(`/bookings/${id}/status`, { status: "cancelled" });
+      setCenterBookings(centerBookings.filter(b => b.id !== id));
+    } catch { alert("فشل رفض الحجز."); }
   };
 
   const handleAddCourse = async (e) => {
@@ -635,10 +803,25 @@ function Dashboard() {
                             <option value="روبوتيك">روبوتيك</option>
                             <option value="أخرى">أخرى</option>
                           </select>
-                          <input className="cd-input" placeholder="الوقت (مثلاً: 5:00 م - 7:00 م) *" value={courseTime} onChange={e => setCourseTime(e.target.value)} required />
+                          <select className="cd-input cd-select" value={courseTime} onChange={e => setCourseTime(e.target.value)} required>
+                            <option value="">اختر الوقت *</option>
+                            <option value="8:00 ص - 9:00 ص">8:00 ص - 9:00 ص</option>
+                            <option value="9:00 ص - 10:00 ص">9:00 ص - 10:00 ص</option>
+                            <option value="10:00 ص - 11:00 ص">10:00 ص - 11:00 ص</option>
+                            <option value="11:00 ص - 12:00 م">11:00 ص - 12:00 م</option>
+                            <option value="12:00 م - 1:00 م">12:00 م - 1:00 م</option>
+                            <option value="1:00 م - 2:00 م">1:00 م - 2:00 م</option>
+                            <option value="2:00 م - 3:00 م">2:00 م - 3:00 م</option>
+                            <option value="3:00 م - 4:00 م">3:00 م - 4:00 م</option>
+                            <option value="4:00 م - 5:00 م">4:00 م - 5:00 م</option>
+                            <option value="5:00 م - 6:00 م">5:00 م - 6:00 م</option>
+                            <option value="6:00 م - 7:00 م">6:00 م - 7:00 م</option>
+                            <option value="7:00 م - 8:00 م">7:00 م - 8:00 م</option>
+                            <option value="8:00 م - 9:00 م">8:00 م - 9:00 م</option>
+                          </select>
                           <div className="cd-date-field">
                             <label className="cd-date-label">تاريخ البدء *</label>
-                            <input className="cd-input" type="date" value={courseDays} onChange={e => setCourseDays(e.target.value)} required />
+                            <input className="cd-input" type="date" value={courseDays} min={new Date().toISOString().split("T")[0]} onChange={e => setCourseDays(e.target.value)} required />
                           </div>
                           <input className="cd-input" placeholder="مدة الدورة *" value={courseDuration} onChange={e => setCourseDuration(e.target.value)} required />
                           <input className="cd-input" placeholder="السعر (ريال) *" value={coursePrice} onChange={e => setCoursePrice(e.target.value)} required />
@@ -672,10 +855,25 @@ function Dashboard() {
                             <option value="روبوتيك">روبوتيك</option>
                             <option value="أخرى">أخرى</option>
                           </select>
-                          <input className="cd-input" placeholder="الوقت *" value={editTime} onChange={e => setEditTime(e.target.value)} required />
+                          <select className="cd-input cd-select" value={editTime} onChange={e => setEditTime(e.target.value)} required>
+                            <option value="">اختر الوقت *</option>
+                            <option value="8:00 ص - 9:00 ص">8:00 ص - 9:00 ص</option>
+                            <option value="9:00 ص - 10:00 ص">9:00 ص - 10:00 ص</option>
+                            <option value="10:00 ص - 11:00 ص">10:00 ص - 11:00 ص</option>
+                            <option value="11:00 ص - 12:00 م">11:00 ص - 12:00 م</option>
+                            <option value="12:00 م - 1:00 م">12:00 م - 1:00 م</option>
+                            <option value="1:00 م - 2:00 م">1:00 م - 2:00 م</option>
+                            <option value="2:00 م - 3:00 م">2:00 م - 3:00 م</option>
+                            <option value="3:00 م - 4:00 م">3:00 م - 4:00 م</option>
+                            <option value="4:00 م - 5:00 م">4:00 م - 5:00 م</option>
+                            <option value="5:00 م - 6:00 م">5:00 م - 6:00 م</option>
+                            <option value="6:00 م - 7:00 م">6:00 م - 7:00 م</option>
+                            <option value="7:00 م - 8:00 م">7:00 م - 8:00 م</option>
+                            <option value="8:00 م - 9:00 م">8:00 م - 9:00 م</option>
+                          </select>
                           <div className="cd-date-field">
                             <label className="cd-date-label">تاريخ البدء *</label>
-                            <input className="cd-input" type="date" value={editDays} onChange={e => setEditDays(e.target.value)} required />
+                            <input className="cd-input" type="date" value={editDays} min={new Date().toISOString().split("T")[0]} onChange={e => setEditDays(e.target.value)} required />
                           </div>
                           <input className="cd-input" placeholder="مدة الدورة *" value={editDuration} onChange={e => setEditDuration(e.target.value)} required />
                           <input className="cd-input" placeholder="السعر (ريال) *" value={editPrice} onChange={e => setEditPrice(e.target.value)} required />
@@ -743,14 +941,14 @@ function Dashboard() {
                               <td><span className={`cd-badge ${b.status}`}>{statusLabel(b.status)}</span></td>
                               <td>
                                 <div className="cd-actions">
-                                  {b.status !== "confirmed" && (
-                                    <button className="cd-btn-approve" onClick={() => handleConfirmBooking(b.id)}>قبول</button>
+                                  {b.status === "pending" && (
+                                    <>
+                                      <button className="cd-btn-approve" onClick={() => handleConfirmBooking(b.id)}>قبول</button>
+                                      <button className="cd-btn-reject" onClick={() => handleRejectBooking(b.id)}>رفض</button>
+                                    </>
                                   )}
                                   {b.status === "confirmed" && (
                                     <button className="cd-btn-undo" onClick={() => handleUpdateBookingStatus(b.id, "pending")}>إلغاء القبول</button>
-                                  )}
-                                  {b.status !== "cancelled" && (
-                                    <button className="cd-btn-reject" onClick={() => handleUpdateBookingStatus(b.id, "cancelled")}>رفض</button>
                                   )}
                                 </div>
                               </td>
@@ -787,10 +985,7 @@ function Dashboard() {
 
                 {/* الإعدادات */}
                 {activeSection === "settings" && (
-                  <div className="cd-section">
-                    <div className="cd-page-header"><h1>الإعدادات</h1></div>
-                    <div className="cd-card"><p className="cd-empty">الإعدادات قيد التطوير.</p></div>
-                  </div>
+                  <SettingsSection center={center} />
                 )}
               </>
             )}
