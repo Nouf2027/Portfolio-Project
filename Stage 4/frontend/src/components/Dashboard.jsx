@@ -335,53 +335,55 @@ setCenter(res.data);
 
               {showCourseForm && (
                 <form onSubmit={handleAddCourse} className="form-container" style={{marginBottom:'20px', background:'#f8faff', padding:'20px', borderRadius:'16px', border:'1px solid #d6e6f5'}}>
-                  <h3 style={{color:'#3b5b7a', marginBottom:'15px'}}>📚 Add New Course</h3>
-                  <input placeholder="Course Name *" value={courseName} onChange={(e) => setCourseName(e.target.value)} required />
-                  <input placeholder="Instructor Name *" value={courseInstructor} onChange={(e) => setCourseInstructor(e.target.value)} required />
-                  <input placeholder="Type (e.g. Programming, Art) *" value={courseType} onChange={(e) => setCourseType(e.target.value)} required />
-                  <input placeholder="Time (e.g. 5:00 PM - 7:00 PM) *" value={courseTime} onChange={(e) => setCourseTime(e.target.value)} required />
-                  <input placeholder="Days (e.g. Mon, Wed) *" value={courseDays} onChange={(e) => setCourseDays(e.target.value)} required />
+                  <h3 style={{color:'#3b5b7a', marginBottom:'15px'}}>إضافة دورة جديدة</h3>
+                  <input placeholder="اسم الدورة *" value={courseName} onChange={(e) => setCourseName(e.target.value)} required />
+                  <input placeholder="اسم المدرب *" value={courseInstructor} onChange={(e) => setCourseInstructor(e.target.value)} required />
+                  <input placeholder="النوع (مثلاً: البرمجة، الفن) *" value={courseType} onChange={(e) => setCourseType(e.target.value)} required />
+                  <input placeholder="الوقت (مثلاً: 5:00 PM - 7:00 PM) *" value={courseTime} onChange={(e) => setCourseTime(e.target.value)} required />
+                  <input placeholder="الأيام (مثلاً: الاثنين، الأربعاء) *" value={courseDays} onChange={(e) => setCourseDays(e.target.value)} required />
                   <input placeholder="Duration (e.g. 8 weeks) *" value={courseDuration} onChange={(e) => setCourseDuration(e.target.value)} required />
                   <input placeholder="Price (SAR) *" value={coursePrice} onChange={(e) => setCoursePrice(e.target.value)} required />
-                  <button type="submit">Add Course ✅</button>
+                  <button type="submit">إضافة دورة </button>
                 </form>
               )}
 
-              <div className="dashboard-cards">
-              <div className="courses-grid">
-  
-  {courses.length === 0 ? (
-    <div className="empty-course-card">
-      لا توجد دورات مضافة حالياً
-    </div>
-  ) : (
-    courses.map((course) => (
-      <div className="course-card" key={course.id}>
-        <h3>{course.name}</h3>
+             
+<div className="courses-table">
+  <table>
+    <thead>
+      <tr>
+        <th>الدورة</th>
+        <th>المدرب</th>
+        <th>التصنيف</th>
+        <th>الأيام</th>
+        <th>الوقت</th>
+        <th>السعر</th>
+      </tr>
+    </thead>
 
-        <p>
-          <strong>السعر:</strong> {course.price} ريال
-        </p>
-
-        <p>
-          <strong>المدة:</strong> {course.duration}
-        </p>
-
-        <p>
-          <strong>الأيام:</strong> {course.days}
-        </p>
-
-        <div className="course-actions">
-          <button>تعديل</button>
-          <button>حذف</button>
-        </div>
-      </div>
-    ))
-  )}
+    <tbody>
+      {courses.length === 0 ? (
+        <tr>
+          <td colSpan="6" className="empty-table">
+            لا توجد دورات مضافة حالياً
+          </td>
+        </tr>
+      ) : (
+        courses.map((course) => (
+          <tr key={course.id}>
+            <td>{course.name}</td>
+            <td>{course.instructor}</td>
+            <td>{course.description}</td>
+            <td>{course.days}</td>
+            <td>{course.times}</td>
+            <td>{course.price} ريال</td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
 </div>
-
                 
-              </div>
 
               <h3 style={{marginTop:'20px'}}>📅 Center Bookings</h3>
               {centerBookings.length > 0 && (

@@ -1327,3 +1327,34 @@ h1, h2, h3 {
   padding: 40px;
   text-align: center;
 }
+
+.courses-table {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: 20px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+
+.courses-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.courses-table th {
+  background: #fff4e6;
+  color: #14213d;
+  padding: 15px;
+  text-align: right;
+}
+
+.courses-table td {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.empty-table {
+  text-align: center;
+  color: #777;
+}
