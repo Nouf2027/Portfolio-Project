@@ -1191,3 +1191,23 @@ button:hover {
 .password-toggle:hover {
   color: #305376 !important;
 }
+.password-toggle,
+.password-toggle:hover,
+.password-toggle:focus {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%) !important;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  color: #6b7280;
+  font-size: 18px;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  transition: none !important;
+}
