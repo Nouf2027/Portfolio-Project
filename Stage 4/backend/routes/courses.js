@@ -61,4 +61,65 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
+// PUT edit course (center owner only)
+router.put('/:id', authMiddleware, async (req, res) => {
+  try {
+    const { name, description, price, duration, days, times, instructor } = req.body;
+
+    // Make sure this course belongs to the logged-in center's owner
+    const ownership = await pool.query(
+      `SELECT courses.id 
+       FROM courses 
+       JOIN centers ON courses.center_id = centers.id 
+       WHERE courses.id = $1 AND centers.owner_id = $2`,
+      [req.params.id, req.user.id]
+    );
+
+    if (ownership.rows.length === 0) {
+      return res.status(403).json({ message: 'Not authorized to edit this course' });
+    }
+
+    const result = await pool.query(
+      `UPDATE courses 
+       SET name = COALESCE($1, name),
+           description = COALESCE($2, description),
+           price = COALESCE($3, price),
+           duration = COALESCE($4, duration),
+           days = COALESCE($5, days),
+           times = COALESCE($6, times),
+           instructor = COALESCE($7, instructor)
+       WHERE id = $8
+       RETURNING *`,
+      [name, description, price, duration, days, times, instructor, req.params.id]
+    );
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// DELETE course (center owner only)
+router.delete('/:id', authMiddleware, async (req, res) => {
+  try {
+    // Make sure this course belongs to the logged-in center's owner
+    const ownership = await pool.query(
+      `SELECT courses.id 
+       FROM courses 
+       JOIN centers ON courses.center_id = centers.id 
+       WHERE courses.id = $1 AND centers.owner_id = $2`,
+      [req.params.id, req.user.id]
+    );
+
+    if (ownership.rows.length === 0) {
+      return res.status(403).json({ message: 'Not authorized to delete this course' });
+    }
+
+    await pool.query('DELETE FROM courses WHERE id = $1', [req.params.id]);
+    res.json({ message: 'Course deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
