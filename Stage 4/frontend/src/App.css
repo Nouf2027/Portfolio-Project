@@ -1121,3 +1121,13 @@ button:hover {
   font-size: 14px;
   font-weight: bold;
 }
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-box input {
+    width: 200px;
+  }
+}
