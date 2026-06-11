@@ -14,16 +14,35 @@ const MONTHS_AR = [
 ];
 const DAYS_AR = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 
-function MiniCalendar() {
+function MiniCalendar({ courses }) {
   const today = new Date();
   const [current, setCurrent] = useState({ year: today.getFullYear(), month: today.getMonth() });
+  const [selectedDay, setSelectedDay] = useState(null);
+
   const firstDay = new Date(current.year, current.month, 1).getDay();
   const daysInMonth = new Date(current.year, current.month + 1, 0).getDate();
   const cells = [];
   for (let i = 0; i < firstDay; i++) cells.push(null);
   for (let d = 1; d <= daysInMonth; d++) cells.push(d);
-  const prev = () => setCurrent(c => c.month === 0 ? { year: c.year - 1, month: 11 } : { year: c.year, month: c.month - 1 });
-  const next = () => setCurrent(c => c.month === 11 ? { year: c.year + 1, month: 0 } : { year: c.year, month: c.month + 1 });
+
+  const prev = () => { setCurrent(c => c.month === 0 ? { year: c.year - 1, month: 11 } : { year: c.year, month: c.month - 1 }); setSelectedDay(null); };
+  const next = () => { setCurrent(c => c.month === 11 ? { year: c.year + 1, month: 0 } : { year: c.year, month: c.month + 1 }); setSelectedDay(null); };
+
+  const getCoursesForDay = (day) => {
+    if (!day || !courses) return [];
+    return courses.filter(course => {
+      if (!course.days) return false;
+      const courseDate = new Date(course.days);
+      return (
+        courseDate.getDate() === day &&
+        courseDate.getMonth() === current.month &&
+        courseDate.getFullYear() === current.year
+      );
+    });
+  };
+
+  const selectedCourses = selectedDay ? getCoursesForDay(selectedDay) : [];
+
   return (
     <div className="cd-calendar">
       <div className="cd-cal-header">
@@ -35,15 +54,47 @@ function MiniCalendar() {
         {DAYS_AR.map(d => <span key={d}>{d.slice(0,2)}</span>)}
       </div>
       <div className="cd-cal-grid">
-        {cells.map((day, i) => (
-          <div key={i} className={`cd-cal-cell ${day === today.getDate() && current.month === today.getMonth() && current.year === today.getFullYear() ? "today" : ""} ${!day ? "empty" : ""}`}>
-            {day && <span className="cd-day-num">{day}</span>}
-          </div>
-        ))}
+        {cells.map((day, i) => {
+          const dayCourses = getCoursesForDay(day);
+          const isToday = day === today.getDate() && current.month === today.getMonth() && current.year === today.getFullYear();
+          const isSelected = day === selectedDay;
+          const hasCourse = dayCourses.length > 0;
+          return (
+            <div
+              key={i}
+              className={"cd-cal-cell" + (isToday ? " today" : "") + (!day ? " empty" : "") + (hasCourse ? " has-course" : "") + (isSelected ? " selected" : "")}
+              onClick={() => day && setSelectedDay(isSelected ? null : day)}
+            >
+              {day && <span className="cd-day-num">{day}</span>}
+              {hasCourse && <span className="cd-cal-dot"></span>}
+            </div>
+          );
+        })}
       </div>
+      {selectedDay && selectedCourses.length > 0 && (
+        <div className="cd-cal-popup">
+          <div className="cd-cal-popup-header">
+            <strong>{selectedDay} {MONTHS_AR[current.month]}</strong>
+            <button onClick={() => setSelectedDay(null)}><FiX /></button>
+          </div>
+          {selectedCourses.map(course => (
+            <div key={course.id} className="cd-cal-course-item">
+              <div className="cd-cal-course-icon"><FiBookOpen /></div>
+              <div>
+                <strong>{course.name}</strong>
+                <span>{course.times || "الوقت غير محدد"}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {selectedDay && selectedCourses.length === 0 && (
+        <p className="cd-cal-empty">لا توجد دورات في هذا اليوم</p>
+      )}
     </div>
   );
 }
+
 
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");

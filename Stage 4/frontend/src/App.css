@@ -1878,3 +1878,54 @@ input[type="date"].cd-input::-webkit-calendar-picker-indicator {
   transition: background 0.2s;
 }
 .cd-btn-undo:hover { background: #fde68a; }
+
+/* ── تقويم محسّن ── */
+.cd-cal-cell { cursor: pointer; flex-direction: column; gap: 2px; transition: background 0.15s; }
+.cd-cal-cell:hover:not(.empty) { background: #f1f5f9; border-radius: 8px; }
+.cd-cal-cell.has-course { background: #fff7ed; border-radius: 8px; }
+.cd-cal-cell.has-course:hover { background: #fed7aa; }
+.cd-cal-cell.selected { background: #fed7aa !important; border-radius: 8px; }
+
+.cd-cal-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #f97316;
+  margin: 0 auto;
+}
+
+/* popup الدورة */
+.cd-cal-popup {
+  margin-top: 12px;
+  background: #fff;
+  border: 1.5px solid #fed7aa;
+  border-radius: 12px;
+  padding: 12px;
+}
+.cd-cal-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #1e293b;
+}
+.cd-cal-popup-header button {
+  background: none; border: none; cursor: pointer;
+  color: #94a3b8; font-size: 14px; display: flex;
+}
+.cd-cal-course-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.cd-cal-course-item:last-child { border-bottom: none; }
+.cd-cal-course-icon {
+  width: 32px; height: 32px;
+  background: #fff7ed; color: #f97316;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.cd-cal-course-item strong { display: block; font-size: 13px; color: #1e293b; }
+.cd-cal-course-item span  { font-size: 12px; color: #64748b; }
+.cd-cal-empty { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 10px; }
