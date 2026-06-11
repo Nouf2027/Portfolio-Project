@@ -390,7 +390,7 @@ setCenter(res.data);
 
               {centerBookings.length > 0 && (
                 <div style={{background:'#fff3e0', padding:'10px 16px', borderRadius:'10px', marginBottom:'10px', border:'2px solid #ffb74d'}}>
-                  🔔 You have {centerBookings.length} booking(s)!
+                   You have {centerBookings.length} booking(s)!
                 </div>
               )}
               <div className="bookings-table">
