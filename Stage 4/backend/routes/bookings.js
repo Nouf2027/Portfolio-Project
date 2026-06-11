@@ -53,4 +53,22 @@ router.get('/all', authMiddleware, async (req, res) => {
   }
 });
 
+// Get bookings for center
+router.get('/center', authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT b.*, u.email, co.name as course_name, ce.name as center_name
+       FROM bookings b
+       JOIN users u ON b.user_id = u.id
+       JOIN courses co ON b.course_id = co.id
+       JOIN centers ce ON co.center_id = ce.id
+       WHERE ce.owner_id = $1`,
+      [req.user.id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
