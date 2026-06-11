@@ -1227,7 +1227,7 @@ button:hover {
 
 .select-arrow {
   position: absolute;
-  left: 15px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
