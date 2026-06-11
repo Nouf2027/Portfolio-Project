@@ -1065,3 +1065,59 @@ button:hover {
   font-weight: 800;
   white-space: nowrap;
 }
+/* filter bar for home page */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.category-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: none;
+  background-color: #f0ece8;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.category-btn.active {
+  background-color: #f97316;
+  color: white;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-box input {
+  padding: 10px 16px;
+  border-radius: 25px;
+  border: 2px solid #f97316;
+  outline: none;
+  font-size: 14px;
+  width: 280px;
+}
+
+.search-box button {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background-color: #f97316;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
