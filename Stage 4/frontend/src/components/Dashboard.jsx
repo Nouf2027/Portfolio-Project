@@ -156,9 +156,11 @@ const handleUpdateBookingStatus = async (id, status) => {
       setShowCourseForm(false);
       setCourseSuccess("✅ تمت إضافة الكورس بنجاح! يمكن للأهل حجزه الآن.");
       setTimeout(() => setCourseSuccess(""), 4000);
-    } catch (err) {
-      alert("Failed to add course.");
-    }
+    } 
+    catch (err) {
+  console.log(err.response?.data || err.message);
+  alert(err.response?.data?.message || "فشل إضافة الدورة");
+}
   };
 
   if (loading) return <div className="loader"></div>;
