@@ -55,6 +55,19 @@ router.get('/search', async (req, res) => {
   }
 });
 
+// ✅ Route جديد: دورات المركز
+router.get('/:id/courses', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM courses WHERE center_id = $1`,
+      [req.params.id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     const center = await Center.findById(req.params.id);
