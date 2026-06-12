@@ -7,6 +7,10 @@ const User = require('../models/User');
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
+    if (!password || !passwordRegex.test(password)) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters and contain both letters and numbers' });
+    }
     const existing = await User.findByEmail(email);
     if (existing) {
       return res.status(400).json({ message: 'Email already exists' });
@@ -41,8 +45,46 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
     res.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role }, token });
+  } 
+  catch (err) {
+  console.log(err);
+  res.status(500).json({ message: err.message });
+}
+});
+// Update user profile
+router.put("/update-profile", async (req, res) => {
+  try {
+    // Get user data from request body
+    const { id, name, email } = req.body;
+
+    // Validate required fields
+    if (!id || !name || !email) {
+      return res.status(400).json({
+        message: "Missing required fields",
+      });
+    }
+
+    // Update user in database
+    const updatedUser = await User.updateProfile(id, name, email);
+
+    // Check if user exists
+    if (!updatedUser) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    // Send updated user back to frontend
+    res.json({
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Update profile error:", err);
+
+    res.status(500).json({
+      message: "Failed to update profile",
+    });
   }
 });
 

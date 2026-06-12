@@ -11,12 +11,7 @@ function Booking() {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    setCourses([
-      { id: 2, name: 'دورة الإلقاء', price: '500 ريال' },
-      { id: 3, name: 'دورة القيادة', price: '800 ريال' },
-      { id: 4, name: 'دورة البرمجة', price: '600 ريال' },
-      { id: 5, name: 'دورة الرياضيات', price: '450 ريال' },
-    ]);
+    API.get('/courses').then(res => setCourses(res.data)).catch(() => setCourses([]));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -33,35 +28,25 @@ function Booking() {
   return (
     <div className="booking-page">
       <h1>Book a Center</h1>
+      <p>Please select a course and choose a suitable booking date.</p>
       {error && <p style={{color: 'red'}}>{error}</p>}
       {success && <p style={{color: 'green'}}>{success}</p>}
+      {success && <p>The center will receive your booking request.</p>}
       <form className="form-container" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Child Name"
-          value={childName}
-          onChange={(e) => setChildName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Parent Name"
-          value={parentName}
-          onChange={(e) => setParentName(e.target.value)}
-        />
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+        <input type="text" placeholder="Child Name" value={childName} onChange={(e) => setChildName(e.target.value)} />
+        <input type="text" placeholder="Parent Name" value={parentName} onChange={(e) => setParentName(e.target.value)} />
+        <label>Select Booking Date</label>
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <label>Available Courses</label>
         <select value={courseId} onChange={(e) => setCourseId(e.target.value)}>
           <option value="">اختاري الكورس</option>
           {courses.map(course => (
             <option key={course.id} value={course.id}>
-              {course.name} - {course.price}
+              {course.name} - {course.price} ريال - {course.duration} - {course.days}
             </option>
           ))}
         </select>
-        <button type="submit">Book Now</button>
+        <button type="submit">Confirm Booking</button>
       </form>
     </div>
   );

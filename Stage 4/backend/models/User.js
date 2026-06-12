@@ -32,17 +32,20 @@ class User {
     return result.rows[0];
   }
 
-  // Update profile
-  static async update(id, { name, email }) {
-    const result = await pool.query(
-      `UPDATE users SET name = $1, email = $2
-       WHERE id = $3
-       RETURNING id, name, email, role, created_at`,
-      [name, email, id]
-    );
-    return result.rows[0];
-  }
+ // Update user profile
+static async updateProfile(id, name, email) {
+  const result = await pool.query(
+    `
+    UPDATE users
+    SET name = $1, email = $2
+    WHERE id = $3
+    RETURNING id, name, email, role
+    `,
+    [name, email, id]
+  );
 
+  return result.rows[0];
+}
   // Compare passwords
   static async comparePassword(plain, hashed) {
     return bcrypt.compare(plain, hashed);

@@ -18,7 +18,8 @@ class Review {
       `SELECT r.*, u.name as user_name 
        FROM reviews r
        JOIN users u ON r.user_id = u.id
-       WHERE r.centre_id = $1`,
+       WHERE r.centre_id = $1 
+       ORDER BY r.created_at DESC`,
       [centre_id]
     );
     return result.rows;
@@ -30,7 +31,7 @@ class Review {
       'SELECT AVG(rating) as avg_rating FROM reviews WHERE centre_id = $1',
       [centre_id]
     );
-    return result.rows[0].avg_rating;
+    return result.rows[0].avg_rating || 0;
   }
 }
 

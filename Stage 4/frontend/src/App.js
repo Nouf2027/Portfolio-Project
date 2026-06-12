@@ -1,18 +1,31 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CenterDetails from "./pages/CenterDetails";
 import Booking from "./pages/Booking";
+import Privacy from "./pages/Privacy";
 import Dashboard from "./components/Dashboard";
 import LandingPage from "./pages/LandingPage";
+import Profile from "./pages/Profile";
+import { useLocation } from "react-router-dom";
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideNavbar =
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/my-center" ||
+    location.pathname === "/dashboard";
+  const hideFooter =
+    location.pathname === "/my-center" ||
+    location.pathname === "/dashboard";
   return (
-    <BrowserRouter>
-      <Navbar />
+    <>
+      {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
@@ -21,7 +34,19 @@ function App() {
         <Route path="/centers/:id" element={<CenterDetails />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/my-center" element={<Dashboard />} />
       </Routes>
+      {!hideFooter && <Footer />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }
