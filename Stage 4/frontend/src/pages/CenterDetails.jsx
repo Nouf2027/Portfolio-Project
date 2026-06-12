@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import API from "../api/axios";
 
 function CenterDetails() {
@@ -32,28 +32,17 @@ function CenterDetails() {
   }, [id]);
 
   const handleReview = async (e) => {
-  e.preventDefault();
-  try {
-    await API.post('/reviews', { centre_id: id, rating, comment });
-    setSuccess('تمت إضافة التقييم بنجاح');
-    setComment('');
-  } catch (err) {
-    setError('فشل إضافة التقييم، الرجاء تسجيل الدخول أولًا');
-  }
-};
     e.preventDefault();
     try {
       const res = await API.post('/reviews', { centre_id: id, rating, comment });
       setReviews([...reviews, res.data]);
-      setSuccess('Review added successfully!');
+      setSuccess('تمت إضافة التقييم بنجاح');
       setComment('');
     } catch (err) {
-      setError('Failed to add review. Please login first.');
+      setError('فشل إضافة التقييم، الرجاء تسجيل الدخول أولًا');
     }
   };
 
-if (loading) return <p>جاري التحميل...</p>;
-if (!center) return <h1>لم يتم العثور على المركز</h1>;
   const handleBooking = async (e) => {
     e.preventDefault();
     try {
@@ -209,48 +198,10 @@ if (!center) return <h1>لم يتم العثور على المركز</h1>;
         </div>
       )}
 
-       {role === 'parent' && (
-  <>
-    <h3>إضافة تقييم</h3>
-    {success && <p style={{color: 'green'}}>{success}</p>}
-    {error && <p style={{color: 'red'}}>{error}</p>}
-
-    <form onSubmit={handleReview}>
-      <select value={rating} onChange={(e) => setRating(e.target.value)}>
-        <option value="5">5 ⭐</option>
-        <option value="4">4 ⭐</option>
-        <option value="3">3 ⭐</option>
-        <option value="2">2 ⭐</option>
-        <option value="1">1 ⭐</option>
-      </select>
-
-      <textarea
-        placeholder="اكتب تقييمك..."
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-      />
-
-      <button type="submit">إرسال التقييم</button>
-    </form>
-  </>
-)}
-
-{role === 'admin' && (
-  <p style={{color: '#ff6f00', fontWeight: 'bold'}}>
-    لا يمكن للمشرفين إضافة تقييمات
-  </p>
-)}
-
-{role === 'center' && (
-  <p style={{color: '#ff6f00', fontWeight: 'bold'}}>
-    لا يمكن للمراكز إضافة تقييمات
-  </p>
-)}
-    
-      </div>
+      {/* فورم إضافة تقييم */}
       {role === 'parent' && (
         <div style={{background:'white', borderRadius:'20px', padding:'20px', border:'1px solid #d6e6f5', marginTop:'20px'}}>
-          <h3 style={{color:'#3b5b7a', marginBottom:'15px'}}>Add a Review</h3>
+          <h3 style={{color:'#3b5b7a', marginBottom:'15px'}}>إضافة تقييم</h3>
           {success && <p style={{color:'green'}}>{success}</p>}
           {error && <p style={{color:'red'}}>{error}</p>}
           <form onSubmit={handleReview}>
@@ -261,16 +212,16 @@ if (!center) return <h1>لم يتم العثور على المركز</h1>;
               <option value="2">2 ⭐</option>
               <option value="1">1 ⭐</option>
             </select>
-            <textarea placeholder="Write your review..." value={comment} onChange={(e) => setComment(e.target.value)}
+            <textarea placeholder="اكتب تقييمك..." value={comment} onChange={(e) => setComment(e.target.value)}
               style={{width:'100%', padding:'10px', borderRadius:'10px', border:'2px solid #ffe082', marginBottom:'10px', height:'80px'}}/>
-            <button type="submit" style={{width:'100%'}}>Submit Review</button>
+            <button type="submit" style={{width:'100%'}}>إرسال التقييم</button>
           </form>
         </div>
       )}
-      {role === 'admin' && <p style={{color:'#ff6f00', fontWeight:'bold'}}>⚠️ Admins cannot add reviews</p>}
-      {role === 'center' && <p style={{color:'#ff6f00', fontWeight:'bold'}}>⚠️ Centers cannot add reviews</p>}
+      {role === 'admin' && <p style={{color:'#ff6f00', fontWeight:'bold'}}>لا يمكن للمشرفين إضافة تقييمات</p>}
+      {role === 'center' && <p style={{color:'#ff6f00', fontWeight:'bold'}}>لا يمكن للمراكز إضافة تقييمات</p>}
     </div>
   );
 }
 
-export default CenterDetails;
+export default CenterDetails; 
