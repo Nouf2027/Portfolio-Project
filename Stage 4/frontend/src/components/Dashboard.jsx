@@ -378,18 +378,26 @@ function Dashboard() {
   // ── أكشنز المركز ──
   const handleSubmitCenter = async (e) => {
     e.preventDefault();
-    if (!centerName || !location || !description) { alert("يرجى تعبئة جميع الحقول المطلوبة"); return; }
     try {
-      const formData = new FormData();
-      formData.append("name", centerName);
-      formData.append("location", location);
-      formData.append("description", description);
-      if (image) formData.append("image", image);
-      const res = await API.post("/centers", formData, { headers: { "Content-Type": "multipart/form-data" } });
+      let imageUrl = null;
+      let licenseUrl = null;
+      if (image) {
+        const imgForm = new FormData();
+        imgForm.append('image', image);
+        const imgRes = await API.post('/upload', imgForm, { headers: { 'Content-Type': 'multipart/form-data' } });
+        imageUrl = imgRes.data.url;
+      }
+      if (license) {
+        const licForm = new FormData();
+        licForm.append('document', license);
+        const licRes = await API.post('/upload/document', licForm, { headers: { 'Content-Type': 'multipart/form-data' } });
+        licenseUrl = licRes.data.url;
+      }
+      const res = await API.post('/centers', { name: centerName, location: location, description: description, image: imageUrl, license_file: licenseUrl });
       setCenter(res.data);
-      setCenterSuccess("تم إرسال طلب المركز بنجاح، سيتم مراجعته من قبل الإدارة.");
-      setTimeout(() => setCenterSuccess(""), 4000);
-    } catch { alert("فشل إرسال طلب المركز."); }
+      setCenterSuccess('تم إرسال طلب المركز بنجاح، سيتم مراجعته من قبل الإدارة.');
+      setTimeout(() => setCenterSuccess(''), 4000);
+    } catch { alert('فشل إرسال طلب المركز.'); }
   };
 
   const handleUpdateBookingStatus = async (id, status) => {

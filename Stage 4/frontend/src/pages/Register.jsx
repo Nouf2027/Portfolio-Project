@@ -58,18 +58,13 @@ function Register() {
       localStorage.setItem('user', JSON.stringify(res.data.user));
 
       if (role === 'center') {
-        const formData = new FormData();
-        formData.append("name", centerName);
-        formData.append("location", centerLocation);
-        formData.append("description", centerActivities);
-        formData.append("license", centerLicense);
-        if (image) formData.append("image", image);
-
-        await API.post('/centers', formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
+        // ✅ الإصلاح: إرسال JSON بدل FormData
+        await API.post('/centers', {
+          name: centerName,
+          location: centerLocation,
+          description: centerActivities,
+          license_file: centerLicense,
+          image: image
         });
 
         setLoading(false);
