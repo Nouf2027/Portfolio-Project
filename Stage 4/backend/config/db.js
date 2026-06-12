@@ -1,6 +1,5 @@
 const { Pool } = require("pg");
 require("dotenv").config();
-
 const pool = process.env.DATABASE_URL
   ? new Pool({
       connectionString: process.env.DATABASE_URL,
@@ -13,7 +12,6 @@ const pool = process.env.DATABASE_URL
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
     });
-
 const createTables = async () => {
   try {
     await pool.query(`DO $$ BEGIN
@@ -82,11 +80,16 @@ const createTables = async () => {
       ALTER TABLE courses ADD COLUMN IF NOT EXISTS days VARCHAR(150);
       ALTER TABLE courses ADD COLUMN IF NOT EXISTS times VARCHAR(100);
     `);
+    await pool.query(`
+      ALTER TABLE centers ADD COLUMN IF NOT EXISTS category VARCHAR(100);
+      ALTER TABLE centers ADD COLUMN IF NOT EXISTS license_file VARCHAR(255);
+      ALTER TABLE centers ADD COLUMN IF NOT EXISTS views INTEGER DEFAULT 0;
+      ALTER TABLE centers ADD COLUMN IF NOT EXISTS image VARCHAR(255);
+    `);
     console.log("Tables created successfully");
   } catch (err) {
     console.error("Error creating tables:", err.message);
   }
 };
-
 createTables();
 module.exports = pool;
