@@ -52,18 +52,21 @@ function Home() {
 
       {/* Hero */}
       <section className="home-hero">
-        <img src={heroImageUrl} alt="hero" className="hero-bg-img" />
+  
+<img src={heroImageUrl} alt="Children learning" className="hero-image" />
         <div className="hero-overlay">
           <h1>اكتشفي أفضل مراكز التعلم لطفلك</h1>
           <p>جيل يساعد الأهل على إيجاد مراكز موثوقة، استكشاف الدورات، وقراءة التقييمات بسهولة.</p>
-          <button className="hero-cta-btn" onClick={() => navigate("/search")}>
-            اكتشفي المزيد
+<button className="hero-btn" onClick={() => navigate("/search")}>
+              اكتشفي المزيد
           </button>
         </div>
       </section>
 
       {/* فلاتر */}
       <section className="filter-bar">
+             
+
         {categories.map((category) => (
           <button
             key={category}
@@ -78,21 +81,24 @@ function Home() {
       {/* المراكز */}
       <section className="centers-section">
         <div className="section-header">
-          <h2>Available Centers</h2>
-          <p>{filteredCenters.length} center(s) found</p>
+          <h2>المراكز المتاحة</h2>
+          <p>{filteredCenters.length} تم العثور على مركز</p>
         </div>
 
         {filteredCenters.length === 0 ? (
           <div className="empty-centers">
-            <h3>No centers found</h3>
-            <p>Try searching with another keyword or category.</p>
+            <h3>لا توجد مراكز</h3>
           </div>
         ) : (
           <div className="centers-grid">
             {filteredCenters.map((center) => (
               <div className="center-card" key={center.id || center._id}>
                 {center.image ? (
-                  <img src={center.image} alt={center.name} className="center-image" />
+<img
+  src={`${API.defaults.baseURL.replace("/api", "")}/uploads/${center.image}`}
+  alt={center.name}
+  className="center-image"
+/>
                 ) : (
                   <div className="center-image-placeholder">🏫</div>
                 )}
@@ -102,11 +108,12 @@ function Home() {
                   <p className="center-location">📍 {center.location || "Location not added"}</p>
                   <p className="center-description">{center.description || "No description available."}</p>
                   <div className="center-rating">
-                    ⭐ {center.rating || "4.8"}
-                    <span> ({center.reviews_count || 0} reviews)</span>
-                  </div>
+  ⭐ {center.review_count > 0 ? center.average_rating : "لا يوجد تقييم"}
+  <span> ({center.review_count || 0} reviews)</span>
+</div>
+
                   <Link to={`/centers/${center.id || center._id}`} className="details-btn">
-                    View Details
+                    عرض التفاصيل
                   </Link>
                 </div>
               </div>

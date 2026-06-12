@@ -2,11 +2,8 @@ const { Pool } = require("pg");
 require("dotenv").config();
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
 });
 
 const createTables = async () => {
@@ -15,10 +12,12 @@ const createTables = async () => {
       CREATE TYPE user_role AS ENUM ('parent', 'admin', 'center');
     EXCEPTION WHEN duplicate_object THEN NULL;
     END $$;`);
+
     await pool.query(`DO $$ BEGIN
       CREATE TYPE booking_status AS ENUM ('pending', 'confirmed', 'cancelled');
     EXCEPTION WHEN duplicate_object THEN NULL;
     END $$;`);
+
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -28,6 +27,7 @@ const createTables = async () => {
         role user_role DEFAULT 'parent',
         created_at TIMESTAMP DEFAULT NOW()
       );
+
       CREATE TABLE IF NOT EXISTS centers (
         id SERIAL PRIMARY KEY,
         name VARCHAR(150) NOT NULL,
@@ -36,18 +36,25 @@ const createTables = async () => {
         approved BOOLEAN DEFAULT FALSE,
         owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         license VARCHAR(255),
-		latitude DECIMAL(9,6),
-		longitude DECIMAL(9,6),
-	created_at TIMESTAMP DEFAULT NOW()
+        latitude DECIMAL(9,6),
+        longitude DECIMAL(9,6),
+        created_at TIMESTAMP DEFAULT NOW()
       );
+
       CREATE TABLE IF NOT EXISTS courses (
         id SERIAL PRIMARY KEY,
         name VARCHAR(150) NOT NULL,
+        description TEXT,
+        instructor VARCHAR(150),
         age_range VARCHAR(50),
         price DECIMAL(10, 2) NOT NULL,
+        duration VARCHAR(100),
+        days VARCHAR(150),
+        times VARCHAR(100),
         center_id INTEGER REFERENCES centers(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT NOW()
       );
+
       CREATE TABLE IF NOT EXISTS bookings (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -56,6 +63,7 @@ const createTables = async () => {
         status booking_status DEFAULT 'pending',
         created_at TIMESTAMP DEFAULT NOW()
       );
+
       CREATE TABLE IF NOT EXISTS reviews (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
@@ -65,9 +73,19 @@ const createTables = async () => {
         created_at TIMESTAMP DEFAULT NOW()
       );
     `);
+
+    // إضافة الأعمدة الناقصة في حال كان الجدول موجوداً مسبقاً
+    await pool.query(`
+      ALTER TABLE courses ADD COLUMN IF NOT EXISTS description TEXT;
+      ALTER TABLE courses ADD COLUMN IF NOT EXISTS instructor VARCHAR(150);
+      ALTER TABLE courses ADD COLUMN IF NOT EXISTS duration VARCHAR(100);
+      ALTER TABLE courses ADD COLUMN IF NOT EXISTS days VARCHAR(150);
+      ALTER TABLE courses ADD COLUMN IF NOT EXISTS times VARCHAR(100);
+    `);
+
     console.log("Tables created successfully");
   } catch (err) {
-    console.error("Error creating tables:", err.messages);
+    console.error("Error creating tables:", err.message);
   }
 };
 

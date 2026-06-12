@@ -1,41 +1,63 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 function Navbar() {
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
-  const role = user?.role;
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    localStorage.clear();
+    navigate("/login");
+  };
+const [showNavbar, setShowNavbar] = useState(true);
+
+  useEffect(() => {
+  let lastScrollY = window.scrollY;
+
+  const handleScroll = () => {
+    if (window.scrollY > lastScrollY) {
+      setShowNavbar(false);
+    } else {
+      setShowNavbar(true);
+    }
+
+    lastScrollY = window.scrollY;
   };
 
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
   return (
-    <nav className="modern-navbar">
-      <div className="nav-logo">
-        <Link to="/">
-          <span className="logo-emoji">🌱</span>
-          <span className="nav-logo-text">Jeel</span>
-        </Link>
-      </div>
-      <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <Link to="/home">Home</Link>
-        <Link to="/search">Search</Link>
-        {role === "center" && <Link to="/dashboard">My Center</Link>}
-        {role === "admin" && <Link to="/dashboard">Admin</Link>}
-        {role && <Link to="/profile">Profile</Link>}
-        {!role ? (
+    <nav className="navbar">
+     <Link to="/" className="brand">
+    {/*<span className="logo-icon">🌱</span>*/}
+  <span className="logo-text">جيل</span>
+</Link>
+
+      <div className="nav-links">
+        <Link to="/">الصفحة الرئسية</Link>
+
+        {!user ? (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/login">تسجيل الدخول</Link>
+            <Link to="/register" >
+              التسجيل
+            </Link>
           </>
         ) : (
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          <>
+            {user.role === "parent" && <Link to="/profile">حسابي</Link>}
+            {user.role === "center" && <Link to="/my-center">مركزي</Link>}
+            {user.role === "admin" && <Link to="/dashboard">لوحة التحكم</Link>}
+            <button className="logout-btn" onClick={handleLogout}>
+              تسجيل الخروج
+            </button>
+          </>
         )}
       </div>
-      
     </nav>
   );
 }

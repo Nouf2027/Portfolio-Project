@@ -97,14 +97,30 @@ function CenterDetails() {
 
       {/* معلومات المركز */}
       <div style={{background:'white', borderRadius:'20px', padding:'30px', marginBottom:'30px', border:'1px solid #d6e6f5', display:'flex', gap:'30px', flexWrap:'wrap'}}>
+       <div style={{flex:1, minWidth:'250px'}}>
+  <img
+    src={center.image || "/default-center.jpg"}
+    alt={center.name}
+    style={{
+      width: "100%",
+      height: "260px",
+      objectFit: "cover",
+      borderRadius: "18px"
+    }}
+  />
+</div>
         <div style={{flex:1, minWidth:'250px'}}>
           <h1 style={{color:'#3b5b7a', marginBottom:'10px'}}>{center.name}</h1>
           <p style={{color:'#64748b'}}>📍 {center.location}</p>
           <p style={{color:'#475569', marginTop:'10px', lineHeight:'1.8'}}>{center.description}</p>
         </div>
         <div style={{flex:1, minWidth:'250px', background:'#f8faff', borderRadius:'16px', padding:'20px'}}>
-          <p>⭐ <strong>Rating:</strong> {center.average_rating || 0}/5</p>
-          <p>📝 <strong>Reviews:</strong> {reviews.length}</p>
+<p>
+  ⭐ <strong>Rating:</strong>{" "}
+  {reviews.length > 0 ? `${center.average_rating}/5` : "No ratings yet"}
+</p>
+  
+            <p>📝 <strong>Reviews:</strong> {reviews.length}</p>
           <p>📚 <strong>Courses:</strong> {courses.length}</p>
         </div>
       </div>

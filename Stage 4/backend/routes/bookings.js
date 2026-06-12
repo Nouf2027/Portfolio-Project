@@ -34,6 +34,9 @@ router.get('/me', authMiddleware, async (req, res) => {
 
 router.get('/all', authMiddleware, async (req, res) => {
   try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admins only' });
+    }
     const result = await pool.query(
       `SELECT b.*, u.email, co.name as course_name, co.price, ce.name as center_name
        FROM bookings b
@@ -59,6 +62,32 @@ router.get('/center', authMiddleware, async (req, res) => {
       [req.user.id]
     );
     res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.patch('/:id/status', authMiddleware, async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!['pending', 'confirmed', 'cancelled'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+    const result = await pool.query(
+      `UPDATE bookings b
+       SET status = $1
+       FROM courses co
+       JOIN centers ce ON co.center_id = ce.id
+       WHERE b.course_id = co.id
+       AND b.id = $2
+       AND ce.owner_id = $3
+       RETURNING b.*`,
+      [status, req.params.id, req.user.id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Booking not found or not allowed' });
+    }
+    res.json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
