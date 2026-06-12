@@ -22,8 +22,8 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
         }
       ).end(req.file.buffer);
     });
-    const fileExtension = req.file.originalname.split('.').pop();
-    res.json({ url: result.secure_url + '.' + fileExtension });
+    // ✅ الإصلاح: إزالة إضافة الامتداد الزيادة
+    res.json({ url: result.secure_url });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
