@@ -12,11 +12,11 @@ function Home() {
 
   const categories = [
     { value: "All", label: "الكل" },
-    { value: "Art", label: "فن" },
-    { value: "Programming", label: "برمجة" },
-    { value: "Language", label: "لغات" },
-    { value: "Science", label: "علوم" },
-    { value: "Robotics", label: "روبوتيك" },
+    { value: "فن", label: "فن" },
+    { value: "برمجة", label: "برمجة" },
+    { value: "لغات", label: "لغات" },
+    { value: "علوم", label: "علوم" },
+    { value: "روبوتيك", label: "روبوتيك" },
   ];
 
   const heroImageUrl = "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg";
