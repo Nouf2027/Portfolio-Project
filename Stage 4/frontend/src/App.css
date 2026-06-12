@@ -1211,3 +1211,25 @@ button:hover {
 
   transition: none !important;
 }
+.select-container {
+
+  position: relative;
+
+}
+
+.select-container select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-left: 40px;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+}

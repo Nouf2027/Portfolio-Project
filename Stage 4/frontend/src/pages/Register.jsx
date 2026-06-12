@@ -137,13 +137,14 @@ setSuccessMessage(
   >
     {showPassword ? <FaEyeSlash /> : <FaEye />}
   </button>
-</div>
+  <div className="select-container">
         <select value={role} onChange={(e) => setRole(e.target.value)} required>
           <option value="">نوع الحساب</option>
           <option value="parent">ولي امر</option>
           <option value="center">مركز</option>
         </select>
-
+      <span className="select-arrow">⌄</span>
+    </div>
         {role === 'center' && (
           <>
             <hr style={{margin: '15px 0', borderColor: '#ffe082'}} />

@@ -32,6 +32,15 @@ function CenterDetails() {
   }, [id]);
 
   const handleReview = async (e) => {
+  e.preventDefault();
+  try {
+    await API.post('/reviews', { centre_id: id, rating, comment });
+    setSuccess('تمت إضافة التقييم بنجاح');
+    setComment('');
+  } catch (err) {
+    setError('فشل إضافة التقييم، الرجاء تسجيل الدخول أولًا');
+  }
+};
     e.preventDefault();
     try {
       const res = await API.post('/reviews', { centre_id: id, rating, comment });
@@ -43,6 +52,8 @@ function CenterDetails() {
     }
   };
 
+if (loading) return <p>جاري التحميل...</p>;
+if (!center) return <h1>لم يتم العثور على المركز</h1>;
   const handleBooking = async (e) => {
     e.preventDefault();
     try {
@@ -66,6 +77,18 @@ function CenterDetails() {
   if (!center) return <h1>Center not found</h1>;
 
   return (
+  <div className="details-page">
+    <div className="details-card">
+      <h1>{center.name}</h1>
+      <p>{center.location}</p>
+      <p>{center.description}</p>
+
+      {role !== 'admin' && role !== 'center' && (
+        <Link to="/booking">
+          <button>احجز الآن</button>
+        </Link>
+      )}
+    </div>
     <div style={{maxWidth: '1100px', margin: '0 auto', padding: '30px 20px'}}>
 
       {/* Popup */}
@@ -125,6 +148,27 @@ function CenterDetails() {
         </div>
       </div>
 
+    <div className="reviews-section">
+      <h2>التقييمات</h2>
+
+      {reviews.length === 0 ? (
+        <p>لا توجد تقييمات حتى الآن.</p>
+      ) : (
+        reviews.map((review, index) => (
+          <div
+            key={index}
+            style={{
+              background: '#fff9c4',
+              padding: '10px',
+              borderRadius: '10px',
+              marginBottom: '10px'
+            }}
+          >
+            <p>⭐ {review.rating}/5</p>
+            <p>{review.comment}</p>
+          </div>
+        ))
+      )}
       {/* الكورسات */}
       <h2 style={{color:'#3b5b7a', marginBottom:'15px'}}>📚 Available Courses</h2>
       {courses.length === 0 ? (
@@ -165,6 +209,45 @@ function CenterDetails() {
         </div>
       )}
 
+       {role === 'parent' && (
+  <>
+    <h3>إضافة تقييم</h3>
+    {success && <p style={{color: 'green'}}>{success}</p>}
+    {error && <p style={{color: 'red'}}>{error}</p>}
+
+    <form onSubmit={handleReview}>
+      <select value={rating} onChange={(e) => setRating(e.target.value)}>
+        <option value="5">5 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="1">1 ⭐</option>
+      </select>
+
+      <textarea
+        placeholder="اكتب تقييمك..."
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+      />
+
+      <button type="submit">إرسال التقييم</button>
+    </form>
+  </>
+)}
+
+{role === 'admin' && (
+  <p style={{color: '#ff6f00', fontWeight: 'bold'}}>
+    لا يمكن للمشرفين إضافة تقييمات
+  </p>
+)}
+
+{role === 'center' && (
+  <p style={{color: '#ff6f00', fontWeight: 'bold'}}>
+    لا يمكن للمراكز إضافة تقييمات
+  </p>
+)}
+    
+      </div>
       {role === 'parent' && (
         <div style={{background:'white', borderRadius:'20px', padding:'20px', border:'1px solid #d6e6f5', marginTop:'20px'}}>
           <h3 style={{color:'#3b5b7a', marginBottom:'15px'}}>Add a Review</h3>
