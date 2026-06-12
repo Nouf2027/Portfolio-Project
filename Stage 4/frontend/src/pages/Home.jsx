@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api/axios";
+import { FiHome, FiMapPin, FiStar } from "react-icons/fi";
 
 function Home() {
   const [centers, setCenters] = useState([]);
@@ -9,7 +10,14 @@ function Home() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const navigate = useNavigate();
 
-  const categories = ["All", "Art", "Programming", "Language", "Science", "Robotics"];
+  const categories = [
+    { value: "All", label: "الكل" },
+    { value: "Art", label: "فن" },
+    { value: "Programming", label: "برمجة" },
+    { value: "Language", label: "لغات" },
+    { value: "Science", label: "علوم" },
+    { value: "Robotics", label: "روبوتيك" },
+  ];
 
   const heroImageUrl = "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg";
 
@@ -42,7 +50,7 @@ function Home() {
   if (loading) {
     return (
       <div className="home-page">
-        <div className="loading-box">Loading centers...</div>
+        <div className="loading-box">جارٍ تحميل المراكز...</div>
       </div>
     );
   }
@@ -53,7 +61,7 @@ function Home() {
       {/* Hero */}
       <section className="home-hero">
   
-<img src={heroImageUrl} alt="Children learning" className="hero-image" />
+<img src={heroImageUrl} alt="أطفال يتعلمون" className="hero-image" />
         <div className="hero-overlay">
           <h1>اكتشفي أفضل مراكز التعلم لطفلك</h1>
           <p>جيل يساعد الأهل على إيجاد مراكز موثوقة، استكشاف الدورات، وقراءة التقييمات بسهولة.</p>
@@ -69,11 +77,11 @@ function Home() {
 
         {categories.map((category) => (
           <button
-            key={category}
-            className={selectedCategory === category ? "filter-btn active" : "filter-btn"}
-            onClick={() => setSelectedCategory(category)}
+            key={category.value}
+            className={selectedCategory === category.value ? "filter-btn active" : "filter-btn"}
+            onClick={() => setSelectedCategory(category.value)}
           >
-            {category}
+            {category.label}
           </button>
         ))}
       </section>
@@ -100,17 +108,17 @@ function Home() {
   className="center-image"
 />
                 ) : (
-                  <div className="center-image-placeholder">🏫</div>
+                  <div className="center-image-placeholder"><FiHome /></div>
                 )}
                 <div className="center-content">
-                  <span className="center-category">{center.category || "Child Development"}</span>
+                  <span className="center-category">{center.category || "تنمية الطفل"}</span>
                   <h3>{center.name}</h3>
-                  <p className="center-location">📍 {center.location || "Location not added"}</p>
-                  <p className="center-description">{center.description || "No description available."}</p>
+                  <p className="center-location"><FiMapPin /> {center.location || "الموقع غير محدد"}</p>
+                  <p className="center-description">{center.description || "لا يوجد وصف متاح."}</p>
                   <div className="center-rating">
-  ⭐ {center.review_count > 0 ? center.average_rating : "لا يوجد تقييم"}
-  <span> ({center.review_count || 0} reviews)</span>
-</div>
+                    <FiStar /> {center.review_count > 0 ? center.average_rating : "لا يوجد تقييم"}
+                    <span> ({center.review_count || 0} تقييم)</span>
+                  </div>
 
                   <Link to={`/centers/${center.id || center._id}`} className="details-btn">
                     عرض التفاصيل
