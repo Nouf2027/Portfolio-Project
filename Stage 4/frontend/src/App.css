@@ -132,7 +132,7 @@ button {
   background-position: center;
   display: flex;
   align-items: center;
-  padding: 60px;
+  padding: 28px 60px;
   box-shadow: var(--shadow);
 }
 
@@ -322,35 +322,6 @@ button:hover {
   font-size: 34px;
   text-align: center;
   margin-bottom: 28px;
-}
-
-/* SEARCH */
-
-.search-box {
-  max-width: 760px;
-  margin: 0 auto 35px;
-  display: flex;
-  gap: 12px;
-  background: white;
-  padding: 12px;
-  border-radius: 22px;
-  box-shadow: var(--shadow);
-}
-
-.search-box input,
-.main-search-input {
-  flex: 1;
-  height: 52px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 0 18px;
-  font-size: 16px;
-  outline: none;
-}
-
-.search-box input:focus,
-.main-search-input:focus {
-  border-color: var(--accent);
 }
 
 /* FORMS */
