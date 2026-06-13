@@ -92,7 +92,7 @@ function Profile() {
         </div>
         <nav className="pf-nav">
           <a href="/" className="pf-nav-item"><FiHome /><span>الرئيسية</span></a>
-          <a href="/search" className="pf-nav-item"><FiSearch /><span>المراكز</span></a>
+          <a href="/home" className="pf-nav-item"><FiSearch /><span>المراكز</span></a>
           {(role === "center" || role === "admin") && (
             <a href="/dashboard" className="pf-nav-item">
               <FiShield /><span>لوحة التحكم</span>
@@ -150,7 +150,7 @@ function Profile() {
             {bookings.length === 0 ? (
               <div className="pf-empty">
                 <p>لا توجد حجوزات بعد</p>
-                <a href="/search" className="pf-btn-orange">استعرض المراكز</a>
+                <a href="/home" className="pf-btn-orange">استعرض المراكز</a>
               </div>
             ) : (
               <div className="pf-bookings-grid">
