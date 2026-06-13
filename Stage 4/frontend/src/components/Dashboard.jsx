@@ -19,12 +19,10 @@ const TYPE_COLORS = {
   "برمجة": "#3b82f6",
   "فن": "#ec4899",
   "رياضة": "#10b981",
-  "موسيقى": "#8b5cf6",
   "لغات": "#f59e0b",
   "علوم": "#06b6d4",
   "رياضيات": "#ef4444",
   "طبخ": "#f97316",
-  "روبوتيك": "#6366f1",
   "أخرى": "#64748b",
 };
 const getTypeColor = (type) => TYPE_COLORS[type] || "#f97316";
@@ -129,24 +127,57 @@ function SettingsSection({ center }) {
   const [settingSuccess, setSettingSuccess] = useState("");
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [showLicenseForm, setShowLicenseForm] = useState(false);
+  const [licenseFile, setLicenseFile] = useState(null);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleUploadLicense = async () => {
+    if (!licenseFile) return;
+    try {
+      const form = new FormData();
+      form.append('document', licenseFile);
+      const res = await API.post('/upload/document', form, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      await API.patch(`/centers/${center.id}`, { license_file: res.data.url });
+      setSettingSuccess("تم رفع الترخيص وحفظه بنجاح.");
+      setLicenseFile(null);
+      setTimeout(() => setSettingSuccess(""), 3000);
+    } catch (err) {
+      alert("فشل رفع الترخيص: " + (err.response?.data?.message || err.message));
+    }
+  };
 
   const cities = ["الرياض","جدة","مكة المكرمة","المدينة المنورة","الدمام","الخبر","تبوك","أبها","القصيم","حائل","نجران","جازان","الطائف"];
 
   const handleSaveSettings = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("name", settingName);
-      formData.append("location", settingCity);
-      formData.append("description", settingDesc);
-      if (settingLogo) formData.append("image", settingLogo);
-      await API.patch(`/centers/${center.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
+      let imageUrl = center?.image || null;
+
+      // رفع الصورة أولاً إذا اختارت المستخدمة صورة جديدة
+      if (settingLogo) {
+        const imgForm = new FormData();
+        imgForm.append('image', settingLogo);
+        const imgRes = await API.post('/upload', imgForm, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        imageUrl = imgRes.data.url;
+      }
+
+      await API.patch(`/centers/${center.id}`, {
+        name: settingName,
+        location: settingCity,
+        description: settingDesc,
+        image: imageUrl,
+      });
+
       setSettingSuccess("تم حفظ التغييرات بنجاح.");
       setTimeout(() => setSettingSuccess(""), 3000);
-    } catch { alert("فشل حفظ التغييرات."); }
+    } catch (err) {
+      alert("فشل حفظ التغييرات: " + (err.response?.data?.message || err.message));
+    }
   };
 
   const handleChangePassword = async (e) => {
@@ -209,7 +240,9 @@ function SettingsSection({ center }) {
               <div className="cd-logo-box">
                 {settingLogo
                   ? <img src={URL.createObjectURL(settingLogo)} alt="logo" className="cd-logo-preview" />
-                  : <div className="cd-logo-placeholder">{center?.name?.[0]}</div>
+                  : center?.image
+                    ? <img src={center.image} alt="logo" className="cd-logo-preview" />
+                    : <div className="cd-logo-placeholder">{center?.name?.[0]}</div>
                 }
               </div>
               <label className="cd-logo-btn">
@@ -266,11 +299,24 @@ function SettingsSection({ center }) {
       </div>
       {showLicenseForm && (
         <div className="cd-card cd-settings-sub">
+          {/* عرض الترخيص الحالي إن وجد */}
+          {center?.license_file && (
+            <div className="cd-license-existing">
+              <span>✓ يوجد ترخيص مرفوع:</span>
+              <a href={center.license_file} target="_blank" rel="noreferrer" className="cd-license-link">
+                عرض الترخيص الحالي
+              </a>
+            </div>
+          )}
           <label className="cd-file-label">
-            رفع ملف الترخيص (PDF أو صورة)
-            <input type="file" accept=".pdf,image/*" />
+            {center?.license_file ? "تحديث ملف الترخيص (PDF أو صورة)" : "رفع ملف الترخيص (PDF أو صورة)"}
+            <input type="file" accept=".pdf,image/*" onChange={e => setLicenseFile(e.target.files[0])} />
           </label>
-          <button className="cd-btn-primary" style={{marginTop:"12px"}}>رفع الملف</button>
+          {licenseFile && (
+            <button className="cd-btn-primary" style={{marginTop:"12px"}} onClick={handleUploadLicense}>
+              رفع الملف
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -293,17 +339,17 @@ function Dashboard() {
   const showToast = (type, message) => { setToast({ type, message }); setTimeout(() => setToast(null), 3500); };
   const askConfirm = (message, onConfirm) => setConfirmModal({ message, onConfirm });
 
-  // ── بيانات المركز ──
+  //  بيانات المركز 
   const [center, setCenter] = useState(null);
   const [courses, setCourses] = useState([]);
   const [centerBookings, setCenterBookings] = useState([]);
 
-  // ── بيانات الأدمن ──
+  // بيانات الأدمن 
   const [centers, setCenters] = useState([]);
   const [allBookings, setAllBookings] = useState([]);
   const [adminTab, setAdminTab] = useState("centers");
 
-  // ── فورم إضافة مركز ──
+  //  فورم إضافة مركز 
   const [centerName, setCenterName] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [location, setLocation] = useState("");
@@ -314,23 +360,27 @@ function Dashboard() {
   const [license, setLicense] = useState(null);
   const [centerSuccess, setCenterSuccess] = useState("");
 
-  // ── فورم الدورات ──
+  //  فورم الدورات 
   const [showCourseForm, setShowCourseForm] = useState(false);
   const [courseName, setCourseName] = useState("");
   const [courseInstructor, setCourseInstructor] = useState("");
   const [courseType, setCourseType] = useState("");
   const [courseTime, setCourseTime] = useState("");
+  const [courseTimeStart, setCourseTimeStart] = useState("");
+  const [courseTimeDuration, setCourseTimeDuration] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [courseDuration, setCourseDuration] = useState("");
   const [courseDays, setCourseDays] = useState("");
   const [courseSuccess, setCourseSuccess] = useState("");
 
-  // ── فورم تعديل دورة ──
+  // فورم تعديل دورة 
   const [editingCourse, setEditingCourse] = useState(null);
   const [editName, setEditName] = useState("");
   const [editInstructor, setEditInstructor] = useState("");
   const [editType, setEditType] = useState("");
   const [editTime, setEditTime] = useState("");
+  const [editTimeStart, setEditTimeStart] = useState("");
+  const [editTimeDuration, setEditTimeDuration] = useState("");
   const [editPrice, setEditPrice] = useState("");
   const [editDuration, setEditDuration] = useState("");
   const [editDays, setEditDays] = useState("");
@@ -361,7 +411,7 @@ function Dashboard() {
     }
   }, [role]);
 
-  // ── أكشنز الأدمن ──
+  //أكشنز الأدمن 
   const handleApprove = async (id) => {
     try {
       await API.patch(`/centers/${id}/approve`);
@@ -375,7 +425,7 @@ function Dashboard() {
     } catch { alert("فشل حذف المركز."); }
   };
 
-  // ── أكشنز المركز ──
+  // أكشنز المركز 
   const handleSubmitCenter = async (e) => {
     e.preventDefault();
     try {
@@ -427,17 +477,31 @@ function Dashboard() {
     });
   };
 
+  // بناء نص الوقت من الساعة + المدة
+  const buildTimeString = (start, duration) => {
+    if (!start || !duration) return "";
+    const [h, period] = start.split(" ");
+    let hour = parseInt(h);
+    let isAM = period === "ص";
+    let hour24 = isAM ? (hour === 12 ? 0 : hour) : (hour === 12 ? 12 : hour + 12);
+    let endHour24 = hour24 + parseInt(duration);
+    let endPeriod = endHour24 < 12 ? "ص" : "م";
+    let endHour12 = endHour24 > 12 ? endHour24 - 12 : endHour24 === 0 ? 12 : endHour24;
+    return `${start} - ${endHour12}:00 ${endPeriod}`;
+  };
+
   const handleAddCourse = async (e) => {
     e.preventDefault();
     try {
       const res = await API.post("/courses", {
         name: courseName, description: courseType, instructor: courseInstructor,
-        times: courseTime, days: courseDays, duration: courseDuration,
+        times: buildTimeString(courseTimeStart, courseTimeDuration), days: courseDays, duration: courseDuration,
         price: coursePrice, center_id: center.id,
       });
       setCourses([...courses, res.data]);
       setCourseName(""); setCourseInstructor(""); setCourseType("");
-      setCourseTime(""); setCoursePrice(""); setCourseDuration(""); setCourseDays("");
+      setCourseTime(""); setCourseTimeStart(""); setCourseTimeDuration("");
+      setCoursePrice(""); setCourseDuration(""); setCourseDays("");
       setShowCourseForm(false);
       setCourseSuccess("تمت إضافة الدورة بنجاح.");
       setTimeout(() => setCourseSuccess(""), 4000);
@@ -448,6 +512,10 @@ function Dashboard() {
     setEditingCourse(course);
     setEditName(course.name); setEditInstructor(course.instructor || "");
     setEditType(course.description || ""); setEditTime(course.times || "");
+    // نحاول نستخرج وقت البداية من النص المخزن
+    const timeParts = (course.times || "").split(" - ");
+    setEditTimeStart(timeParts[0] || "");
+    setEditTimeDuration("");
     setEditPrice(course.price || ""); setEditDuration(course.duration || "");
     setEditDays(course.days || "");
   };
@@ -457,7 +525,8 @@ function Dashboard() {
     try {
       const res = await API.put(`/courses/${editingCourse.id}`, {
         name: editName, description: editType, instructor: editInstructor,
-        times: editTime, days: editDays, duration: editDuration, price: editPrice,
+        times: editTimeDuration ? buildTimeString(editTimeStart, editTimeDuration) : editTime,
+        days: editDays, duration: editDuration, price: editPrice,
       });
       setCourses(courses.map(c => c.id === editingCourse.id ? res.data : c));
       setEditingCourse(null);
@@ -486,7 +555,7 @@ function Dashboard() {
 
   if (loading) return <div className="cd-loader"><div className="cd-spinner"></div></div>;
 
-  // ── Sidebar items حسب الدور ──
+  //  Sidebar items 
   const centerNavItems = [
     { key: "home",     icon: <FiHome />,     label: "لوحة التحكم" },
     { key: "courses",  icon: <FiBookOpen />, label: "دوراتي" },
@@ -554,10 +623,10 @@ function Dashboard() {
         </button>
       </aside>
 
-      {/* ══ Main ══ */}
+      {/* Main */}
       <main className="cd-main">
 
-        {/* ════════════════ لوحة الأدمن ════════════════ */}
+        {/*  لوحة الأدمن  */}
         {role === "admin" && (
           <>
             {/* كاردات إحصائيات الأدمن */}
@@ -681,7 +750,7 @@ function Dashboard() {
           </>
         )}
 
-        {/* ════════════════ لوحة المركز ════════════════ */}
+        {/*  لوحة المركز */}
         {role === "center" && (
           <>
             {/* لا يوجد مركز */}
@@ -853,30 +922,33 @@ function Dashboard() {
                             <option value="برمجة">برمجة</option>
                             <option value="فن">فن</option>
                             <option value="رياضة">رياضة</option>
-                            <option value="موسيقى">موسيقى</option>
                             <option value="لغات">لغات</option>
                             <option value="علوم">علوم</option>
                             <option value="رياضيات">رياضيات</option>
                             <option value="طبخ">طبخ</option>
-                            <option value="روبوتيك">روبوتيك</option>
                             <option value="أخرى">أخرى</option>
                           </select>
-                          <select className="cd-input cd-select" value={courseTime} onChange={e => setCourseTime(e.target.value)} required>
-                            <option value="">اختر الوقت *</option>
-                            <option value="8:00 ص - 9:00 ص">8:00 ص - 9:00 ص</option>
-                            <option value="9:00 ص - 10:00 ص">9:00 ص - 10:00 ص</option>
-                            <option value="10:00 ص - 11:00 ص">10:00 ص - 11:00 ص</option>
-                            <option value="11:00 ص - 12:00 م">11:00 ص - 12:00 م</option>
-                            <option value="12:00 م - 1:00 م">12:00 م - 1:00 م</option>
-                            <option value="1:00 م - 2:00 م">1:00 م - 2:00 م</option>
-                            <option value="2:00 م - 3:00 م">2:00 م - 3:00 م</option>
-                            <option value="3:00 م - 4:00 م">3:00 م - 4:00 م</option>
-                            <option value="4:00 م - 5:00 م">4:00 م - 5:00 م</option>
-                            <option value="5:00 م - 6:00 م">5:00 م - 6:00 م</option>
-                            <option value="6:00 م - 7:00 م">6:00 م - 7:00 م</option>
-                            <option value="7:00 م - 8:00 م">7:00 م - 8:00 م</option>
-                            <option value="8:00 م - 9:00 م">8:00 م - 9:00 م</option>
-                          </select>
+                          <div className="cd-time-picker">
+                            <label className="cd-date-label">وقت الدورة *</label>
+                            <div className="cd-time-row">
+                              <select className="cd-input cd-select" value={courseTimeStart} onChange={e => setCourseTimeStart(e.target.value)} required>
+                                <option value="">ساعة البداية</option>
+                                {["8:00 ص","9:00 ص","10:00 ص","11:00 ص","12:00 م","1:00 م","2:00 م","3:00 م","4:00 م","5:00 م","6:00 م","7:00 م","8:00 م","9:00 م"].map(h => (
+                                  <option key={h} value={h}>{h}</option>
+                                ))}
+                              </select>
+                              <select className="cd-input cd-select" value={courseTimeDuration} onChange={e => setCourseTimeDuration(e.target.value)} required>
+                                <option value="">المدة</option>
+                                <option value="1">ساعة واحدة</option>
+                                <option value="2">ساعتان</option>
+                                <option value="3">3 ساعات</option>
+                                <option value="4">4 ساعات</option>
+                              </select>
+                            </div>
+                            {courseTimeStart && courseTimeDuration && (
+                              <span className="cd-time-preview">{buildTimeString(courseTimeStart, courseTimeDuration)}</span>
+                            )}
+                          </div>
                           <div className="cd-date-field">
                             <label className="cd-date-label">تاريخ البدء *</label>
                             <input className="cd-input" type="date" value={courseDays} min={new Date().toISOString().split("T")[0]} onChange={e => setCourseDays(e.target.value)} required />
@@ -905,30 +977,37 @@ function Dashboard() {
                             <option value="برمجة">برمجة</option>
                             <option value="فن">فن</option>
                             <option value="رياضة">رياضة</option>
-                            <option value="موسيقى">موسيقى</option>
                             <option value="لغات">لغات</option>
                             <option value="علوم">علوم</option>
                             <option value="رياضيات">رياضيات</option>
                             <option value="طبخ">طبخ</option>
-                            <option value="روبوتيك">روبوتيك</option>
                             <option value="أخرى">أخرى</option>
                           </select>
-                          <select className="cd-input cd-select" value={editTime} onChange={e => setEditTime(e.target.value)} required>
-                            <option value="">اختر الوقت *</option>
-                            <option value="8:00 ص - 9:00 ص">8:00 ص - 9:00 ص</option>
-                            <option value="9:00 ص - 10:00 ص">9:00 ص - 10:00 ص</option>
-                            <option value="10:00 ص - 11:00 ص">10:00 ص - 11:00 ص</option>
-                            <option value="11:00 ص - 12:00 م">11:00 ص - 12:00 م</option>
-                            <option value="12:00 م - 1:00 م">12:00 م - 1:00 م</option>
-                            <option value="1:00 م - 2:00 م">1:00 م - 2:00 م</option>
-                            <option value="2:00 م - 3:00 م">2:00 م - 3:00 م</option>
-                            <option value="3:00 م - 4:00 م">3:00 م - 4:00 م</option>
-                            <option value="4:00 م - 5:00 م">4:00 م - 5:00 م</option>
-                            <option value="5:00 م - 6:00 م">5:00 م - 6:00 م</option>
-                            <option value="6:00 م - 7:00 م">6:00 م - 7:00 م</option>
-                            <option value="7:00 م - 8:00 م">7:00 م - 8:00 م</option>
-                            <option value="8:00 م - 9:00 م">8:00 م - 9:00 م</option>
-                          </select>
+                          <div className="cd-time-picker">
+                            <label className="cd-date-label">وقت الدورة *</label>
+                            <div className="cd-time-row">
+                              <select className="cd-input cd-select" value={editTimeStart} onChange={e => setEditTimeStart(e.target.value)} required>
+                                <option value="">ساعة البداية</option>
+                                {["8:00 ص","9:00 ص","10:00 ص","11:00 ص","12:00 م","1:00 م","2:00 م","3:00 م","4:00 م","5:00 م","6:00 م","7:00 م","8:00 م","9:00 م"].map(h => (
+                                  <option key={h} value={h}>{h}</option>
+                                ))}
+                              </select>
+                              <select className="cd-input cd-select" value={editTimeDuration} onChange={e => setEditTimeDuration(e.target.value)} required>
+                                <option value="">المدة</option>
+                                <option value="1">ساعة واحدة</option>
+                                <option value="2">ساعتان</option>
+                                <option value="3">3 ساعات</option>
+                                <option value="4">4 ساعات</option>
+                              </select>
+                            </div>
+                            {editTimeStart && (
+                              <span className="cd-time-preview">
+                                {editTimeDuration
+                                  ? buildTimeString(editTimeStart, editTimeDuration)
+                                  : editTime}
+                              </span>
+                            )}
+                          </div>
                           <div className="cd-date-field">
                             <label className="cd-date-label">تاريخ البدء *</label>
                             <input className="cd-input" type="date" value={editDays} min={new Date().toISOString().split("T")[0]} onChange={e => setEditDays(e.target.value)} required />
@@ -1051,7 +1130,7 @@ function Dashboard() {
         )}
       </main>
 
-      {/* Toast إشعار */}
+      {/*  إشعار */}
       {toast && (
         <div className={`cd-toast ${toast.type}`}>
           {toast.type === "success" ? <FiCheckCircle /> : <FiX />}
@@ -1059,7 +1138,7 @@ function Dashboard() {
         </div>
       )}
 
-      {/* Modal تأكيد */}
+      {/*  تأكيد */}
       {confirmModal && (
         <div className="cd-modal-overlay" onClick={() => setConfirmModal(null)}>
           <div className="cd-modal" onClick={e => e.stopPropagation()}>

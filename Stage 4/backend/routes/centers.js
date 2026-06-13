@@ -96,6 +96,36 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// تحديث بيانات المركز (الاسم، الموقع، الوصف، الصورة)
+router.patch('/:id', auth, async (req, res) => {
+  try {
+    const { name, location, description, image, license_file } = req.body;
+    const centerId = req.params.id;
+
+    const check = await pool.query('SELECT owner_id FROM centers WHERE id = $1', [centerId]);
+    if (!check.rows[0]) return res.status(404).json({ message: 'Center not found' });
+    if (req.user.role !== 'admin' && check.rows[0].owner_id !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const result = await pool.query(
+      `UPDATE centers 
+       SET name        = COALESCE($1, name),
+           location    = COALESCE($2, location),
+           description = COALESCE($3, description),
+           image       = COALESCE($4, image),
+           license_file = COALESCE($5, license_file)
+       WHERE id = $6
+       RETURNING *`,
+      [name || null, location || null, description || null,
+       image || null, license_file || null, centerId]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.patch('/:id/approve', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') {
