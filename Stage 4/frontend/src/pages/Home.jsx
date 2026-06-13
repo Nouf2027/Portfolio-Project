@@ -58,16 +58,10 @@ function Home() {
     <div className="home-page">
       <section className="home-hero">
         <img src={heroImageUrl} alt="أطفال يتعلمون" className="hero-image" />
-        <div className="hero-overlay">
-          <h1>اكتشفي أفضل مراكز التعلم لطفلك</h1>
-          <p>جيل يساعد الأهل على إيجاد مراكز موثوقة، استكشاف الدورات، وقراءة التقييمات بسهولة.</p>
-          <button className="hero-btn" onClick={() => navigate("/search")}>
-            اكتشفي المزيد
-          </button>
-        </div>
       </section>
 
       <section className="filter-bar">
+        <div className="filter-categories">
         {categories.map((category) => (
           <button
             key={category.value}
@@ -77,6 +71,15 @@ function Home() {
             {category.label}
           </button>
         ))}
+        </div>
+        <div className="filter-search">
+          <input
+            type="text"
+            placeholder="ابحثي عن مركز..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            />
+        </div>
       </section>
 
       <section className="centers-section">
