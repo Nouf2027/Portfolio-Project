@@ -33,7 +33,6 @@ function Navbar() {
         <img src="/sprout.png" alt="جيل" style={{ width: 44, height: 44, objectFit: "contain" }} />
         <span className="logo-text">جيل</span>
       </Link>
-
       <div className="nav-links">
         <Link to="/home">الصفحة الرئيسية</Link>
         {!user ? (
