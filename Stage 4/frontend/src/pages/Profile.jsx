@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 import API from "../api/axios";
+import {
+  FiUser, FiMail, FiHome, FiSearch, FiLogOut,
+  FiCamera, FiBookOpen, FiCalendar, FiMapPin,
+  FiShield, FiUsers, FiCheckCircle, FiX
+} from "react-icons/fi";
 
 function Profile() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user") || "{}"));
   const role = user?.role;
 
-  const [bookings, setBookings] = useState([]);
-  const [centerData, setCenterData] = useState(null);
+  const [bookings, setBookings]           = useState([]);
+  const [centerData, setCenterData]       = useState(null);
   const [centerBookings, setCenterBookings] = useState([]);
   const [centerCourses, setCenterCourses] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [centers, setCenters] = useState([]);
+  const [users, setUsers]                 = useState([]);
+  const [centers, setCenters]             = useState([]);
+
+  // رفع صورة  
+  const [avatarFile, setAvatarFile]       = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(user?.avatar || null);
+  const [uploadMsg, setUploadMsg]         = useState("");
 
   useEffect(() => {
     if (role === "parent") {
@@ -35,168 +45,225 @@ function Profile() {
     try {
       await API.delete(`/bookings/${id}`);
       setBookings(bookings.filter(b => b.id !== id));
-    } catch (err) {
-      alert("Failed to cancel booking.");
+    } catch {
+      alert("فشل إلغاء الحجز.");
     }
   };
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setAvatarFile(file);
+    setAvatarPreview(URL.createObjectURL(file));
+  };
+
+  const handleAvatarUpload = async () => {
+    if (!avatarFile) return;
+    try {
+      const form = new FormData();
+      form.append("image", avatarFile);
+      const res = await API.post("/upload", form, { headers: { "Content-Type": "multipart/form-data" } });
+      const updatedUser = { ...user, avatar: res.data.url };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      setUploadMsg("تم رفع الصورة بنجاح ✓");
+      setTimeout(() => setUploadMsg(""), 3000);
+    } catch {
+      // save locally if upload fails
+      const updatedUser = { ...user, avatar: avatarPreview };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      setUploadMsg("تم حفظ الصورة محلياً ✓");
+      setTimeout(() => setUploadMsg(""), 3000);
+    }
+  };
+
+  const statusLabel = (s) =>
+    s === "pending" ? "قيد الانتظار" : s === "confirmed" ? "مؤكد" : "ملغي";
+
   return (
-    <div style={{display:'flex', minHeight:'100vh', background:'#f0f4f8'}}>
+    <div className="pf-root" dir="rtl">
 
-      {/* Sidebar */}
-      <div style={{width:'220px', background:'#3b5b7a', color:'white', padding:'30px 20px', display:'flex', flexDirection:'column', gap:'10px', minHeight:'100vh'}}>
-        <div style={{display:'flex', alignItems:'center', gap:'10px', marginBottom:'20px'}}>
-          <span style={{fontSize:'28px'}}>🌱</span>
-          <span style={{fontSize:'24px', fontWeight:'800', color:'white'}}>Jeel</span>
+      {/*  Sidebar  */}
+      <aside className="pf-sidebar">
+        <div className="pf-sidebar-logo">
+          <span className="pf-logo-icon">🌱</span>
+          <span className="pf-logo-text">Jeel</span>
         </div>
-        <a href="/" style={{color:'white', textDecoration:'none', padding:'10px 14px', borderRadius:'10px', background:'rgba(255,255,255,0.15)'}}>🏠 Home</a>
-        <a href="/search" style={{color:'white', textDecoration:'none', padding:'10px 14px', borderRadius:'10px'}}>🔍 Centers</a>
-        {role === "center" && <a href="/dashboard" style={{color:'white', textDecoration:'none', padding:'10px 14px', borderRadius:'10px'}}>📊 Dashboard</a>}
-        {role === "admin" && <a href="/dashboard" style={{color:'white', textDecoration:'none', padding:'10px 14px', borderRadius:'10px'}}>🛡️ Admin</a>}
-        <a href="/profile" style={{color:'white', textDecoration:'none', padding:'10px 14px', borderRadius:'10px', background:'rgba(255,255,255,0.15)'}}>👤 Profile</a>
-        <div style={{marginTop:'auto'}}>
-          <a href="/login" onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); }} style={{color:'white', textDecoration:'none', padding:'10px 14px', borderRadius:'10px', display:'block'}}>🚪 Logout</a>
-        </div>
-      </div>
+        <nav className="pf-nav">
+          <a href="/" className="pf-nav-item"><FiHome /><span>الرئيسية</span></a>
+          <a href="/search" className="pf-nav-item"><FiSearch /><span>المراكز</span></a>
+          {(role === "center" || role === "admin") && (
+            <a href="/dashboard" className="pf-nav-item">
+              <FiShield /><span>لوحة التحكم</span>
+            </a>
+          )}
+          <a href="/profile" className="pf-nav-item active"><FiUser /><span>الملف الشخصي</span></a>
+        </nav>
+        <a
+          href="/login"
+          className="pf-nav-item pf-logout"
+          onClick={() => { localStorage.removeItem("token"); localStorage.removeItem("user"); }}
+        >
+          <FiLogOut /><span>تسجيل الخروج</span>
+        </a>
+      </aside>
 
-      {/* Main Content */}
-      <div style={{flex:1, padding:'30px'}}>
+      {/*  Main  */}
+      <main className="pf-main">
 
-        {/* Hero */}
-        <div style={{background:'#3b5b7a', borderRadius:'20px', padding:'30px', color:'white', display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'24px'}}>
-          <div>
-            <h1 style={{color:'white', fontSize:'28px', marginBottom:'8px'}}>Welcome back, {user?.name} 👋</h1>
-            <p style={{color:'rgba(255,255,255,0.8)', marginBottom:'12px'}}>Here's what's happening with your account today.</p>
-            <div style={{display:'flex', gap:'10px', alignItems:'center'}}>
-              <span style={{background:'rgba(255,255,255,0.15)', padding:'6px 14px', borderRadius:'20px', fontSize:'14px'}}>✉️ {user?.email}</span>
-              <span style={{background:'#ff9800', padding:'6px 14px', borderRadius:'20px', fontSize:'14px', fontWeight:'600'}}>{role}</span>
-            </div>
+        {/* بطاقة الترحيب */}
+        <div className="pf-hero-card">
+          <div className="pf-hero-info">
+            <h1>مرحباً، {user?.name}</h1>
+            <p><FiMail style={{marginLeft:6}}/>{user?.email}</p>
+            <span className="pf-role-badge">{role === "parent" ? "ولي أمر" : role === "center" ? "مركز" : "مدير"}</span>
           </div>
-          <div style={{width:'80px', height:'80px', background:'rgba(255,255,255,0.9)', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'40px'}}>
-            👤
-          </div>
-        </div>
-
-        {/* Cards Grid */}
-        <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'20px'}}>
-
-          {/* My Profile Card */}
-          <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0'}}>
-            <h2 style={{color:'#3b5b7a', marginBottom:'16px'}}>👤 My Profile</h2>
-            <p style={{marginBottom:'8px'}}><strong>Name:</strong> {user?.name}</p>
-            <p style={{marginBottom:'8px'}}><strong>Email:</strong> {user?.email}</p>
-            <p style={{marginBottom:'16px'}}><strong>Role:</strong> {user?.role}</p>
-            {role !== "admin" && (
-              <button style={{background:'#ff9800', color:'white', border:'none', padding:'10px 20px', borderRadius:'10px', cursor:'pointer', marginRight:'8px'}}>Edit Profile</button>
+          {/* أيقونة المستخدم / صورة الملف الشخصي */}
+          <div className="pf-avatar-wrap">
+            {avatarPreview
+              ? <img src={avatarPreview} alt="avatar" className="pf-avatar-img" />
+              : <div className="pf-avatar-placeholder"><FiUser /></div>
+            }
+            {role === "parent" && (
+              <label className="pf-avatar-edit" title="تغيير الصورة">
+                <FiCamera />
+                <input type="file" accept="image/*" style={{display:"none"}} onChange={handleAvatarChange} />
+              </label>
             )}
           </div>
+        </div>
 
-          {/* Parent Bookings */}
-          {role === "parent" && (
-            <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0', gridColumn:'span 2'}}>
-              <h2 style={{color:'#3b5b7a', marginBottom:'16px'}}>📚 My Bookings</h2>
-              {bookings.length === 0 ? (
-                <div style={{textAlign:'center', padding:'20px', color:'#94a3b8'}}>
-                  <h3>No bookings yet</h3>
-                  <p>Start exploring centers and book your first course.</p>
-                  <a href="/search" style={{color:'#ff9800', fontWeight:'600'}}>Find Centers →</a>
-                </div>
-              ) : (
-                <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(220px, 1fr))', gap:'12px'}}>
-                  {bookings.map((booking) => (
-                    <div key={booking.id} style={{background:'#f8faff', borderRadius:'12px', padding:'16px', border:'1px solid #d6e6f5'}}>
-                      <h3 style={{color:'#3b5b7a', marginBottom:'8px'}}>{booking.course_name}</h3>
-                      <p>🏫 {booking.center_name}</p>
-                      <p>📅 {new Date(booking.date).toLocaleDateString()}</p>
-                      <p>🔄 {booking.status}</p>
-                      <button onClick={() => handleCancelBooking(booking.id)}
-                        style={{marginTop:'10px', background:'#ff4444', color:'white', border:'none', padding:'8px 16px', borderRadius:'8px', cursor:'pointer', width:'100%'}}>
-                        ❌ Cancel
-                      </button>
+        {/* زر رفع + رسالة نجاح */}
+        {role === "parent" && avatarFile && (
+          <div className="pf-upload-bar">
+            <span>{avatarFile.name}</span>
+            <button className="pf-btn-orange" onClick={handleAvatarUpload}>رفع الصورة</button>
+          </div>
+        )}
+        {uploadMsg && <div className="pf-success">{uploadMsg}</div>}
+
+        {/*  ولي الأمر  */}
+        {role === "parent" && (
+          <div className="pf-section">
+            <h2 className="pf-section-title"><FiBookOpen /> حجوزاتي</h2>
+            {bookings.length === 0 ? (
+              <div className="pf-empty">
+                <p>لا توجد حجوزات بعد</p>
+                <a href="/search" className="pf-btn-orange">استعرض المراكز</a>
+              </div>
+            ) : (
+              <div className="pf-bookings-grid">
+                {bookings.map((b) => (
+                  <div key={b.id} className="pf-booking-card">
+                    <div className="pf-booking-top">
+                      <h3>{b.course_name}</h3>
+                      <span className={`pf-badge ${b.status}`}>{statusLabel(b.status)}</span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                    <p><FiHome style={{marginLeft:4}}/>{b.center_name}</p>
+                    <p><FiCalendar style={{marginLeft:4}}/>{new Date(b.date).toLocaleDateString("ar-SA")}</p>
+                    <button className="pf-btn-cancel" onClick={() => handleCancelBooking(b.id)}>
+                      <FiX /> إلغاء الحجز
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
-          {/* Center Cards */}
-          {role === "center" && (
-            <>
-              {centerBookings.length > 0 && (
-                <div style={{background:'#fff3e0', padding:'12px 20px', borderRadius:'12px', border:'2px solid #ffb74d', gridColumn:'span 3'}}>
-                  🔔 <strong>You have {centerBookings.length} new booking(s)!</strong>
-                </div>
-              )}
-              <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0'}}>
-                <h2 style={{color:'#3b5b7a', marginBottom:'16px'}}>🏫 Center Profile</h2>
+        {/*  المركز  */}
+        {role === "center" && (
+          <>
+            {centerBookings.length > 0 && (
+              <div className="pf-alert-banner">
+                🔔 لديك {centerBookings.length} حجز جديد
+              </div>
+            )}
+            <div className="pf-grid-2">
+              <div className="pf-card">
+                <h2><FiHome /> بيانات المركز</h2>
                 {centerData ? (
                   <>
-                    <p><strong>Name:</strong> {centerData.name}</p>
-                    <p><strong>Location:</strong> {centerData.location}</p>
-                    <p><strong>Status:</strong> <span style={{color: centerData.approved ? 'green' : 'orange'}}>{centerData.approved ? "Approved ✅" : "Pending ⏳"}</span></p>
-                    <a href="/dashboard" style={{color:'#ff9800', fontWeight:'600', display:'block', marginTop:'10px'}}>⚙️ Manage Center →</a>
+                    <p><strong>الاسم:</strong> {centerData.name}</p>
+                    <p><FiMapPin style={{marginLeft:4}}/>{centerData.location}</p>
+                    <p>
+                      <strong>الحالة:</strong>{" "}
+                      <span style={{color: centerData.approved ? "#16a34a" : "#d97706"}}>
+                        {centerData.approved ? "معتمد ✓" : "قيد المراجعة"}
+                      </span>
+                    </p>
+                    <a href="/dashboard" className="pf-btn-orange" style={{marginTop:12,display:"inline-block"}}>
+                      إدارة المركز
+                    </a>
                   </>
                 ) : (
-                  <div style={{textAlign:'center', color:'#94a3b8'}}>
-                    <p>No center registered yet</p>
-                    <a href="/dashboard" style={{color:'#ff9800', fontWeight:'600'}}>Register your center →</a>
+                  <div className="pf-empty">
+                    <a href="/dashboard" className="pf-btn-orange">تسجيل مركز</a>
                   </div>
                 )}
               </div>
 
-              <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0'}}>
-                <h2 style={{color:'#3b5b7a', marginBottom:'16px'}}>📚 My Courses</h2>
-                {centerCourses.length === 0 ? (
-                  <p style={{color:'#94a3b8'}}>No courses yet.</p>
-                ) : (
-                  centerCourses.map(course => (
-                    <div key={course.id} style={{background:'#f8faff', borderRadius:'12px', padding:'12px', border:'1px solid #d6e6f5', marginBottom:'8px'}}>
-                      <h3 style={{color:'#3b5b7a'}}>{course.name}</h3>
-                      <p>💰 {course.price} SAR · ⏱️ {course.duration}</p>
+              <div className="pf-card">
+                <h2><FiBookOpen /> دوراتي</h2>
+                {centerCourses.length === 0
+                  ? <p className="pf-muted">لا توجد دورات بعد</p>
+                  : centerCourses.map(c => (
+                    <div key={c.id} className="pf-course-row">
+                      <span>{c.name}</span>
+                      <span className="pf-price">{c.price} ريال</span>
                     </div>
                   ))
-                )}
+                }
               </div>
 
-              <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0'}}>
-                <h2 style={{color:'#3b5b7a', marginBottom:'16px'}}>📅 Center Bookings</h2>
-                {centerBookings.length === 0 ? (
-                  <p style={{color:'#94a3b8'}}>No bookings yet.</p>
-                ) : (
-                  centerBookings.map((booking) => (
-                    <div key={booking.id} style={{background:'#f8faff', borderRadius:'12px', padding:'12px', border:'1px solid #d6e6f5', marginBottom:'8px'}}>
-                      <h3 style={{color:'#3b5b7a'}}>{booking.course_name}</h3>
-                      <p>👤 {booking.email} · 📅 {new Date(booking.date).toLocaleDateString()}</p>
-                      <p>🔄 {booking.status}</p>
+              <div className="pf-card pf-full-col">
+                <h2><FiCalendar /> حجوزات المركز</h2>
+                {centerBookings.length === 0
+                  ? <p className="pf-muted">لا توجد حجوزات بعد</p>
+                  : centerBookings.map(b => (
+                    <div key={b.id} className="pf-booking-row">
+                      <span>{b.course_name}</span>
+                      <span>{b.email}</span>
+                      <span className={`pf-badge ${b.status}`}>{statusLabel(b.status)}</span>
                     </div>
                   ))
-                )}
+                }
               </div>
-            </>
-          )}
+            </div>
+          </>
+        )}
 
-          {/* Admin Cards */}
-          {role === "admin" && (
-            <>
-              <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0', textAlign:'center'}}>
-                <h2 style={{color:'#3b5b7a'}}>👥 Total Users</h2>
-                <h1 style={{fontSize:'48px', color:'#ff9800'}}>{users.length}</h1>
-              </div>
-              <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0', textAlign:'center'}}>
-                <h2 style={{color:'#3b5b7a'}}>🏫 Total Centers</h2>
-                <h1 style={{fontSize:'48px', color:'#ff9800'}}>{centers.length}</h1>
-              </div>
-              <div style={{background:'white', borderRadius:'16px', padding:'24px', boxShadow:'0 4px 15px rgba(0,0,0,0.06)', border:'1px solid #e2e8f0', textAlign:'center'}}>
-                <h2 style={{color:'#3b5b7a'}}>⏳ Pending</h2>
-                <h1 style={{fontSize:'48px', color:'#ff9800'}}>{centers.filter(c => !c.approved).length}</h1>
-                <a href="/dashboard" style={{color:'#ff9800', fontWeight:'600'}}>Admin Dashboard →</a>
-              </div>
-            </>
-          )}
+        {/*  الأدمن  */}
+        {role === "admin" && (
+          <div className="pf-admin-stats">
+            <div className="pf-stat-card">
+              <FiUsers className="pf-stat-icon" style={{color:"#f97316"}}/>
+              <h1>{users.length}</h1>
+              <p>إجمالي المستخدمين</p>
+            </div>
+            <div className="pf-stat-card">
+              <FiHome className="pf-stat-icon" style={{color:"#3b82f6"}}/>
+              <h1>{centers.length}</h1>
+              <p>إجمالي المراكز</p>
+            </div>
+            <div className="pf-stat-card">
+              <FiCheckCircle className="pf-stat-icon" style={{color:"#10b981"}}/>
+              <h1>{centers.filter(c => c.approved).length}</h1>
+              <p>مراكز معتمدة</p>
+            </div>
+            <div className="pf-stat-card" style={{borderTopColor:"#8b5cf6"}}>
+              <FiShield className="pf-stat-icon" style={{color:"#8b5cf6"}}/>
+              <h1>{centers.filter(c => !c.approved).length}</h1>
+              <p>قيد المراجعة</p>
+              <a href="/dashboard" className="pf-btn-orange" style={{marginTop:12,display:"inline-block",fontSize:13}}>
+                لوحة الإدارة
+              </a>
+            </div>
+          </div>
+        )}
 
-        </div>
-      </div>
+      </main>
     </div>
   );
 }
