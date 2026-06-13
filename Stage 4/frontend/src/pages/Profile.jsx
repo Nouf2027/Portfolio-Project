@@ -86,10 +86,6 @@ function Profile() {
 
       {/*  Sidebar  */}
       <aside className="pf-sidebar">
-        <div className="pf-sidebar-logo">
-          <span className="pf-logo-icon">🌱</span>
-          <span className="pf-logo-text">Jeel</span>
-        </div>
         <nav className="pf-nav">
           <a href="/" className="pf-nav-item"><FiHome /><span>الرئيسية</span></a>
           <a href="/home" className="pf-nav-item"><FiSearch /><span>المراكز</span></a>
