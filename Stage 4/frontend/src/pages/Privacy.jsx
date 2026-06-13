@@ -15,27 +15,23 @@ function Privacy() {
           marginBottom: "20px",
         }}
       >
-        Privacy Policy
+        سياسة الخصوصية
       </h1>
 
       <p>
-        At Jeel, we respect users’ privacy and are committed to protecting
-        personal information.
+        في جيل، نحترم خصوصية المستخدمين ونلتزم بحماية معلوماتهم الشخصية.
       </p>
 
       <p>
-        We collect basic information such as name, email address, and booking
-        details in order to improve the user experience and provide better
-        services.
+        نقوم بجمع بعض المعلومات الأساسية مثل الاسم والبريد الإلكتروني وتفاصيل الحجز، وذلك بهدف تحسين تجربة المستخدم وتقديم خدمات أفضل.
       </p>
 
       <p>
-        Personal information will not be shared with any third party without
-        the user’s permission.
+        لن تتم مشاركة المعلومات الشخصية مع أي طرف ثالث دون الحصول على موافقة المستخدم.
       </p>
 
       <p>
-        By using Jeel, you agree to our Privacy Policy and Terms of Use.
+        باستخدامك لمنصة جيل، فإنك توافق على سياسة الخصوصية وشروط الاستخدام الخاصة بنا.
       </p>
     </div>
   );
