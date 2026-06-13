@@ -158,12 +158,17 @@ function SettingsSection({ center }) {
 
       // رفع الصورة أولاً إذا اختارت المستخدمة صورة جديدة
       if (settingLogo) {
-        const imgForm = new FormData();
-        imgForm.append('image', settingLogo);
-        const imgRes = await API.post('/upload', imgForm, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        imageUrl = imgRes.data.url;
+        try {
+          const imgForm = new FormData();
+          imgForm.append('image', settingLogo);
+          const imgRes = await API.post('/upload', imgForm, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+          imageUrl = imgRes.data.url;
+        } catch (uploadErr) {
+          alert("فشل رفع الصورة: تأكدي من إعدادات Cloudinary في Render.\n" + (uploadErr.response?.data?.message || uploadErr.message));
+          return;
+        }
       }
 
       await API.patch(`/centers/${center.id}`, {
@@ -339,17 +344,17 @@ function Dashboard() {
   const showToast = (type, message) => { setToast({ type, message }); setTimeout(() => setToast(null), 3500); };
   const askConfirm = (message, onConfirm) => setConfirmModal({ message, onConfirm });
 
-  //  بيانات المركز 
+  // ── بيانات المركز ──
   const [center, setCenter] = useState(null);
   const [courses, setCourses] = useState([]);
   const [centerBookings, setCenterBookings] = useState([]);
 
-  // بيانات الأدمن 
+  // ── بيانات الأدمن ──
   const [centers, setCenters] = useState([]);
   const [allBookings, setAllBookings] = useState([]);
   const [adminTab, setAdminTab] = useState("centers");
 
-  //  فورم إضافة مركز 
+  // ── فورم إضافة مركز ──
   const [centerName, setCenterName] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [location, setLocation] = useState("");
@@ -360,7 +365,7 @@ function Dashboard() {
   const [license, setLicense] = useState(null);
   const [centerSuccess, setCenterSuccess] = useState("");
 
-  //  فورم الدورات 
+  // ── فورم الدورات ──
   const [showCourseForm, setShowCourseForm] = useState(false);
   const [courseName, setCourseName] = useState("");
   const [courseInstructor, setCourseInstructor] = useState("");
@@ -373,7 +378,7 @@ function Dashboard() {
   const [courseDays, setCourseDays] = useState("");
   const [courseSuccess, setCourseSuccess] = useState("");
 
-  // فورم تعديل دورة 
+  // ── فورم تعديل دورة ──
   const [editingCourse, setEditingCourse] = useState(null);
   const [editName, setEditName] = useState("");
   const [editInstructor, setEditInstructor] = useState("");
@@ -411,7 +416,7 @@ function Dashboard() {
     }
   }, [role]);
 
-  //أكشنز الأدمن 
+  // ── أكشنز الأدمن ──
   const handleApprove = async (id) => {
     try {
       await API.patch(`/centers/${id}/approve`);
@@ -425,7 +430,7 @@ function Dashboard() {
     } catch { alert("فشل حذف المركز."); }
   };
 
-  // أكشنز المركز 
+  // ── أكشنز المركز ──
   const handleSubmitCenter = async (e) => {
     e.preventDefault();
     try {
@@ -555,7 +560,7 @@ function Dashboard() {
 
   if (loading) return <div className="cd-loader"><div className="cd-spinner"></div></div>;
 
-  //  Sidebar items 
+  // ── Sidebar items حسب الدور ──
   const centerNavItems = [
     { key: "home",     icon: <FiHome />,     label: "لوحة التحكم" },
     { key: "courses",  icon: <FiBookOpen />, label: "دوراتي" },
@@ -623,10 +628,10 @@ function Dashboard() {
         </button>
       </aside>
 
-      {/* Main */}
+      {/* ══ Main ══ */}
       <main className="cd-main">
 
-        {/*  لوحة الأدمن  */}
+        {/* ════════════════ لوحة الأدمن ════════════════ */}
         {role === "admin" && (
           <>
             {/* كاردات إحصائيات الأدمن */}
@@ -750,7 +755,7 @@ function Dashboard() {
           </>
         )}
 
-        {/*  لوحة المركز */}
+        {/* ════════════════ لوحة المركز ════════════════ */}
         {role === "center" && (
           <>
             {/* لا يوجد مركز */}
@@ -1130,7 +1135,7 @@ function Dashboard() {
         )}
       </main>
 
-      {/*  إشعار */}
+      {/* Toast إشعار */}
       {toast && (
         <div className={`cd-toast ${toast.type}`}>
           {toast.type === "success" ? <FiCheckCircle /> : <FiX />}
@@ -1138,7 +1143,7 @@ function Dashboard() {
         </div>
       )}
 
-      {/*  تأكيد */}
+      {/* Modal تأكيد */}
       {confirmModal && (
         <div className="cd-modal-overlay" onClick={() => setConfirmModal(null)}>
           <div className="cd-modal" onClick={e => e.stopPropagation()}>

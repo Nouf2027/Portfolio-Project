@@ -17,7 +17,7 @@ function Profile() {
   const [users, setUsers]                 = useState([]);
   const [centers, setCenters]             = useState([]);
 
-  // رفع صورة  
+  // رفع صورة الـ Parent
   const [avatarFile, setAvatarFile]       = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(user?.avatar || null);
   const [uploadMsg, setUploadMsg]         = useState("");
@@ -84,7 +84,7 @@ function Profile() {
   return (
     <div className="pf-root" dir="rtl">
 
-      {/*  Sidebar  */}
+      {/* ── Sidebar ── */}
       <aside className="pf-sidebar">
         <div className="pf-sidebar-logo">
           <span className="pf-logo-icon">🌱</span>
@@ -92,7 +92,7 @@ function Profile() {
         </div>
         <nav className="pf-nav">
           <a href="/" className="pf-nav-item"><FiHome /><span>الرئيسية</span></a>
-          <a href="/home" className="pf-nav-item"><FiSearch /><span>المراكز</span></a>
+          <a href="/search" className="pf-nav-item"><FiSearch /><span>المراكز</span></a>
           {(role === "center" || role === "admin") && (
             <a href="/dashboard" className="pf-nav-item">
               <FiShield /><span>لوحة التحكم</span>
@@ -109,7 +109,7 @@ function Profile() {
         </a>
       </aside>
 
-      {/*  Main  */}
+      {/* ── Main ── */}
       <main className="pf-main">
 
         {/* بطاقة الترحيب */}
@@ -143,14 +143,14 @@ function Profile() {
         )}
         {uploadMsg && <div className="pf-success">{uploadMsg}</div>}
 
-        {/*  ولي الأمر  */}
+        {/* ════ ولي الأمر ════ */}
         {role === "parent" && (
           <div className="pf-section">
             <h2 className="pf-section-title"><FiBookOpen /> حجوزاتي</h2>
             {bookings.length === 0 ? (
               <div className="pf-empty">
                 <p>لا توجد حجوزات بعد</p>
-                <a href="/home" className="pf-btn-orange">استعرض المراكز</a>
+                <a href="/search" className="pf-btn-orange">استعرض المراكز</a>
               </div>
             ) : (
               <div className="pf-bookings-grid">
@@ -172,7 +172,7 @@ function Profile() {
           </div>
         )}
 
-        {/*  المركز  */}
+        {/* ════ المركز ════ */}
         {role === "center" && (
           <>
             {centerBookings.length > 0 && (
@@ -234,7 +234,7 @@ function Profile() {
           </>
         )}
 
-        {/*  الأدمن  */}
+        {/* ════ الأدمن ════ */}
         {role === "admin" && (
           <div className="pf-admin-stats">
             <div className="pf-stat-card">

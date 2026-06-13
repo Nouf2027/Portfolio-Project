@@ -36,7 +36,8 @@ function Home() {
     fetchCenters();
   }, []);
 
- 
+  /* ── الفلتر المُصلح ──
+     يدعم: center.category  OR  center.description  OR  أي كورس داخل المركز */
   const filteredCenters = centers.filter((center) => {
     const text = searchText.toLowerCase();
 
@@ -69,7 +70,7 @@ function Home() {
 
   return (
     <div className="home-page" dir="rtl">
-      {/*Hero  */}
+      {/* ── Hero ── */}
       <section className="home-hero">
         <img src={heroImageUrl} alt="أطفال يتعلمون" className="hero-image" />
         <div className="hero-overlay">
@@ -78,7 +79,7 @@ function Home() {
         </div>
       </section>
 
-      {/*  شريط الفلتر  */}
+      {/* ── شريط الفلتر ── */}
       <section className="filter-bar">
         <div className="filter-categories">
           {categories.map((cat) => (
@@ -103,7 +104,7 @@ function Home() {
         </div>
       </section>
 
-      {/* قائمة المراكز  */}
+      {/* ── قائمة المراكز ── */}
       <section className="centers-section">
         <div className="section-header">
           <h2>المراكز المتاحة</h2>
