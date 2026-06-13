@@ -20,7 +20,6 @@ const Footer = () => {
             <h3 style={styles.title}>روابط سريعة</h3>
             <ul style={styles.list}>
               <li><Link to="/home" style={styles.link}>الرئيسية</Link></li>
-              <li><Link to="/search" style={styles.link}>البحث</Link></li>
               <li><Link to="/privacy" style={styles.link}>سياسة الخصوصية</Link></li>
             </ul>
           </div>
