@@ -124,7 +124,7 @@ button {
 .hero,
 .home-hero {
   margin: 32px 7%;
-  min-height: 320px;
+  min-height: 200px;
   border-radius: 34px;
   overflow: hidden;
   background: linear-gradient(135deg, rgba(47, 85, 120, 0.92), rgba(47, 85, 120, 0.68));
