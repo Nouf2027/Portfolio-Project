@@ -9,43 +9,37 @@ function Navbar() {
     localStorage.clear();
     navigate("/login");
   };
-const [showNavbar, setShowNavbar] = useState(true);
 
+  const [showNavbar, setShowNavbar] = useState(true);
   useEffect(() => {
-  let lastScrollY = window.scrollY;
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setShowNavbar(false);
+      } else {
+        setShowNavbar(true);
+      }
+      lastScrollY = window.scrollY;
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-  const handleScroll = () => {
-    if (window.scrollY > lastScrollY) {
-      setShowNavbar(false);
-    } else {
-      setShowNavbar(true);
-    }
-
-    lastScrollY = window.scrollY;
-  };
-
-  window.addEventListener("scroll", handleScroll);
-
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-  };
-}, []);
   return (
-    <nav className="navbar">
-     <Link to="/" className="brand">
-    {/*<span className="logo-icon">🌱</span>*/}
-  <span className="logo-text">جيل</span>
-</Link>
+    <nav className="navbar" style={{ transform: showNavbar ? "translateY(0)" : "translateY(-100%)", transition: "transform 0.3s ease" }}>
+      <Link to="/" className="brand">
+        <img src="/sprout.png" alt="جيل" style={{ width: 44, height: 44, objectFit: "contain" }} />
+        <span className="logo-text">جيل</span>
+      </Link>
 
       <div className="nav-links">
-        <Link to="/">الصفحة الرئسية</Link>
-
+        <Link to="/home">الصفحة الرئيسية</Link>
         {!user ? (
           <>
             <Link to="/login">تسجيل الدخول</Link>
-            <Link to="/register" >
-              التسجيل
-            </Link>
+            <Link to="/register">التسجيل</Link>
           </>
         ) : (
           <>

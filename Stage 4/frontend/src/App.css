@@ -2138,4 +2138,16 @@ input[type="date"].cd-input::-webkit-calendar-picker-indicator {
   font-weight: 600;
   border: 1px solid #fed7aa !important;
 }
-.cd-home-link:hover { background: #ffedd5 !important; }
+.cd-home-link:hover { background: #ffedd5 !important; }.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand .logo-text {
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  color: #1B3A6B !important;
+}
+.navbar {
+  flex-direction: row-reverse;
+}

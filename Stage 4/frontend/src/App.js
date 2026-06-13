@@ -9,20 +9,25 @@ import CenterDetails from "./pages/CenterDetails";
 import Booking from "./pages/Booking";
 import Privacy from "./pages/Privacy";
 import Dashboard from "./components/Dashboard";
-import LandingPage from "./pages/LandingPage";
+import LandingPage from "./landing/LandingPage";
 import Profile from "./pages/Profile";
 import { useLocation } from "react-router-dom";
 
 function AppContent() {
   const location = useLocation();
+
   const hideNavbar =
     location.pathname === "/login" ||
     location.pathname === "/register" ||
     location.pathname === "/my-center" ||
     location.pathname === "/dashboard";
+
   const hideFooter =
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
     location.pathname === "/my-center" ||
     location.pathname === "/dashboard";
+
   return (
     <>
       {!hideNavbar && <Navbar />}
