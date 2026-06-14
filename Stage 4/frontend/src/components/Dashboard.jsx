@@ -426,10 +426,17 @@ function Dashboard() {
   const handleDeleteCenter = async (id) => {
     try {
       await API.delete(`/centers/${id}`);
-      setCenters(centers.filter(c => c.id !== id));
+      const res = await API.get("/centers/all");
+      setCenters(res.data);
     } catch { alert("فشل حذف المركز."); }
   };
-
+const handleUnapprove = async (id) => {
+  try {
+    await API.patch(`/centers/${id}`, {approved: false});
+    const res = await API.get("centers/all");
+    setCenters(res.data);
+  } catch { alert("فشل إلغاء اعتماد المركز."); }
+};
   // ── أكشنز المركز ──
   const handleSubmitCenter = async (e) => {
     e.preventDefault();
@@ -719,7 +726,7 @@ function Dashboard() {
                               <button className="cd-btn-approve" onClick={() => handleApprove(c.id)}>اعتماد</button>
                             )}
                             {c.approved && (
-                              <button className="cd-btn-undo" onClick={() => handleApprove(c.id)}>إلغاء الاعتماد</button>
+                              <button className="cd-btn-undo" onClick={() => handleUnapprove(c.id)}>إلغاء الاعتماد</button>
                             )}
                             <button className="cd-btn-reject" onClick={() => handleDeleteCenter(c.id)}>حذف</button>
                           </div>
