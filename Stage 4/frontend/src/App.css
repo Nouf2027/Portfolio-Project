@@ -124,7 +124,7 @@ button {
 .hero,
 .home-hero {
   position: relative;
-  margin: 32px 7%;
+  margin: 0;
   height: 560px;
   border-radius: 34px;
   overflow: hidden;
@@ -133,18 +133,19 @@ button {
   background-position: center;
   display: flex;
   align-items: stretch;
-  padding: 28px 60px;
+  padding: 0 20px;
   box-shadow: var(--shadow);
 }
 .hero img,
 .home-hero img {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 45%;
-  filter: brightness(0.45);
+  object-position: center;
+  z-index: 1;
 }
 .hero-content,
 .hero-overlay {
