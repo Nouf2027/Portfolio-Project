@@ -311,6 +311,71 @@ button {
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(255,122,0,0.35);
 }
+/* تنسيق حاوية السكشن الخاص بالترقيم */
+.pagination-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  direction: rtl;
+}
+.pagination-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 20px !important;
+  height: auto !important;
+  min-width: 45px !important;
+  border-radius: 999px !important;
+  border: 1.5px solid #ddd !important;
+  background: #ffffff !important;
+  color: #555555 !important;
+  font-size: 14px !important;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: all 0.25s ease !important;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  background: #ffffff !important;
+  transform: none !important;
+}
+
+.pagination-btn.active {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border-color: var(--accent) !important;
+}
+
+/* ──   الأسهم في البداية والنهاية── */
+.pagination-btn:disabled {
+  background-color: #f8fafc !important;
+  color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}
+
+/* ── ضبط حجم وحركة أزرار الأسهم الداخلية ── */
+.pagination-btn svg {
+  font-size: 16px !important;
+  display: block !important;
+  stroke-width: 2.5;
+}
+
 .hero-button,
 .hero-btn,
 .explore-btn,
@@ -338,7 +403,7 @@ button {
 
 /* GENERAL BUTTONS */
 
-button {
+btton {
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: white;
   border: none;
