@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { FiHome, FiMapPin, FiStar } from "react-icons/fi";
+import Loader from "../components/Loading";
 
 function Home() {
   const [centers, setCenters] = useState([]);
@@ -61,11 +62,7 @@ function Home() {
   });
 
   if (loading) {
-    return (
-      <div className="home-page">
-        <div className="loading-box">جارٍ تحميل المراكز...</div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
