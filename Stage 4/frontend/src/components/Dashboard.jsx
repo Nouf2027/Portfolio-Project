@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import {
-  FiBookOpen, FiCalendar, FiUsers, FiCheckCircle,
+  FiBookOpen, FiCalendar, FiUsers, FiCheckCircle, FiFileText, FiAlertCircle,
   FiEdit2, FiTrash2, FiX, FiPlus, FiChevronLeft,
   FiChevronRight, FiHome, FiUser, FiSettings,
   FiMenu, FiLogOut, FiShield
@@ -690,11 +690,25 @@ function Dashboard() {
                   <div className="cd-admin-cards">
                     {centers.map(c => (
                       <div key={c.id} className="cd-admin-center-card">
-                        <div className="cd-admin-center-avatar">{c.name?.[0]}</div>
+                        {c.image
+                          ? <img src={c.image} alt={c.name} className="cd-admin-center-img" onError={e=>e.target.style.display="none"}/>
+                          : <div className="cd-admin-center-avatar">{c.name?.[0]}</div>
+                        }
                         <div className="cd-admin-center-info">
                           <strong>{c.name}</strong>
                           <span>{c.location}</span>
-                          <p>{c.description}</p>
+                          <p style={{fontSize:12,color:"#64748b",marginTop:2}}>{c.description}</p>
+                          <div className="cd-admin-docs" style={{marginTop:8}}>
+                            {c.license_file ? (
+                              <a href={c.license_file} target="_blank" rel="noreferrer" className="cd-doc-link">
+                                <FiFileText style={{fontSize:13}}/> عرض الترخيص / السجل
+                              </a>
+                            ) : (
+                              <span className="cd-doc-missing">
+                                <FiAlertCircle style={{fontSize:13}}/> لم يُرفع ترخيص بعد
+                              </span>
+                            )}
+                          </div>
                         </div>
                         <div className="cd-admin-center-actions">
                           <span className={`cd-badge ${c.approved ? "confirmed" : "pending"}`}>
@@ -703,6 +717,9 @@ function Dashboard() {
                           <div className="cd-actions" style={{marginTop:"8px"}}>
                             {!c.approved && (
                               <button className="cd-btn-approve" onClick={() => handleApprove(c.id)}>اعتماد</button>
+                            )}
+                            {c.approved && (
+                              <button className="cd-btn-undo" onClick={() => handleApprove(c.id)}>إلغاء الاعتماد</button>
                             )}
                             <button className="cd-btn-reject" onClick={() => handleDeleteCenter(c.id)}>حذف</button>
                           </div>

@@ -29,9 +29,9 @@ function Navbar() {
 
   return (
     <nav className="navbar" style={{ transform: showNavbar ? "translateY(0)" : "translateY(-100%)", transition: "transform 0.3s ease" }}>
-      <Link to="/" className="brand">
+      <Link to="/" className="brand" style={{flexDirection:"row-reverse"}}>
         <img src="/sprout.png" alt="جيل" style={{ width: 44, height: 44, objectFit: "contain" }} />
-        <span className="logo-text">جيل</span>
+        <span className="logo-text" style={{fontFamily:"Cairo,sans-serif", color:"#14213d", fontSize:28, fontWeight:800}}>جيل</span>
       </Link>
       <div className="nav-links">
         <Link to="/home">الصفحة الرئيسية</Link>

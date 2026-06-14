@@ -2515,3 +2515,26 @@ button:hover {
   margin: 0 10px 10px;
   border-radius: 12px;
 }
+/* ── Admin center card: image + license ── */
+.cd-admin-center-img {
+  width: 58px; height: 58px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #e2e8f0;
+}
+.cd-admin-docs { display: flex; gap: 8px; flex-wrap: wrap; }
+.cd-doc-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #eff6ff; color: #2563eb;
+  border: 1px solid #bfdbfe; border-radius: 8px;
+  padding: 4px 10px; font-size: 12px; font-weight: 600;
+  text-decoration: none; transition: background 0.2s;
+}
+.cd-doc-link:hover { background: #dbeafe; }
+.cd-doc-missing {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fff7ed; color: #c2410c;
+  border: 1px solid #fed7aa; border-radius: 8px;
+  padding: 4px 10px; font-size: 12px; font-weight: 600;
+}
