@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API from "../api/axios";
-import { FiHome, FiMapPin, FiStar } from "react-icons/fi";
+import { FiHome, FiMapPin, FiStar, FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import Loader from "../components/Loading";
+
+const CENTERS_PER_PAGE = 9;
 
 function Home() {
   const [centers, setCenters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   const categories = [
@@ -34,6 +37,11 @@ function Home() {
     fetchCenters();
   }, []);
 
+ // ﺕﺮﺠّﻋ ﻞﻠﺼﻔﺣﺓ ﺍﻷﻮﻟﻯ ﻞﻣﺍ ﻲﺘﻐﻳﺭ ﺎﻠﻔﻠﺗﺭ ﺃﻭ ﺎﻠﺒﺤﺛ
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchText, selectedCategory]);
+
   /* ── الفلتر المُصلح ──
      يدعم: center.category  OR  center.description  OR  أي كورس داخل المركز */
   const filteredCenters = centers.filter((center) => {
@@ -43,7 +51,7 @@ function Home() {
       center.name?.toLowerCase().includes(text) ||
       center.location?.toLowerCase().includes(text) ||
       center.description?.toLowerCase().includes(text);
-
+    
     const matchesCategory =
       selectedCategory === "All" ||
       center.category === selectedCategory ||
@@ -57,6 +65,18 @@ function Home() {
 
     return matchesSearch && matchesCategory;
   });
+
+// حساب الصفحات
+  const totalPages = Math.ceil(filteredCenters.length / CENTERS_PER_PAGE);
+  const paginatedCenters = filteredCenters.slice(
+    (currentPage - 1) * CENTERS_PER_PAGE,
+    currentPage * CENTERS_PER_PAGE
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (loading) {
     return <Loader />;
@@ -112,7 +132,7 @@ function Home() {
           </div>
         ) : (
           <div className="centers-grid">
-            {filteredCenters.map((center) => (
+            {paginatedCenters.map((center) => (
               <div className="center-card" key={center.id || center._id}>
                 {/* صورة المركز */}
                 {center.image ? (
@@ -163,8 +183,43 @@ function Home() {
           </div>
         )}
       </section>
+      
+      {/* ── (Pagination) ── */}
+      {totalPages > 1 && filteredCenters.length > 0 && (
+        <section className="pagination-section">
+          <div className="pagination">
+            <button
+              className="pagination-btn"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              aria-label="الصفحة السابقة"
+            >
+              <FiChevronRight />
+            </button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`pagination-btn ${currentPage === page ? "active" : ""}`}
+                onClick={() => handlePageChange(page)}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              className="pagination-btn"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              aria-label="الصفحة التالية"
+            >
+              <FiChevronLeft />
+            </button>
+          </div>
+        </section>
+      )}
     </div>
   );
-}
+  }
 
 export default Home;
