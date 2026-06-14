@@ -35,7 +35,7 @@ const Footer = () => {
             <h3 style={styles.title}>تابعنا</h3>
 <div style={styles.socials}>
   <a
-    href="https://www.instagram.com"
+    href="https://www.instagram.com/jeel_hub?igsh=MTI5eG56bnE0anc5MA%3D%3D&utm_source=qr"
     target="_blank"
     rel="noreferrer"
     style={styles.iconLink}
@@ -46,7 +46,7 @@ const Footer = () => {
   </a>
 
   <a
-    href="https://www.snapchat.com"
+    href="https://snapchat.com/t/RXvknTzf"
     target="_blank"
     rel="noreferrer"
     style={styles.iconLink}
@@ -57,7 +57,7 @@ const Footer = () => {
   </a>
 
   <a
-    href="https://twitter.com"
+    href="https://x.com/jeel_hub?s=21"
     target="_blank"
     rel="noreferrer"
     style={styles.iconLink}
