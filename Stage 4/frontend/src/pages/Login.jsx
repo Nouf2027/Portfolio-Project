@@ -115,7 +115,7 @@ const styles = {
   options: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, fontSize: 14 },
   remember: { color: "#64748b", display: "flex", alignItems: "center", cursor: "pointer" },
   forgot: { color: "#56C2E6", textDecoration: "none", fontWeight: 600 },
-  submitBtn: { width: "100%", padding: "14px", background: "linear-gradient(135deg, #1B3A6B, #2a5299)", color: "#fff", border: "none", borderRadius: 12, fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "'Cairo', 'Poppins', sans-serif", marginBottom: 20, transition: "opacity 0.2s" },
+  submitBtn: { width: "100%", padding: "14px", background: "linear-gradient(135deg, #ff7a00, #e85d04)", color: "#fff", border: "none", borderRadius: 12, fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "'Cairo', 'Poppins', sans-serif", marginBottom: 20, transition: "opacity 0.2s" },
   registerLink: { textAlign: "center", fontSize: 14, color: "#64748b" },
   link: { color: "#56C2E6", fontWeight: 700, textDecoration: "none" },
 };

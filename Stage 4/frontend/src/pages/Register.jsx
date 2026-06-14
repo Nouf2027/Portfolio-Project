@@ -129,7 +129,7 @@ const styles = {
   eyeBtn: { position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#64748b", fontSize: 16, padding: 0 },
   select: { width: "100%", padding: "13px 16px", borderRadius: 12, border: "1.5px solid #e2e8f0", background: "#f0f7ff", fontSize: 15, color: "#1e293b", outline: "none", fontFamily: "'Cairo', 'Poppins', sans-serif", appearance: "none", boxSizing: "border-box" },
   selectArrow: { position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "#64748b", pointerEvents: "none" },
-  submitBtn: { width: "100%", padding: "14px", background: "linear-gradient(135deg, #1B3A6B, #2a5299)", color: "#fff", border: "none", borderRadius: 12, fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "'Cairo', 'Poppins', sans-serif", marginBottom: 18, marginTop: 8, transition: "opacity 0.2s" },
+  submitBtn: { width: "100%", padding: "14px", background: "linear-gradient(135deg, #ff7a00, #e85d04)", color: "#fff", border: "none", borderRadius: 12, fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "'Cairo', 'Poppins', sans-serif", marginBottom: 18, marginTop: 8, transition: "opacity 0.2s" },
   loginLink: { textAlign: "center", fontSize: 14, color: "#64748b" },
   link: { color: "#56C2E6", fontWeight: 700, textDecoration: "none" },
 };
