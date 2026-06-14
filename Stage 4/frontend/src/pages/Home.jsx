@@ -62,7 +62,7 @@ function Home() {
   });
 
   if (loading) {
-    return <Loader />;
+    return <Loading />;
   }
 
   return (
