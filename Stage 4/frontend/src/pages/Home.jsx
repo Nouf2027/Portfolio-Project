@@ -20,9 +20,6 @@ function Home() {
     { value: "رياضة",   label: "رياضة" },
   ];
 
-  const heroImageUrl =
-    "https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg";
-
   useEffect(() => {
     const fetchCenters = async () => {
       try {
@@ -69,7 +66,7 @@ function Home() {
     <div className="home-page" dir="rtl">
       {/* ── Hero ── */}
       <section className="home-hero">
-        <img src={heroImageUrl} alt="أطفال يتعلمون" className="hero-image" />
+        <img src="/children.jpg" alt="أطفال يتعلمون" className="hero-image" />
         <div className="hero-overlay">
           <h1>ابحثي عن المركز المناسب لطفلك</h1>
           <p>اكتشفي أفضل المراكز التعليمية والترفيهية في مدينتك</p>
