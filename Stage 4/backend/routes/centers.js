@@ -111,20 +111,16 @@ router.patch('/:id', auth, async (req, res) => {
     const result = await pool.query(
       `UPDATE centers 
        SET name        = COALESCE($1, name),
-           location    = COALESCE($2, location),
-           description = COALESCE($3, description),
-           image       = COALESCE($4, image),
-           license_file = COALESCE($5, license_file)
-       WHERE id = $6
+       location    = COALESCE($2, location),
+       description = COALESCE($3, description),
+       image       = COALESCE($4, image),
+       license_file = COALESCE($5, license_file),
+       approved    = COALESCE($6, approved)
+       WHERE id = $7
        RETURNING *`,
-      [name || null, location || null, description || null,
-       image || null, license_file || null, centerId]
+       [name || null, location || null, description || null,
+       image || null, license_file || null, approved ?? null, centerId]
     );
-    res.json(result.rows[0]);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
 router.patch('/:id/approve', auth, async (req, res) => {
   try {
