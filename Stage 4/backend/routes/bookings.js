@@ -6,9 +6,16 @@ const authMiddleware = require('../middleware/auth');
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { course_id, date } = req.body;
+
+    // إذا كان date نصاً غير صالح أو فارغاً، استخدم تاريخ اليوم
+    let bookingDate = date;
+    if (!date || isNaN(new Date(date).getTime())) {
+      bookingDate = new Date().toISOString().split('T')[0];
+    }
+
     const result = await pool.query(
       `INSERT INTO bookings (user_id, course_id, date, status) VALUES ($1, $2, $3, 'pending') RETURNING *`,
-      [req.user.id, course_id, date]
+      [req.user.id, course_id, bookingDate]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
