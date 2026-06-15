@@ -4,7 +4,7 @@ import {
   FaSearch, FaBookOpen, FaStar, FaShieldAlt,
   FaUpload, FaLock, FaArrowLeft
 } from "react-icons/fa";
-import QRCode from "react-qr-code";
+
 import "./LandingPage.css";
 
 function useInView(threshold = 0.15) {
@@ -191,7 +191,15 @@ function QRSection() {
         <span className="lp-badge lp-badge-blue">زيارة المنصة</span>
         <h2>امسح الكود للوصول مباشرة</h2>
         <div className="lp-qr-box">
-          <QRCode value={siteUrl} size={160} />
+          <div style={{
+  width:160, height:160, background:"#fff",
+  border:"2px solid #e2e8f0", borderRadius:12,
+  display:"flex", alignItems:"center", justifyContent:"center",
+  flexDirection:"column", gap:8, fontSize:12, color:"#64748b"
+}}>
+  <span style={{fontSize:32}}>📱</span>
+  <span>امسح للزيارة</span>
+</div>
         </div>
         <p>{siteUrl}</p>
       </div>
