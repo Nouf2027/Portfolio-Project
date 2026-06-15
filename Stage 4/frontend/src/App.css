@@ -2603,3 +2603,13 @@ button:hover {
   border: 1px solid #fed7aa; border-radius: 8px;
   padding: 4px 10px; font-size: 12px; font-weight: 600;
 }
+
+/* Course form  */
+.cd-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 600px) {
+  .cd-form-row-2 { grid-template-columns: 1fr; }
+}

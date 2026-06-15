@@ -49,7 +49,9 @@ function CenterDetails() {
   const handleBooking = async (e) => {
     e.preventDefault();
     try {
-      await API.post('/bookings', { course_id: selectedCourse.id, center_id: id });
+      // أرسل تاريخ البدء تلقائياً من الدورة
+      const bookingDate = selectedCourse.days || new Date().toISOString().split('T')[0];
+      await API.post('/bookings', { course_id: selectedCourse.id, center_id: id, date: bookingDate });
       setBookingSuccess('تم الحجز بنجاح! سيتواصل معك المركز قريباً.');
       setTimeout(() => { setSelectedCourse(null); setBookingSuccess(''); }, 2500);
     } catch {
@@ -80,7 +82,7 @@ function CenterDetails() {
             <div className="cd-modal-info">
               <div className="cd-modal-row"><FiDollarSign /><span><strong>السعر:</strong> {selectedCourse.price} ريال</span></div>
               <div className="cd-modal-row"><FiClock /><span><strong>المدة:</strong> {selectedCourse.duration}</span></div>
-              <div className="cd-modal-row"><FiCalendar /><span><strong>التاريخ:</strong> {selectedCourse.days}</span></div>
+              <div className="cd-modal-row"><FiCalendar /><span><strong>تاريخ البدء:</strong> {selectedCourse.days ? new Date(selectedCourse.days).toLocaleDateString('ar-SA', {year:'numeric',month:'long',day:'numeric'}) : 'غير محدد'}</span></div>
               <div className="cd-modal-row"><FiClock /><span><strong>الوقت:</strong> {selectedCourse.times}</span></div>
               {selectedCourse.instructor && (
                 <div className="cd-modal-row"><FiUser /><span><strong>المدرب:</strong> {selectedCourse.instructor}</span></div>
