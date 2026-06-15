@@ -2605,11 +2605,29 @@ button:hover {
 }
 
 /* Course form  */
-.cd-form-row-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.cd-form .cd-form-row-2 {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
-@media (max-width: 600px) {
-  .cd-form-row-2 { grid-template-columns: 1fr; }
+.cd-form .cd-form-row-2 input,
+.cd-form .cd-form-row-2 .cd-date-field {
+  width: 100%;
+}
+.cd-form .cd-input,
+.cd-form select.cd-input,
+.cd-form .cd-time-picker,
+.cd-form .cd-date-field,
+.cd-form .cd-form-actions {
+  width: 100%;
+}
+
+.cd-form-card .cd-form.cd-form-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: unset !important;
+}
+.cd-form-card .cd-form.cd-form-grid > * {
+  grid-column: unset !important;
+  width: 100% !important;
 }
