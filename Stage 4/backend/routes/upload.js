@@ -17,7 +17,7 @@ async function tryCloudinary(buffer, options = {}) {
       ).end(buffer);
     });
     return result.secure_url;
-  } catch {
+  } catch (_err) {
     return null; // Cloudinary غير متاح
   }
 }
